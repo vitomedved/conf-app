@@ -12,6 +12,6 @@ class MainActivity : AppCompatActivity() {
 
         val hehe: String = "asdasd"
 
-        Toast.makeText(this, "poruka", Toast.LENGTH_LONG)
+        Toast.makeText(this, "lalala", Toast.LENGTH_LONG)
     }
 }
