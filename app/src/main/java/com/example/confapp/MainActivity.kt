@@ -2,6 +2,7 @@ package com.example.confapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,5 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val hehe: String = "asdasd"
+
+        Toast.makeText(this, "poruka", Toast.LENGTH_LONG)
     }
 }
