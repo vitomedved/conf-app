@@ -8,4 +8,9 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="text_login">Login</string>
+    <string name="text_profile">Profile</string>
+    <string name="text_activityFeed">Activity feed</string>
+    <string name="text_schedule">Schedule</string>
+    <string name="text_about">About</string>
 </resources>
