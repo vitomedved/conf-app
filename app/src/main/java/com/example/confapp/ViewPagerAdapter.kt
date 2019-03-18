@@ -13,7 +13,7 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
             }
             //1 -> BlankFragment()
             else -> {
-                return BlankFragment()
+                return ScheduleFragment()
             }
         }
     }
