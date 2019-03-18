@@ -18,11 +18,11 @@ import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
 import com.firebase.client.ValueEventListener
 
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var firebaseTV: TextView
     lateinit var firebaseRef: Firebase
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
