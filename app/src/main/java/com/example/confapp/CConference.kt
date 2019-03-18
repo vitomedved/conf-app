@@ -7,7 +7,7 @@ class CConference (
     , val m_endDate: String = ""
     , val m_location: String = ""
     , val m_about: String = ""
-    , val m_events: List<CEvents> = emptyList()
+    , val m_events: List<CEvent> = emptyList()
     //, val m_exhibitors: List<CExhibitor> = emptyList()
 )
 {
