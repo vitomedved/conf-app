@@ -1,6 +1,6 @@
 package com.example.confapp
 
-class CEvents (
+class CEvent (
     val m_about: String = "",
     val m_date: String = "",
     val m_durationInMinutes: Int = -1,
