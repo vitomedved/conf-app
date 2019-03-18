@@ -11,23 +11,23 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
             0 -> {
                 ScheduleFragment()
             }
-            1 -> BlankFragment()
+            //1 -> BlankFragment()
             else -> {
-                return ScheduleFragment()
+                return BlankFragment()
             }
         }
     }
 
     override fun getCount(): Int {
-        return 3
+        return 2
     }
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> "First Tab"
-            1 -> "Second Tab"
+            0 -> "Activity feed"
+            //1 -> "Second Tab"
             else -> {
-                return "Third Tab"
+                return "Schedule"
             }
         }
     }
