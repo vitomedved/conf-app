@@ -12,15 +12,39 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import com.firebase.client.DataSnapshot
+import com.firebase.client.Firebase
+import com.firebase.client.FirebaseError
+import com.firebase.client.ValueEventListener
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    lateinit var firebaseDummy: TextView
+    lateinit var firebaseRef: Firebase
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        firebaseDummy = findViewById(R.id.firebaseDummy)
+
+        firebaseRef = Firebase("https://conf-app-14914.firebaseio.com/Data")
+
+        firebaseRef.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: FirebaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                val temp: String = p0!!.getValue(String::class.java)
+                firebaseDummy.setText(temp)
+            }
+        })
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-
         val fab = findViewById<View>(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
