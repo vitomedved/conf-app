@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     lateinit var firebaseTV: TextView
     lateinit var firebaseRef: Firebase
+    var presenters: MutableList<CPresenter> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -47,28 +49,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
-        /*firebaseTV = findViewById(R.id.textView_dummy)
+        firebaseTV = findViewById(R.id.textView_dummy)
 
         Firebase.setAndroidContext(this)
 
-        firebaseRef = Firebase("https://conf-app-14914.firebaseio.com/Data")
+        firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
 
-        val presenters = arrayListOf<CPresenter>()
-        firebaseRef.child("/presenter").addValueEventListener(object: ValueEventListener {
+
+        firebaseRef.child("Data/presenter").addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: FirebaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                return
             }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                for(temp in p0.children){
-                    val temp: CPresenter = p0.getValue(CPresenter::class.java)
-                    presenters.add(temp)
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for(presenterSnapshot in dataSnapshot.children){
+                    val presenter: CPresenter = presenterSnapshot.getValue(CPresenter::class.java)
+                    presenters.add(presenter)
+
+                    firebaseTV.text = presenter.name
                 }
             }
         })
-
-        Log.d("PRESENTER_NAME", presenters[0].m_name)*/
-
     }
 
     override fun onBackPressed() {
