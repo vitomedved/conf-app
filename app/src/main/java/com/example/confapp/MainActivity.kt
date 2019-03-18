@@ -5,7 +5,9 @@ import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.view.View
 import android.support.design.widget.NavigationView
+import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
+import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -49,14 +51,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
-        firebaseTV = findViewById(R.id.textView_dummy)
 
         Firebase.setAndroidContext(this)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
 
-
-        firebaseRef.child("Data/presenter").addValueEventListener(object: ValueEventListener {
+        /*firebaseRef.child("Data/presenter").addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: FirebaseError?) {
                 return
             }
@@ -69,7 +69,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     firebaseTV.text = presenter.name
                 }
             }
-        })
+        })*/
+
+        val fragmentAdapter = ViewPagerAdapter(supportFragmentManager)
+        val viewPager = findViewById<ViewPager>(R.id.viewPager)
+        viewPager.adapter = fragmentAdapter
+
+        val tabs = findViewById<TabLayout>(R.id.tabLayout)
+        tabs.setupWithViewPager(viewPager)
     }
 
     override fun onBackPressed() {
