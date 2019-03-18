@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -46,23 +47,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
-        firebaseTV = findViewById(R.id.textView_dummy)
+        /*firebaseTV = findViewById(R.id.textView_dummy)
 
         Firebase.setAndroidContext(this)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com/Data")
 
-        firebaseRef.addValueEventListener(object: ValueEventListener {
+        val presenters = arrayListOf<CPresenter>()
+        firebaseRef.child("/presenter").addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: FirebaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
-            override fun onDataChange(p0: DataSnapshot?) {
-                val temp: String = p0?.getValue(String::class.java) ?: "Error"
-                firebaseTV.setText(temp)
+            override fun onDataChange(p0: DataSnapshot) {
+                for(temp in p0.children){
+                    val temp: CPresenter = p0.getValue(CPresenter::class.java)
+                    presenters.add(temp)
+                }
             }
         })
 
+        Log.d("PRESENTER_NAME", presenters[0].m_name)*/
 
     }
 

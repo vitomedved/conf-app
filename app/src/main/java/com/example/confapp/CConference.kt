@@ -8,7 +8,7 @@ class CConference (
     , val m_location: String = ""
     , val m_about: String = ""
     , val m_events: List<CEvent> = emptyList()
-    //, val m_exhibitors: List<CExhibitor> = emptyList()
+    , val m_exhibitors: List<CExhibitor> = emptyList()
 )
 {
 
