@@ -10,8 +10,6 @@ class CEvents (
     val m_presenters: List<Int> = emptyList(),
     val m_time: String = "",
     val m_type: String = "workshop"
-
 ){
-
 
 }
