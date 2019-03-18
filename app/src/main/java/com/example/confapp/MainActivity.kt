@@ -20,26 +20,11 @@ import com.firebase.client.ValueEventListener
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var firebaseDummy: TextView
+    lateinit var firebaseTV: TextView
     lateinit var firebaseRef: Firebase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        firebaseDummy = findViewById(R.id.firebaseDummy)
-
-        firebaseRef = Firebase("https://conf-app-14914.firebaseio.com/Data")
-
-        firebaseRef.addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(p0: FirebaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(p0: DataSnapshot?) {
-                val temp: String = p0!!.getValue(String::class.java)
-                firebaseDummy.setText(temp)
-            }
-        })
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -60,6 +45,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+
+        firebaseTV = findViewById(R.id.textView_dummy)
+
+        Firebase.setAndroidContext(this)
+
+        firebaseRef = Firebase("https://conf-app-14914.firebaseio.com/Data")
+
+        firebaseRef.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: FirebaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                val temp: String = p0?.getValue(String::class.java) ?: "Error"
+                firebaseTV.setText(temp)
+            }
+        })
+
+
     }
 
     override fun onBackPressed() {
