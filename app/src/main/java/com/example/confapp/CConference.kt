@@ -11,5 +11,11 @@ class CConference (
     , val exhibitors: List<CExhibitor> = emptyList()
 )
 {
-
+    val m_id: Int = id
+    val m_name: String = name
+    val m_endDate: String = endDate
+    val m_location: String = location
+    val m_about: String = about
+    val m_events: List<CEvent> = events
+    val m_exhibitors: List<CExhibitor> = exhibitors
 }
