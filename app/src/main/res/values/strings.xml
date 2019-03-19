@@ -23,5 +23,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="text_noConnection">Please connect to the internet</string>
+    <string name="content_desc_ic_wifi">WIFI icon</string>
 
 </resources>

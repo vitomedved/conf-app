@@ -5,9 +5,9 @@
     <color name="colorAccent">#D81B60</color>
 
     <!--  Color palette for app  -->
-    <color name="darkestBlue">#010812</color>
-    <color name="darkBlue">#0b212f</color>
-    <color name="blue">#44586a</color>
-    <color name="lightBlue">#a2b4c3</color>
-    <color name="lightestBlue">#cdd4db</color>
+    <color name="darkestBlue">#091534</color>
+    <color name="darkBlue">#012998</color>
+    <color name="blue">#0247FE</color>
+    <color name="lightBlue">#678FFE</color>
+    <color name="lightestBlue">#DBE5FF</color>
 </resources>
