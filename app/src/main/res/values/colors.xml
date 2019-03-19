@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!--  Color palette for app  -->
+    <color name="darkestBlue">#010812</color>
+    <color name="darkBlue">#0b212f</color>
+    <color name="blue">#44586a</color>
+    <color name="lightBlue">#a2b4c3</color>
+    <color name="lightestBlue">#cdd4db</color>
 </resources>
