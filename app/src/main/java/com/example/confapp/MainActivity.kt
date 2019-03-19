@@ -1,5 +1,6 @@
 package com.example.confapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -122,7 +123,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
