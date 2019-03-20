@@ -31,6 +31,22 @@
           }
         },
         {
+          "client_id": "397019128914-hsnib4inh9f0ds1m47l8evok3do80v41.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.confapp",
+            "certificate_hash": "595c0a242f4c981ca4b124e5261baa917ce8a04f"
+          }
+        },
+        {
+          "client_id": "397019128914-l61l9s80jt9p4i9h4n13ssogh4v9mp7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.confapp",
+            "certificate_hash": "f188714191cb27ad2f00167599fd6a84f128c003"
+          }
+        },
+        {
           "client_id": "397019128914-8bs0tt3aan9et41l3k1nn68lamatk2gd.apps.googleusercontent.com",
           "client_type": 3
         }
