@@ -7,8 +7,56 @@
              android:background="@color/darkestBlue">
 
 
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerView_schedule"/>
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/darkestBlue"
+                android:padding="5dp">
+            <TextView
+                    android:text="npr opening week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView"
+                    android:textSize="@dimen/textSize_noConnection"
+                    android:textColor="@android:color/white"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:gravity="right">
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imageButton"
+                        android:background="@drawable/ic_arrow_left"/>
+                <TextView
+                        android:text="datum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView_date"
+                        android:textSize="@dimen/textSize_noConnection"
+                        android:textColor="@android:color/white"/>
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imageButton2"
+                        android:background="@drawable/ic_arrow_right"/>
+            </LinearLayout>
+        </LinearLayout>
+        <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/recyclerView_schedule"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
 </FrameLayout>
