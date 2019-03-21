@@ -20,9 +20,15 @@ import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
 import com.firebase.client.ValueEventListener
 import android.support.v4.os.HandlerCompat.postDelayed
-
-
-
+import android.widget.ImageButton
+import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_schedule.*
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.util.*
 
 
 @Suppress("DEPRECATION")
@@ -34,8 +40,26 @@ class ScheduleFragment : Fragment() {
     private lateinit var retView: View
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var buttonPrevDay: ImageButton
+    private lateinit var buttonNextDay: ImageButton
 
+    private lateinit var textCurrentDate: TextView
+    private lateinit var textCurrentMonth: TextView
+    private lateinit var textCurrentWeekday: TextView
+
+
+    private lateinit var startDate: Calendar
+    private lateinit var endDate: Calendar
+    private lateinit var currentDate: Calendar
+
+    private lateinit var eventDate: Calendar
+
+    private val shortWeekNames = DateFormatSymbols.getInstance().shortWeekdays
+    private val shortMonthNames = DateFormatSymbols.getInstance().shortMonths
+
+    private val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val isConnected = checkConnectivity()
 
         if(!isConnected)
@@ -50,6 +74,8 @@ class ScheduleFragment : Fragment() {
 
         Firebase.setAndroidContext(this.context)
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
+
+        getConferenceDays()
 
         updateData()
 
@@ -69,12 +95,98 @@ class ScheduleFragment : Fragment() {
                 Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show()
                 swipeRefresh.isRefreshing = false
             }
-            //swipeRefresh.isRefreshing = false
+        }
+
+        startDate = Calendar.getInstance()
+        endDate = Calendar.getInstance()
+        currentDate = Calendar.getInstance()
+        eventDate = Calendar.getInstance()
+
+        textCurrentDate = retView.findViewById(R.id.textView_currentDate)
+        textCurrentMonth = retView.findViewById(R.id.textView_currentMonth)
+        textCurrentWeekday = retView.findViewById(R.id.textView_currentWeekday)
+
+        buttonPrevDay = retView.findViewById(R.id.imageButton_previousDay)
+        buttonNextDay = retView.findViewById(R.id.imageButton_nextDay)
 
 
+        buttonPrevDay.setOnClickListener {
+            if(currentDate.compareTo(startDate) > 0){
+                /*if(currentDate.compareTo(endDate) == 0){
+                    buttonNextDay.setBackgroundResource(R.drawable.ic_arrow_right)
+                }*/
+                // Add -1 day
+                currentDate.add(Calendar.DAY_OF_YEAR, -1)
+
+                /*if(currentDate.compareTo(startDate) == 0){
+                    buttonPrevDay.setBackgroundResource(R.drawable.ic_arrow_left_grayed)
+                }*/
+
+                updateDate()
+                updateData()
+            }
+        }
+        buttonNextDay.setOnClickListener {
+            if(currentDate.compareTo(endDate) < 0){
+
+                /*if(currentDate.compareTo(startDate) == 0){
+                    buttonPrevDay.setBackgroundResource(R.drawable.ic_arrow_left)
+                }*/
+
+                currentDate.add(Calendar.DATE, 1)
+
+                /*if(currentDate.compareTo(startDate) == 0){
+                    buttonNextDay.setBackgroundResource(R.drawable.ic_arrow_right_grayed)
+                }*/
+
+                updateDate()
+                updateData()
+            }
         }
 
         return retView
+    }
+
+    private fun getConferenceDays() {
+        firebaseRef.child("Data/conference").addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: FirebaseError?) {
+                Log.d("FIREBASE", "Data from database is not loaded.")
+                return
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                events.clear()
+                for(conferenceSnapshot in dataSnapshot.children){
+                    val conference: CConference = conferenceSnapshot.getValue(CConference::class.java)
+                    //val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    startDate.time = dateFormat.parse(conference.startDate)
+                    endDate.time = dateFormat.parse(conference.endDate)
+
+                    currentDate.time = startDate.time
+
+                    updateDate()
+                }
+            }
+        })
+    }
+
+    private fun updateDate() {
+
+        if(currentDate.compareTo(startDate) > 0){
+            buttonPrevDay.setBackgroundResource(R.drawable.ic_arrow_left)
+        }else{
+            buttonPrevDay.setBackgroundResource(R.drawable.ic_arrow_left_grayed)
+        }
+
+        if(currentDate.compareTo(endDate) < 0){
+            buttonNextDay.setBackgroundResource(R.drawable.ic_arrow_right)
+        }else{
+            buttonNextDay.setBackgroundResource(R.drawable.ic_arrow_right_grayed)
+        }
+
+        textCurrentDate.text = currentDate.get(Calendar.DAY_OF_MONTH).toString()
+        textCurrentMonth.text = shortMonthNames[currentDate.get(Calendar.MONTH)]
+        textCurrentWeekday.text = shortWeekNames[currentDate.get(Calendar.DAY_OF_WEEK)]
     }
 
     // Returns false if device is not connected to internet, true if device is connected to internet
@@ -105,7 +217,13 @@ class ScheduleFragment : Fragment() {
                 events.clear()
                 for(eventSnapshot in dataSnapshot.children){
                     val event: CEvent = eventSnapshot.getValue(CEvent::class.java)
-                    events.add(event)
+
+
+                    eventDate.time = dateFormat.parse(event.date)
+                    if(eventDate.get(Calendar.DAY_OF_YEAR) == currentDate.get(Calendar.DAY_OF_YEAR))
+                    {
+                        events.add(event)
+                    }
                 }
 
                 Log.d("FIREBASE", "Events loaded from database, adding adapter. Total events: " + events.size)

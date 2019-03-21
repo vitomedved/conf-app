@@ -9,4 +9,6 @@
     <dimen name="margin_cardView">5dp</dimen>
     <dimen name="textSize_noConnection">20sp</dimen>
     <dimen name="card_view_padding">10dp</dimen>
+    <dimen name="textSize_weekday">10sp</dimen>
+    <dimen name="no_margin">0dp</dimen>
 </resources>
