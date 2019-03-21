@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".ScheduleFragment"
-             android:background="@color/darkestBlue">
+             android:background="@android:color/white">
 
 
     <LinearLayout
@@ -15,7 +15,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/darkestBlue"
+                android:background="@android:color/white"
                 android:padding="5dp">
             <TextView
                     android:text="npr opening week"
@@ -23,7 +23,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView"
                     android:textSize="@dimen/textSize_noConnection"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@color/blue"/>
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
