@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
@@ -30,6 +31,11 @@ class RegistrationActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this);
 
         registerBtn.setOnClickListener {
+
+            if(email.text.toString().isEmpty() || password.text.toString().isEmpty()){
+                Toast.makeText(this, "Invalid email/password", Toast.LENGTH_LONG)
+                return@setOnClickListener
+            }
 
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                 .addOnCompleteListener{
