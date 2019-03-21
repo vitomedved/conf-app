@@ -7,6 +7,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 
 class RegistrationActivity : AppCompatActivity() {
     lateinit var username: EditText
@@ -25,9 +27,16 @@ class RegistrationActivity : AppCompatActivity() {
         registerBtn = findViewById(R.id.button_register_registration)
         alreadyHaveAcc = findViewById(R.id.textView_alreadyHaveAcc_registration)
 
+        FirebaseApp.initializeApp(this);
 
         registerBtn.setOnClickListener {
 
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+                .addOnCompleteListener{
+                    if(!it.isSuccessful) return@addOnCompleteListener
+
+                    Log.d("Regg", "USPJEEEH: ${it.result.user.uid}")
+                }
         }
 
         alreadyHaveAcc.setOnClickListener {
