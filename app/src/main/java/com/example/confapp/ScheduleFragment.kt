@@ -19,15 +19,11 @@ import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
 import com.firebase.client.ValueEventListener
-import android.support.v4.os.HandlerCompat.postDelayed
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_schedule.*
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
 import java.util.*
 
 
@@ -36,6 +32,7 @@ class ScheduleFragment : Fragment() {
 
     private lateinit var firebaseRef: Firebase
     private val events: MutableList<CEvent> = mutableListOf()
+    private val adapter = ScheduleRecyclerAdapter(events)
 
     private lateinit var retView: View
     private lateinit var recyclerView: RecyclerView
@@ -58,6 +55,9 @@ class ScheduleFragment : Fragment() {
     private val shortMonthNames = DateFormatSymbols.getInstance().shortMonths
 
     private val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+
+    private lateinit var eventListItem: LinearLayout
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val isConnected = checkConnectivity()
@@ -108,7 +108,6 @@ class ScheduleFragment : Fragment() {
 
         buttonPrevDay = retView.findViewById(R.id.imageButton_previousDay)
         buttonNextDay = retView.findViewById(R.id.imageButton_nextDay)
-
 
         buttonPrevDay.setOnClickListener {
             if(currentDate.compareTo(startDate) > 0){
@@ -231,14 +230,14 @@ class ScheduleFragment : Fragment() {
                     if(eventDate.get(Calendar.DAY_OF_YEAR) == currentDate.get(Calendar.DAY_OF_YEAR))
                     {
                         events.add(event)
+                        Log.d("ADDED_EVENTS: ", events.size.toString())
                     }
                 }
 
-                Log.d("FIREBASE", "Events loaded from database, adding adapter. Total events: " + events.size)
+                //Log.d("FIREBASE", "Events loaded from database, adding adapter. Total events: " + events.size)
 
                 events.sortBy { it.date }
-
-                val adapter = CScheduleRecyclerAdapter(events)
+                adapter.eventList = events
                 recyclerView.adapter = adapter
             }
         })
