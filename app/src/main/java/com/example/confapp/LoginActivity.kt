@@ -17,6 +17,14 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        email = findViewById(R.id.editText_email_login)
+        password = findViewById(R.id.editText_password_login)
+        loginBtn = findViewById(R.id.button_login_login)
+
+        loginBtn.setOnClickListener {
+            // TODO: implement login
+        }
+
 
         backToReg = findViewById(R.id.textView_backToReg_login)
         backToReg.setOnClickListener {

@@ -31,23 +31,30 @@ class RegistrationActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this);
 
         registerBtn.setOnClickListener {
-
-            if(email.text.toString().isEmpty() || password.text.toString().isEmpty()){
-                Toast.makeText(this, "Invalid email/password", Toast.LENGTH_LONG)
-                return@setOnClickListener
-            }
-
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-                .addOnCompleteListener{
-                    if(!it.isSuccessful) return@addOnCompleteListener
-
-                    Log.d("Regg", "USPJEEEH: ${it.result.user.uid}")
-                }
+            performRegistration()
         }
 
         alreadyHaveAcc.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun performRegistration() {
+
+        if(email.text.toString().isEmpty() || password.text.toString().isEmpty()){
+            Toast.makeText(this, "Invalid email/password", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+            .addOnCompleteListener{
+                if(!it.isSuccessful) return@addOnCompleteListener
+
+                Log.d("Regg", "USPJEEEH: ${it.result.user.uid}")
+            }
+            .addOnFailureListener{
+                Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_LONG).show()
+            }
     }
 }
