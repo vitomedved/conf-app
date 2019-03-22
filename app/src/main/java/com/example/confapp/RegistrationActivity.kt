@@ -1,8 +1,12 @@
 package com.example.confapp
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -10,12 +14,16 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.util.*
 
 class RegistrationActivity : AppCompatActivity() {
     lateinit var username: EditText
     lateinit var email: EditText
     lateinit var password: EditText
     lateinit var registerBtn: Button
+    lateinit var selectImgBtn: Button
     lateinit var alreadyHaveAcc: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +34,7 @@ class RegistrationActivity : AppCompatActivity() {
         email = findViewById(R.id.editText_email_registration)
         password = findViewById(R.id.editText_password_registration)
         registerBtn = findViewById(R.id.button_register_registration)
+        selectImgBtn = findViewById(R.id.button_select_image_register)
         alreadyHaveAcc = findViewById(R.id.textView_alreadyHaveAcc_registration)
 
         FirebaseApp.initializeApp(this);
@@ -34,9 +43,28 @@ class RegistrationActivity : AppCompatActivity() {
             performRegistration()
         }
 
+        selectImgBtn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
+        }
+
         alreadyHaveAcc.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    var selectedPhotoUri: Uri? = null
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+            selectedPhotoUri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+            val bitmapDrawable = BitmapDrawable(bitmap)
+            selectImgBtn.setBackgroundDrawable(bitmapDrawable)
         }
     }
 
@@ -51,10 +79,52 @@ class RegistrationActivity : AppCompatActivity() {
             .addOnCompleteListener{
                 if(!it.isSuccessful) return@addOnCompleteListener
 
+                uploadImgToFirebaseStorage()
                 Log.d("Regg", "USPJEEEH: ${it.result.user.uid}")
             }
             .addOnFailureListener{
                 Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_LONG).show()
             }
+    }
+
+    private fun uploadImgToFirebaseStorage() {
+        if(selectedPhotoUri == null) return
+
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener {
+                    saveUserToDatabase(it.toString())
+                    // Toast.makeText(this, "URL: $it", Toast.LENGTH_LONG).show()
+                }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+                    }
+            }
+            .addOnFailureListener{
+                Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
+    private fun saveUserToDatabase(avatar_url: String) {
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val ref = FirebaseDatabase.getInstance().getReference("/Data/user/$uid")
+        val user = CUsers(uid,
+                        avatar_url,
+                        email.text.toString(),
+                        username.text.toString(),
+                        password.text.toString().hashCode().toString()  //nac bolji hash?
+                        , listOf(-1, -2)
+                        )
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+
     }
 }

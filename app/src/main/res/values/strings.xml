@@ -25,5 +25,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="text_noConnection">Please connect to the internet</string>
     <string name="content_desc_ic_wifi">WIFI icon</string>
+    <string name="button_select_image_registration">Select Image</string>
+    <string name="edittext_username_hint_registration">Username</string>
+    <string name="edittext_email_hint_registration">Email</string>
+    <string name="edittext_password_hint_registration">Password</string>
+    <string name="button_register_registration">REGISTER</string>
+    <string name="textview_already_have_an_account_registration">Already have an account?</string>
+    <string name="button_log_in_login">LOG IN</string>
+    <string name="textview_back_to_registration_login">Back to registration</string>
 
 </resources>

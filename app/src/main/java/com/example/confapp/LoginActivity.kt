@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
     lateinit var email: EditText
@@ -22,7 +23,9 @@ class LoginActivity : AppCompatActivity() {
         loginBtn = findViewById(R.id.button_login_login)
 
         loginBtn.setOnClickListener {
-            // TODO: implement login
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email.text.toString(), password.text.toString())
+                //.addOnCompleteListener()
+                //.addonFailureListener()
         }
 
 
