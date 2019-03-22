@@ -25,6 +25,16 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="text_noConnection">Please connect to the internet</string>
     <string name="content_desc_ic_wifi">WIFI icon</string>
+    <string name="textPlaceholder_eventName">Event name placeholder</string>
+    <string name="textPlaceholder_eventTime">09:00 CET +01:00</string>
+    <string name="textPlaceholder_eventDuration">09:00 - 10:15</string>
+    <string name="textPlaceholder_eventLocation">Hall name placeholder</string>
+    <string name="textPlaceholder_weekName">Week n</string>
+    <string name="textPlaceholder_currentDay">20</string>
+    <string name="textHolder_currentMonth">Feb</string>
+    <string name="textPlaceholder_currentWeekday">Mon</string>
+    <string name="contentDesc_arrowRight">"Right arrow icon"</string>
+    <string name="contentDesc_arrowLeft">Left arrow icon</string>
     <string name="button_select_image_registration">Select Image</string>
     <string name="edittext_username_hint_registration">Username</string>
     <string name="edittext_email_hint_registration">Email</string>

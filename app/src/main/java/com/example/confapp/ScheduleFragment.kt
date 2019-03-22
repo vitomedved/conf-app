@@ -57,7 +57,7 @@ class ScheduleFragment : Fragment() {
     private val shortWeekNames = DateFormatSymbols.getInstance().shortWeekdays
     private val shortMonthNames = DateFormatSymbols.getInstance().shortMonths
 
-    private val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+    private val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val isConnected = checkConnectivity()
@@ -172,6 +172,15 @@ class ScheduleFragment : Fragment() {
 
     private fun updateDate() {
 
+        currentDate.set(Calendar.HOUR_OF_DAY, 0)
+        currentDate.set(Calendar.MINUTE, 0)
+
+        startDate.set(Calendar.HOUR_OF_DAY, 0)
+        startDate.set(Calendar.MINUTE, 0)
+
+        endDate.set(Calendar.HOUR_OF_DAY, 0)
+        endDate.set(Calendar.MINUTE, 0)
+
         if(currentDate.compareTo(startDate) > 0){
             buttonPrevDay.setBackgroundResource(R.drawable.ic_arrow_left)
         }else{
@@ -218,7 +227,6 @@ class ScheduleFragment : Fragment() {
                 for(eventSnapshot in dataSnapshot.children){
                     val event: CEvent = eventSnapshot.getValue(CEvent::class.java)
 
-
                     eventDate.time = dateFormat.parse(event.date)
                     if(eventDate.get(Calendar.DAY_OF_YEAR) == currentDate.get(Calendar.DAY_OF_YEAR))
                     {
@@ -228,6 +236,8 @@ class ScheduleFragment : Fragment() {
 
                 Log.d("FIREBASE", "Events loaded from database, adding adapter. Total events: " + events.size)
 
+                events.sortBy { it.date }
+
                 val adapter = CScheduleRecyclerAdapter(events)
                 recyclerView.adapter = adapter
             }
@@ -235,10 +245,8 @@ class ScheduleFragment : Fragment() {
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        val ft = fragmentManager!!.beginTransaction()
-        ft.detach(this).attach(this).commit()
-
-        //events.clear()
+        //val ft = fragmentManager!!.beginTransaction()
+        //ft.detach(this).attach(this).commit()
     }
 
 
