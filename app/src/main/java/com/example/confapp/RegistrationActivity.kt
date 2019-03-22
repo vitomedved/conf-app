@@ -16,6 +16,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
 class RegistrationActivity : AppCompatActivity() {
@@ -25,6 +26,8 @@ class RegistrationActivity : AppCompatActivity() {
     lateinit var registerBtn: Button
     lateinit var selectImgBtn: Button
     lateinit var alreadyHaveAcc: TextView
+    lateinit var circleImg: CircleImageView
+    val DEFAULT_AVATAR_URL: String = "https://firebasestorage.googleapis.com/v0/b/conf-app-14914.appspot.com/o/images%2F16480.png?alt=media&token=e43cdb99-36cb-4305-b0d2-5b63d34fc7cd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,8 @@ class RegistrationActivity : AppCompatActivity() {
         registerBtn.setOnClickListener {
             performRegistration()
         }
+
+
 
         selectImgBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
@@ -63,8 +68,14 @@ class RegistrationActivity : AppCompatActivity() {
         if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
             selectedPhotoUri = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+
+            circleImg = findViewById(R.id.circleimageview_profile_image_registration)
+            circleImg.setImageBitmap(bitmap)
+            selectImgBtn.alpha = 0F
+/*
             val bitmapDrawable = BitmapDrawable(bitmap)
             selectImgBtn.setBackgroundDrawable(bitmapDrawable)
+*/
         }
     }
 
@@ -88,24 +99,30 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun uploadImgToFirebaseStorage() {
-        if(selectedPhotoUri == null) return
+        if(selectedPhotoUri == null){
+            saveUserToDatabase(DEFAULT_AVATAR_URL)
 
-        val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+        }
+        else{
+            val filename = UUID.randomUUID().toString()
+            val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
-        ref.putFile(selectedPhotoUri!!)
-            .addOnSuccessListener {
-                ref.downloadUrl.addOnSuccessListener {
-                    saveUserToDatabase(it.toString())
-                    // Toast.makeText(this, "URL: $it", Toast.LENGTH_LONG).show()
-                }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+            ref.putFile(selectedPhotoUri!!)
+                .addOnSuccessListener {
+                    ref.downloadUrl.addOnSuccessListener {
+                        saveUserToDatabase(it.toString())
+                        // Toast.makeText(this, "URL: $it", Toast.LENGTH_LONG).show()
                     }
-            }
-            .addOnFailureListener{
-                Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
-            }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+                        }
+                }
+                .addOnFailureListener{
+                    Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+                }
+        }
+
+
     }
 
     private fun saveUserToDatabase(avatar_url: String) {
