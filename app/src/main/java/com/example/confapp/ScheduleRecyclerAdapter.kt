@@ -9,7 +9,10 @@ import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CScheduleRecyclerAdapter(val eventList: MutableList<CEvent>): RecyclerView.Adapter<CScheduleRecyclerAdapter.ViewHolder>() {
+class ScheduleRecyclerAdapter(var eventList: MutableList<CEvent>): RecyclerView.Adapter<ScheduleRecyclerAdapter.ViewHolder>() {
+
+
+    //val events: MutableList<CEvent> = mutableListOf()
 
     enum class EventType(val value: String) {
         WORKSHOP("workshop"),
@@ -17,17 +20,40 @@ class CScheduleRecyclerAdapter(val eventList: MutableList<CEvent>): RecyclerView
         QA("q&a")
     }
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View, event: MutableList<CEvent>): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+
+        val evt = event
+
+        override fun onClick(v: View?) {
+            val evtFragment = EventFragment()
+
+
+
+            evtFragment.setCurrentEvent(evt[adapterPosition])
+
+            val ctx = v?.context as MainActivity
+            ctx.supportFragmentManager.beginTransaction().replace(R.id.fragment_schedule, evtFragment).addToBackStack(null).commit()
+        }
+
         val eventName = itemView.findViewById(R.id.textView_eventName) as TextView
         val eventTime = itemView.findViewById(R.id.textView_eventTime) as TextView
         val eventDuration = itemView.findViewById(R.id.textView_eventDuration) as TextView
         val eventLocation = itemView.findViewById(R.id.textView_eventLocation) as TextView
         val eventTypeImage = itemView.findViewById(R.id.imageView_eventType) as ImageView
+
+        val temp = itemView.setOnClickListener(this)
+
+        /*val event = itemView.setOnClickListener {
+            val evtFragment = EventFragment()
+            evtFragment.setCurrentEvent(it)
+            val ctx = it.context as MainActivity
+            ctx.supportFragmentManager.beginTransaction().replace(R.id.fragment_schedule, evtFragment).addToBackStack(null).commit()
+        }*/
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(p0.context).inflate(R.layout.list_item_event, p0, false)
-        return ViewHolder(view)
+        return ViewHolder(view, eventList)
     }
 
     override fun getItemCount(): Int {
@@ -36,7 +62,7 @@ class CScheduleRecyclerAdapter(val eventList: MutableList<CEvent>): RecyclerView
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val event: CEvent = eventList[p1]
-
+        //events.add(event)
         p0.eventName.text = event.name
 
         var time: String = event.date.substring(11)
