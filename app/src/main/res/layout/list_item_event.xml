@@ -6,7 +6,8 @@
     <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white" android:layout_marginBottom="@dimen/margin_cardView">
+            app:cardBackgroundColor="@android:color/white"
+            android:layout_marginBottom="@dimen/margin_cardView" android:layout_marginTop="@dimen/margin_cardView">
 
         <LinearLayout
                 android:orientation="vertical"
@@ -18,13 +19,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 <TextView
-                        android:text="vrijeme"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView3"
+                        android:id="@+id/textView_eventTime"
                         android:layout_weight="1"
-                        android:textSize="17sp"
-                        android:padding="5dp"/>
+                        android:textSize="@dimen/textSize_medium"
+                        android:padding="@dimen/textPadding_weekName"
+                        android:textColor="@color/darkBlue"
+                        android:text="@string/textPlaceholder_eventTime"/>
             </LinearLayout>
             <View
                     android:layout_width="match_parent"
@@ -35,34 +37,80 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:weightSum="1" android:gravity="center_vertical">
 
-                <TextView
-                        android:text="TextView"
+                <ImageView
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imageView_eventType"
+                        app:srcCompat="@drawable/ic_tag_presentation" android:layout_weight="0.2"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+                <TableLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView_eventDate"
-                        android:layout_weight="0.3"
-                        android:textColor="@color/darkBlue"
-                        android:background="@color/lightestBlue" android:padding="@dimen/card_view_padding"
-                        android:textAlignment="center"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView_eventName"
-                        android:layout_weight="0.5"
-                        android:textColor="@color/darkBlue" android:padding="@dimen/card_view_padding"
-                        android:textAlignment="center"/>
-                <TextView
-                        android:text="TextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView_eventTime"
-                        android:layout_weight="0.2"
-                        android:textColor="@color/darkBlue"
-                        android:background="@color/lightestBlue" android:padding="@dimen/card_view_padding"
-                        android:textAlignment="center"/>
+                        android:measureWithLargestChild="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin" android:layout_weight="0.8">
+
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" android:layout_marginBottom="@dimen/margin_small">
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView_eventName"
+                                android:layout_span="@integer/span_eventName"
+                                android:gravity="center_vertical"
+                                android:text="@string/textPlaceholder_eventName"
+                                android:layout_weight="1"
+                                android:textColor="@color/blue" android:layout_marginLeft="@dimen/margin_small"
+                                android:textSize="@dimen/textSize_eventName" android:textStyle="bold"/>
+                    </TableRow>
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="@dimen/margin_small">
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/ic_time"
+                                android:id="@+id/imageView_eventTime"
+                                android:layout_span="@integer/span_eventTypeIcon"
+                                android:layout_marginLeft="@dimen/margin_small"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView_eventDuration"
+                                android:layout_span="@integer/span_eventLocation"
+                                android:gravity="center_vertical"
+                                android:text="@string/textPlaceholder_eventDuration"
+                                android:layout_marginLeft="@dimen/marginLeft_eventRow"
+                                android:textColor="@color/lightBlue" android:textSize="12sp"/>
+                    </TableRow>
+                    <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" android:layout_marginBottom="@dimen/margin_small">
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/ic_location"
+                                android:id="@+id/imageView_eventLocation"
+                                android:layout_span="@integer/span_eventTypeIcon"
+                                android:layout_marginLeft="@dimen/margin_small"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/textView_eventLocation"
+                                android:layout_span="@integer/span_eventLocation"
+                                android:gravity="center_vertical"
+                                android:text="@string/textPlaceholder_eventLocation"
+                                android:layout_marginLeft="@dimen/marginLeft_eventRow"
+                                android:textColor="@color/lightBlue" android:textSize="12sp"
+                                android:textAllCaps="false"/>
+                    </TableRow>
+                </TableLayout>
             </LinearLayout>
 
         </LinearLayout>

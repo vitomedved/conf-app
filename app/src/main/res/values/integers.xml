@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="span_eventName">2</integer>
+    <integer name="span_eventTypeIcon">1</integer>
+    <integer name="span_eventLocation">1</integer>
+</resources>
