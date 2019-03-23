@@ -1,8 +1,8 @@
 package com.example.confapp
 
 class CUsers(
-    val id: Int = -1,
-    val avatar_id: String = "",
+    val uid: String = "",
+    val avatar_url: String = "",
     val mail: String = "",
     val name: String = "",
     val password: String = "",
