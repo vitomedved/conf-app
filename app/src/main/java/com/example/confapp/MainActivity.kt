@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var username_header: TextView
     lateinit var useremail_header: TextView
     lateinit var imageview_avatar_header: ImageView
+    lateinit var login_signout_textView: TextView
     val DEFAULT_AVATAR_URL: String = "https://firebasestorage.googleapis.com/v0/b/conf-app-14914.appspot.com/o/images%2F16480.png?alt=media&token=e43cdb99-36cb-4305-b0d2-5b63d34fc7cd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +93,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         var testtt = findViewById<NavigationView>(R.id.nav_view)
         var headd = testtt.getHeaderView(0)
+        login_signout_textView = headd.findViewById(R.id.textView_log_in_sign_out_nav_header)
         username_header = headd.findViewById(R.id.textView_username_nav_header)
         useremail_header = headd.findViewById(R.id.textView_userEmail_nav_header)
         imageview_avatar_header = headd.findViewById(R.id.imageView_avatar_nav_header)
@@ -103,20 +105,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val uid = FirebaseAuth.getInstance().uid
         if(uid == null){
-            username_header.text = "Login"
+            login_signout_textView.text = "Log in"
+            username_header.visibility = View.INVISIBLE
             useremail_header.visibility = View.INVISIBLE
             Picasso.get().load(DEFAULT_AVATAR_URL).into(imageview_avatar_header)
 
-            username_header.setOnClickListener {
+            login_signout_textView.setOnClickListener {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
         }
         else{
+            login_signout_textView.text = "Sign out"
             firebaseRef.child("Data/user/${uid}").addValueEventListener(object: ValueEventListener {
                 override fun onCancelled(p0: FirebaseError?) {
                     Log.d("FIREBASE", "Data from database is not loaded.")
-                    username_header.text = "logcat je super"
+                    username_header.text = "logcat je super - nes nevalja" //smislit pametnije
                     return
                 }
 
@@ -129,6 +133,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     useremail_header.visibility = View.VISIBLE
                     username_header.text = usr.name
                     useremail_header.text = usr.mail
+
+                    login_signout_textView.setOnClickListener {
+                        FirebaseAuth.getInstance().signOut()
+                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
 
 
                 }
@@ -181,8 +191,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-            val intent = Intent(this, RegistrationActivity::class.java)
-            startActivity(intent)
+
         }
 
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout

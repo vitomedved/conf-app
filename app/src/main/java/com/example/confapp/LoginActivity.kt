@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -24,16 +25,28 @@ class LoginActivity : AppCompatActivity() {
 
         loginBtn.setOnClickListener {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email.text.toString(), password.text.toString())
-                //.addOnCompleteListener()
-                //.addonFailureListener()
+                .addOnCompleteListener {
+                    Toast.makeText(this, "Success!", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_LONG).show()
+                }
         }
 
 
         backToReg = findViewById(R.id.textView_backToReg_login)
         backToReg.setOnClickListener {
-            intent = Intent(this, RegistrationActivity::class.java)
+            val intent = Intent(this, RegistrationActivity::class.java)
             startActivity(intent)
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
