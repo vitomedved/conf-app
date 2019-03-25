@@ -1,6 +1,8 @@
 package com.example.confapp
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -16,12 +18,17 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
 import com.firebase.client.ValueEventListener
+import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.nav_header_main.*
+
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +36,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var firebaseTV: TextView
     lateinit var firebaseRef: Firebase
     var presenters: MutableList<CPresenter> = mutableListOf()
+    lateinit var username_header: TextView
+    lateinit var useremail_header: TextView
+    lateinit var imageview_avatar_header: ImageView
+    val DEFAULT_AVATAR_URL: String = "https://firebasestorage.googleapis.com/v0/b/conf-app-14914.appspot.com/o/images%2F16480.png?alt=media&token=e43cdb99-36cb-4305-b0d2-5b63d34fc7cd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -78,7 +89,54 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val tabs = findViewById<TabLayout>(R.id.tabLayout)
         tabs.setupWithViewPager(viewPager)
+
+        var testtt = findViewById<NavigationView>(R.id.nav_view)
+        var headd = testtt.getHeaderView(0)
+        username_header = headd.findViewById(R.id.textView_username_nav_header)
+        useremail_header = headd.findViewById(R.id.textView_userEmail_nav_header)
+        imageview_avatar_header = headd.findViewById(R.id.imageView_avatar_nav_header)
+        verifyUserIsLoggedIn()  //baci u onStart override?
     }
+
+
+    private fun verifyUserIsLoggedIn() {
+
+        val uid = FirebaseAuth.getInstance().uid
+        if(uid == null){
+            username_header.text = "Login"
+            useremail_header.visibility = View.INVISIBLE
+            Picasso.get().load(DEFAULT_AVATAR_URL).into(imageview_avatar_header)
+
+            username_header.setOnClickListener {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        else{
+            firebaseRef.child("Data/user/${uid}").addValueEventListener(object: ValueEventListener {
+                override fun onCancelled(p0: FirebaseError?) {
+                    Log.d("FIREBASE", "Data from database is not loaded.")
+                    username_header.text = "logcat je super"
+                    return
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val usr: CUsers = dataSnapshot.getValue(CUsers::class.java)
+
+                    val url = usr.avatar_url
+                    Picasso.get().load(url).into(imageview_avatar_header)
+                    username_header.visibility = View.VISIBLE
+                    useremail_header.visibility = View.VISIBLE
+                    username_header.text = usr.name
+                    useremail_header.text = usr.mail
+
+
+                }
+            })
+        }
+    }
+
+
 
     override fun onBackPressed() {
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout

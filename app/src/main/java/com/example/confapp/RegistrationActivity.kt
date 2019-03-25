@@ -1,11 +1,13 @@
 package com.example.confapp
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
@@ -27,6 +29,7 @@ class RegistrationActivity : AppCompatActivity() {
     lateinit var selectImgBtn: Button
     lateinit var alreadyHaveAcc: TextView
     lateinit var circleImg: CircleImageView
+    lateinit var progress: ProgressDialog
     val DEFAULT_AVATAR_URL: String = "https://firebasestorage.googleapis.com/v0/b/conf-app-14914.appspot.com/o/images%2F16480.png?alt=media&token=e43cdb99-36cb-4305-b0d2-5b63d34fc7cd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +46,7 @@ class RegistrationActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this);
 
         registerBtn.setOnClickListener {
+            //startLoadingCircle()
             performRegistration()
         }
 
@@ -77,6 +81,13 @@ class RegistrationActivity : AppCompatActivity() {
             selectImgBtn.setBackgroundDrawable(bitmapDrawable)
 */
         }
+    }
+
+    private fun startLoadingCircle(){
+        val progress = ProgressDialog(this)
+        progress.setMessage("Please wait..")
+        progress.setCancelable(false)
+        progress.show()
     }
 
     private fun performRegistration() {
@@ -138,6 +149,10 @@ class RegistrationActivity : AppCompatActivity() {
         ref.setValue(user)
             .addOnSuccessListener {
                 Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
+
+                //Handler().postDelayed({progress.dismiss()}, 5000)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
