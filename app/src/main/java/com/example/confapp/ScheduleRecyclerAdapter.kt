@@ -24,15 +24,14 @@ class ScheduleRecyclerAdapter(var eventList: MutableList<CEvent>): RecyclerView.
 
         val evt = event
 
-        override fun onClick(v: View?) {
+        override fun onClick(v: View) {
             val evtFragment = EventFragment()
-
-
 
             evtFragment.setCurrentEvent(evt[adapterPosition])
 
-            val ctx = v?.context as MainActivity
+            val ctx = v.context as MainActivity
             ctx.supportFragmentManager.beginTransaction().replace(R.id.fragment_schedule, evtFragment).addToBackStack(null).commit()
+            //transaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
         }
 
         val eventName = itemView.findViewById(R.id.textView_eventName) as TextView

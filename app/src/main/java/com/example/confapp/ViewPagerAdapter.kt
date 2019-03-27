@@ -12,7 +12,7 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return when (position) {
             0 -> {
                 Log.d("TABLAYOUT", "Clicked on 0")
-                ScheduleFragment()
+                Fragment()
             }
             //1 -> BlankFragment()
             else -> {
