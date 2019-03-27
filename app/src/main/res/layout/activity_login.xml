@@ -4,7 +4,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".RegistrationActivity" android:background="@color/darkestBlue">
+            tools:context=".RegistrationActivity" android:background="@color/darkestBlue" android:id="@+id/scrollView2">
     <android.support.constraint.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -57,7 +57,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/button_login_login"
                 app:layout_constraintStart_toStartOf="@+id/button_login_login"
                 app:layout_constraintEnd_toEndOf="@+id/button_login_login" android:textColor="@color/lightBlue"
-                android:textSize="18dp" app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="24dp"/>
+                android:textSize="18dp"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/button_google_login"/>
+
+        <com.google.android.gms.common.SignInButton
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:id="@+id/button_google_login" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"></com.google.android.gms.common.SignInButton>
+
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

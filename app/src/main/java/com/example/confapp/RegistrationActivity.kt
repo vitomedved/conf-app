@@ -51,7 +51,6 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
 
-
         selectImgBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
@@ -111,7 +110,7 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun uploadImgToFirebaseStorage() {
         if(selectedPhotoUri == null){
-            saveUserToDatabase(DEFAULT_AVATAR_URL)
+            saveUserToFirebaseDatabase(DEFAULT_AVATAR_URL)
 
         }
         else{
@@ -121,7 +120,7 @@ class RegistrationActivity : AppCompatActivity() {
             ref.putFile(selectedPhotoUri!!)
                 .addOnSuccessListener {
                     ref.downloadUrl.addOnSuccessListener {
-                        saveUserToDatabase(it.toString())
+                        saveUserToFirebaseDatabase(it.toString())
                         // Toast.makeText(this, "URL: $it", Toast.LENGTH_LONG).show()
                     }
                         .addOnFailureListener {
@@ -136,7 +135,7 @@ class RegistrationActivity : AppCompatActivity() {
 
     }
 
-    private fun saveUserToDatabase(avatar_url: String) {
+    private fun saveUserToFirebaseDatabase(avatar_url: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/Data/user/$uid")
         val user = CUsers(uid,
