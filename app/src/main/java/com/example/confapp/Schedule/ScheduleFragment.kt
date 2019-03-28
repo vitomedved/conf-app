@@ -237,8 +237,6 @@ class ScheduleFragment : Fragment() {
                     }
                 }
 
-                //Log.d("FIREBASE", "Events loaded from database, adding adapter. Total events: " + events.size)
-
                 events.sortBy { it.date }
                 adapter.eventList = events
                 recyclerView.adapter = adapter
