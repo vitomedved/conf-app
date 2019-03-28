@@ -44,5 +44,6 @@
     <string name="button_log_in_login">LOG IN</string>
     <string name="textview_back_to_registration_login">Back to registration</string>
     <string name="sign_out_text">Sign out</string>
+    <string name="text_tryConnection">Try again</string>
 
 </resources>

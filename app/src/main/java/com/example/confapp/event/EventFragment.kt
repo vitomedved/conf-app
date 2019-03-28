@@ -1,4 +1,4 @@
-package com.example.confapp.Event
+package com.example.confapp.event
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.confapp.Data.CEvent
+import com.example.confapp.model.CEvent
 import com.example.confapp.R
 
 class EventFragment: Fragment() {

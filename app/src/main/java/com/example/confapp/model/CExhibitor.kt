@@ -1,4 +1,4 @@
-package com.example.confapp.Data
+package com.example.confapp.model
 
 class CExhibitor (
     var company: String = "",

@@ -1,4 +1,4 @@
-package com.example.confapp.Login
+package com.example.confapp.login
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.example.confapp.Data.CUsers
+import com.example.confapp.model.CUsers
 import com.example.confapp.MainActivity
 import com.example.confapp.R
 import com.google.firebase.FirebaseApp
@@ -138,7 +138,7 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun saveUserToFirebaseDatabase(avatar_url: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
-        val ref = FirebaseDatabase.getInstance().getReference("/Data/user/$uid")
+        val ref = FirebaseDatabase.getInstance().getReference("/model/user/$uid")
         val user = CUsers(
             uid,
             avatar_url,

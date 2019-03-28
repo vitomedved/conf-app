@@ -16,10 +16,10 @@
             android:theme="@style/AppTheme">
 
         <activity
-                android:name=".Login.LoginActivity"
+                android:name=".login.LoginActivity"
                 android:label="@string/title_activity_login">
         </activity>
-        <activity android:name=".Login.RegistrationActivity">
+        <activity android:name=".login.RegistrationActivity">
         </activity>
         <activity
                 android:name=".MainActivity"

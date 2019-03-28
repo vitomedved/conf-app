@@ -1,4 +1,4 @@
-package com.example.confapp.Login
+package com.example.confapp.login
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.example.confapp.Data.CUsers
+import com.example.confapp.model.CUsers
 import com.example.confapp.MainActivity
 import com.example.confapp.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -115,7 +115,7 @@ class LoginActivity : AppCompatActivity() {
     private fun saveGoogleUserToFirebaseDatabase(account: GoogleSignInAccount) {
 
         val uid = FirebaseAuth.getInstance().uid ?: ""
-        val databaseRef = FirebaseDatabase.getInstance().getReference("/Data/user/$uid")
+        val databaseRef = FirebaseDatabase.getInstance().getReference("/model/user/$uid")
 
         val user: CUsers = CUsers(
             account.id!!,

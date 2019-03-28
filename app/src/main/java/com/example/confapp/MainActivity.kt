@@ -18,9 +18,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.confapp.Data.CPresenter
-import com.example.confapp.Data.CUsers
-import com.example.confapp.Login.LoginActivity
+import com.example.confapp.model.CPresenter
+import com.example.confapp.model.CUsers
+import com.example.confapp.login.LoginActivity
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
 
-        /*firebaseRef.child("Data/presenter").addValueEventListener(object: ValueEventListener {
+        /*firebaseRef.child("model/presenter").addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: FirebaseError?) {
                 return
             }
@@ -115,9 +115,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         else{
             login_signout_textView.text = "Sign out"
-            firebaseRef.child("Data/user/${uid}").addValueEventListener(object: ValueEventListener {
+            firebaseRef.child("model/user/${uid}").addValueEventListener(object: ValueEventListener {
                 override fun onCancelled(p0: FirebaseError?) {
-                    Log.d("FIREBASE", "Data from database is not loaded.")
+                    Log.d("FIREBASE", "model from database is not loaded.")
                     username_header.text = "logcat je super - nes nevalja" //smislit pametnije
                     return
                 }

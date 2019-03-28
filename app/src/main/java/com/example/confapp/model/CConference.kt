@@ -1,5 +1,8 @@
-package com.example.confapp.Data
+package com.example.confapp.model
 
+// TODO: if database throws error (cannot convert to type) -> try adding @IgnoreExtraProperties
+
+//@IgnoreExtraProperties
 class CConference (
     val id: Int = -1
     , val name: String = ""
@@ -13,6 +16,7 @@ class CConference (
 {
     val m_id: Int = id
     val m_name: String = name
+    val m_startDate = startDate
     val m_endDate: String = endDate
     val m_location: String = location
     val m_about: String = about
