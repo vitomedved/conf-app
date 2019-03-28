@@ -1,8 +1,6 @@
 package com.example.confapp
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -20,15 +18,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import com.example.confapp.Data.CPresenter
+import com.example.confapp.Data.CUsers
+import com.example.confapp.Login.LoginActivity
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
 import com.firebase.client.ValueEventListener
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.nav_header_main.*
-
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

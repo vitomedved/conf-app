@@ -1,4 +1,4 @@
-package com.example.confapp
+package com.example.confapp.Schedule
 
 
 import android.content.Context
@@ -22,6 +22,9 @@ import com.firebase.client.ValueEventListener
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.example.confapp.Data.CConference
+import com.example.confapp.Data.CEvent
+import com.example.confapp.R
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*

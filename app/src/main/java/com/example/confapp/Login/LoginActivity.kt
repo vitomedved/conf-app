@@ -1,4 +1,4 @@
-package com.example.confapp
+package com.example.confapp.Login
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -8,22 +8,19 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.confapp.Data.CUsers
+import com.example.confapp.MainActivity
+import com.example.confapp.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.signin.SignInClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import java.util.*
-
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 class LoginActivity : AppCompatActivity() {
     lateinit var email: EditText
@@ -120,7 +117,8 @@ class LoginActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val databaseRef = FirebaseDatabase.getInstance().getReference("/Data/user/$uid")
 
-        val user: CUsers = CUsers(account.id!!,
+        val user: CUsers = CUsers(
+            account.id!!,
             account.photoUrl.toString(),
             account.email!!,
             account.displayName!!,

@@ -1,4 +1,4 @@
-package com.example.confapp
+package com.example.confapp.Schedule
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.confapp.Data.CEvent
+import com.example.confapp.Event.EventFragment
+import com.example.confapp.MainActivity
+import com.example.confapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -80,9 +84,15 @@ class ScheduleRecyclerAdapter(var eventList: MutableList<CEvent>): RecyclerView.
         p0.eventLocation.text = event.hall
 
         when(event.type){
-            EventType.WORKSHOP.value -> p0.eventTypeImage.setImageResource(R.drawable.ic_tag_workshop)
-            EventType.PRESENTATION.value -> p0.eventTypeImage.setImageResource(R.drawable.ic_tag_presentation)
-            EventType.QA.value -> p0.eventTypeImage.setImageResource(R.drawable.ic_tag_qa)
+            EventType.WORKSHOP.value -> p0.eventTypeImage.setImageResource(
+                R.drawable.ic_tag_workshop
+            )
+            EventType.PRESENTATION.value -> p0.eventTypeImage.setImageResource(
+                R.drawable.ic_tag_presentation
+            )
+            EventType.QA.value -> p0.eventTypeImage.setImageResource(
+                R.drawable.ic_tag_qa
+            )
         }
     }
 }

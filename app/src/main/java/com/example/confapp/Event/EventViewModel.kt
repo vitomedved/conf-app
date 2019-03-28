@@ -1,7 +1,8 @@
-package com.example.confapp
+package com.example.confapp.Event
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.example.confapp.Data.CEvent
 
 class EventViewModel: ViewModel() {
     var event = MutableLiveData<CEvent>()
