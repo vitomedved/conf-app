@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-@Suppress("DEPRECATION")
 class ScheduleFragment : Fragment() {
     private val adapter = ScheduleRecyclerAdapter()
 
