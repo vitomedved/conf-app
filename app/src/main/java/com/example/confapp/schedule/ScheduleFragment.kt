@@ -10,15 +10,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.firebase.client.Firebase
-import com.example.confapp.model.CEvent
 import com.example.confapp.R
-import java.text.SimpleDateFormat
 import java.util.*
 
 
