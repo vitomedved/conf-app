@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".event.EventScrollingActivity">
+
+    <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:fitsSystemWindows="true"
+            android:layout_height="@dimen/app_bar_height"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:toolbarId="@+id/toolbar"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:contentScrim="?attr/colorPrimary">
+
+            <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_width="match_parent"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
+
+                    android:layout_gravity="center_vertical">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/iconSize_mediumToLarge" app:srcCompat="@drawable/ic_tag_qa"
+                        android:id="@+id/imageView_eventType" android:layout_weight="0.2"/>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:text="Event type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView_eventType"
+                            android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_large"
+                            android:layout_marginBottom="@dimen/margin_small"/>
+                    <TextView
+                            android:text="Event date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView_eventDate"
+                            android:textColor="@color/lightBlue" android:textSize="@dimen/textSize_medium"
+                            android:layout_marginBottom="@dimen/margin_small"/>
+                    <TextView
+                            android:text="Event time start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView_eventTime"
+                            android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_medium"
+                            android:layout_marginBottom="@dimen/margin_small"/>
+                    <TextView
+                            android:text="Event place "
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView_eventLocation"
+                            android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_medium"
+                            android:background="@color/lightBlueWithAlpha"
+                            android:paddingStart="@dimen/textPadding_medium"
+                            android:paddingEnd="@dimen/textPadding_medium"
+                            android:paddingBottom="@dimen/padding_small" android:paddingTop="@dimen/padding_small"
+                            android:layout_marginBottom="@dimen/margin_small"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_event_scrolling"/>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/ic_hearth_lightest_blue"
+            app:backgroundTint="@color/blue"/>
+
+</android.support.design.widget.CoordinatorLayout>

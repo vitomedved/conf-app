@@ -1,5 +1,7 @@
 package com.example.confapp.schedule
 
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.confapp.model.CEvent
-import com.example.confapp.event.EventFragment
-import com.example.confapp.MainActivity
 import com.example.confapp.R
+import com.example.confapp.event.EventScrollingActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,24 +21,23 @@ class ScheduleRecyclerAdapter(/*var eventList: List<CEvent>*/): RecyclerView.Ada
     var eventList: List<CEvent> = listOf()
     //val events: MutableList<CEvent> = mutableListOf()
 
-    enum class EventType(val value: String) {
-        WORKSHOP("workshop"),
-        PRESENTATION("presentation"),
-        QA("q&a")
-    }
-
     class ViewHolder(itemView: View, event: List<CEvent>): RecyclerView.ViewHolder(itemView), View.OnClickListener{
 
         val evt = event
 
         override fun onClick(v: View) {
-            val evtFragment = EventFragment()
+            //val evtFragment = EventFragment()
 
-            evtFragment.setCurrentEvent(evt[adapterPosition])
+            //evtFragment.setCurrentEvent(evt[adapterPosition])
 
-            val ctx = v.context as MainActivity
-            ctx.supportFragmentManager.beginTransaction().replace(R.id.fragment_schedule, evtFragment).addToBackStack(null).commit()
-            //transaction.replace(((ViewGroup)(getView().getParent())).getId(), fragment);
+            //val ctx = v.context as MainActivity
+            //ctx.supportFragmentManager.beginTransaction().replace(R.id.fragment_schedule, evtFragment).addToBackStack(null).commit()
+
+            val intent = Intent(v.context, EventScrollingActivity::class.java).apply {
+                putExtra(ScheduleViewModel.KEY_CURRENT_EVENT, evt[adapterPosition])
+            }
+            v.context.startActivity(intent)
+
         }
 
         val eventName = itemView.findViewById(R.id.textView_eventName) as TextView
@@ -68,7 +68,7 @@ class ScheduleRecyclerAdapter(/*var eventList: List<CEvent>*/): RecyclerView.Ada
         time = time + "h"
         p0.eventTime.text = time
 
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        /*val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val durationTime: Calendar = Calendar.getInstance()
         durationTime.time = dateFormat.parse(event.date)
         durationTime.add(Calendar.MINUTE, event.durationInMinutes)
@@ -77,19 +77,19 @@ class ScheduleRecyclerAdapter(/*var eventList: List<CEvent>*/): RecyclerView.Ada
         val sdf = SimpleDateFormat("HH:mm")
         val formattedTime: String = sdf.format(now)
 
-        val duration: String = event.date.substring(11) + " - " + formattedTime/*durationTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + durationTime.get(Calendar.MINUTE).toString()*/
-        p0.eventDuration.text = duration
+        val duration: String = event.date.substring(11) + " - " + formattedTime/*durationTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + durationTime.get(Calendar.MINUTE).toString()*/*/
+        p0.eventDuration.text = event.getTimeString()//duration
 
         p0.eventLocation.text = event.hall
 
         when(event.type){
-            EventType.WORKSHOP.value -> p0.eventTypeImage.setImageResource(
+            CEvent.EventType.WORKSHOP.value -> p0.eventTypeImage.setImageResource(
                 R.drawable.ic_tag_workshop
             )
-            EventType.PRESENTATION.value -> p0.eventTypeImage.setImageResource(
+            CEvent.EventType.PRESENTATION.value -> p0.eventTypeImage.setImageResource(
                 R.drawable.ic_tag_presentation
             )
-            EventType.QA.value -> p0.eventTypeImage.setImageResource(
+            CEvent.EventType.QA.value -> p0.eventTypeImage.setImageResource(
                 R.drawable.ic_tag_qa
             )
         }

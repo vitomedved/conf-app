@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_event_scrolling"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".event.EventScrollingActivity" android:padding="@dimen/textPadding_medium"
+        android:paddingStart="@dimen/padding_mediumToLarge">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:padding="@dimen/textPadding_medium">
+        <TextView
+                android:text="@string/text_about_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView_aboutTitle"
+                android:textSize="@dimen/textSize_mediumToLarge"
+                android:layout_marginBottom="@dimen/text_margin" android:textColor="@color/darkestBlue"
+                android:textStyle="bold"/>
+        <TextView
+                android:text="Something about this event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView_aboutEvent"
+                android:lineSpacingExtra="@dimen/smallest_spacing" android:layout_marginBottom="@dimen/text_margin"
+                android:textSize="@dimen/textSize_medium" android:textColor="@color/darkBlue"/>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

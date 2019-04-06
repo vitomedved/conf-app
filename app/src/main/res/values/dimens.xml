@@ -18,4 +18,13 @@
     <dimen name="margin_small">5dp</dimen>
     <dimen name="padding_small">3dp</dimen>
     <dimen name="textSize_eventName">15sp</dimen>
+    <dimen name="app_bar_height">300dp</dimen>
+    <dimen name="textSize_large">25sp</dimen>
+    <dimen name="iconSize_mediumToLarge">40dp</dimen>
+    <dimen name="textPadding_medium">6dp</dimen>
+    <dimen name="margin_medium">10dp</dimen>
+    <dimen name="margin_smallest">3dp</dimen>
+    <dimen name="textSize_mediumToLarge">20sp</dimen>
+    <dimen name="padding_mediumToLarge">10dp</dimen>
+    <dimen name="smallest_spacing">1dp</dimen>
 </resources>

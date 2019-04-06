@@ -14,6 +14,10 @@ import java.util.*
 
 class ScheduleViewModel: ViewModel() {
 
+    companion object {
+        const val KEY_CURRENT_EVENT = "CURRENT_EVENT"
+    }
+
     private lateinit var database: DatabaseReference
 
     private var m_startDate: Calendar = Calendar.getInstance()

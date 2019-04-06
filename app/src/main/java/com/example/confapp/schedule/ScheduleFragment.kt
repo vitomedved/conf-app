@@ -54,7 +54,7 @@ class ScheduleFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
         model.events.observe(this, android.arch.lifecycle.Observer {newEvents ->
-            adapter.eventList = newEvents!!//model.getTodaysEvents()
+            adapter.eventList = newEvents!!
             recyclerView.adapter = adapter
         })
 
