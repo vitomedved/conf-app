@@ -47,4 +47,27 @@
     <string name="text_tryConnection">Try again</string>
     <string name="title_activity_event_scrolling">EventScrollingActivity</string>
     <string name="text_about_event">About This Event</string>
+    <string name="text_event_name">Name*</string>
+    <string name="placeholder_event_name">Event</string>
+    <string name="text_event_date">Start Date*</string>
+    <string name="placeholder_event_date">dd/mm/yyyy</string>
+    <string name="text_event_duration">Duration (in minutes)*</string>
+    <string name="placeholder_event_duration">45</string>
+    <string name="text_event_hall">Location/hall*</string>
+    <string name="placeholder_event_location">Hall X52</string>
+    <string name="text_event_type">Event Type*</string>
+
+    <string name="event_type_prompt">Choose a type</string>
+    <string name="text_add_presenters">Add presenters</string>
+    <string name="text_add_event">Add event</string>
+    <string name="text_event_time">Starting Time*</string>
+    <string name="placeholder_event_time">hh:mm</string>
+
+    <string-array name="type_arrays">
+        <item>Workshop</item>
+        <item>Presentation</item>
+        <item>Q&amp;A</item>
+    </string-array>
+
+
 </resources>

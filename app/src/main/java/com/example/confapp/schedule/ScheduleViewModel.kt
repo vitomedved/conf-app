@@ -16,12 +16,20 @@ class ScheduleViewModel: ViewModel() {
 
     companion object {
         const val KEY_CURRENT_EVENT = "CURRENT_EVENT"
+        const val KEY_START_DATE = "StartDate"
+        const val KEY_END_DATE = "EndDate"
     }
 
     private lateinit var database: DatabaseReference
 
     private var m_startDate: Calendar = Calendar.getInstance()
+    val startDate: Calendar
+        get() = m_startDate
+
     private var m_endDate: Calendar = Calendar.getInstance()
+    val endDate: Calendar
+        get() = m_endDate
+
     private var m_currentDate: Calendar = Calendar.getInstance()
 
     private val m_shortWeekNames = DateFormatSymbols.getInstance().shortWeekdays

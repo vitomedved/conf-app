@@ -3,9 +3,11 @@ package com.example.confapp.schedule
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -15,6 +17,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.confapp.R
+import com.example.confapp.event.NewEventActivity
+import kotlinx.android.synthetic.main.fragment_schedule.*
+import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import java.util.*
 
 
@@ -22,16 +27,6 @@ class ScheduleFragment : Fragment() {
     private val adapter = ScheduleRecyclerAdapter()
 
     private lateinit var retView: View
-    private lateinit var recyclerView: RecyclerView
-
-    private lateinit var buttonPrevDay: ImageButton
-    private lateinit var buttonNextDay: ImageButton
-
-    private lateinit var textCurrentDate: TextView
-    private lateinit var textCurrentMonth: TextView
-    private lateinit var textCurrentWeekday: TextView
-
-    private lateinit var eventDate: Calendar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val isConnected = checkConnectivity()
@@ -46,35 +41,34 @@ class ScheduleFragment : Fragment() {
 
         retView = inflater.inflate(R.layout.fragment_schedule, container, false)
 
-        recyclerView = retView.findViewById(R.id.recyclerView_schedule)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        retView.recyclerView_schedule.layoutManager = LinearLayoutManager(activity)
 
         model.events.observe(this, android.arch.lifecycle.Observer {newEvents ->
             adapter.eventList = newEvents!!
-            recyclerView.adapter = adapter
+            retView.recyclerView_schedule.adapter = adapter
         })
 
         model.currentDateString.observe(this, android.arch.lifecycle.Observer { newDate ->
-            textCurrentDate.text = newDate
+            retView.textView_currentDate.text = newDate
         })
 
         model.currentMonthString.observe(this, android.arch.lifecycle.Observer { newMonth ->
-            textCurrentMonth.text = newMonth
+            retView.textView_currentMonth.text = newMonth
         })
 
         model.currentWeekdayString.observe(this, android.arch.lifecycle.Observer { newWeekday ->
-            textCurrentWeekday.text = newWeekday
+            retView.textView_currentWeekday.text = newWeekday
         })
 
         model.currentLeftArrowIcon.observe(this, android.arch.lifecycle.Observer { currentLeftArrowIcon ->
             if (currentLeftArrowIcon != null) {
-                buttonPrevDay.setBackgroundResource(currentLeftArrowIcon)
+                retView.imageButton_previousDay.setBackgroundResource(currentLeftArrowIcon)
             }
         })
 
         model.currentRightArrowIcon.observe(this, android.arch.lifecycle.Observer { currentRightArrowIcon ->
             if (currentRightArrowIcon != null) {
-                buttonNextDay.setBackgroundResource(currentRightArrowIcon)
+                retView.imageButton_nextDay.setBackgroundResource(currentRightArrowIcon)
             }
         })
 
@@ -82,10 +76,6 @@ class ScheduleFragment : Fragment() {
         swipeRefresh.setOnRefreshListener {
             if(checkConnectivity())
             {
-                /*Handler().postDelayed({
-                    // Only use this if you want at least 2 secs of spinning shit
-                    swipeRefresh.isRefreshing = false
-                }, 2000)*/
                 model.updateEvents()
             }
             else
@@ -95,20 +85,18 @@ class ScheduleFragment : Fragment() {
             swipeRefresh.isRefreshing = false
         }
 
-        eventDate = Calendar.getInstance()
-
-        textCurrentDate = retView.findViewById(R.id.textView_currentDate)
-        textCurrentMonth = retView.findViewById(R.id.textView_currentMonth)
-        textCurrentWeekday = retView.findViewById(R.id.textView_currentWeekday)
-
-        buttonPrevDay = retView.findViewById(R.id.imageButton_previousDay)
-        buttonNextDay = retView.findViewById(R.id.imageButton_nextDay)
-
-        buttonPrevDay.setOnClickListener {
+        retView.imageButton_previousDay.setOnClickListener {
             model.onPrevDayClicked()
         }
-        buttonNextDay.setOnClickListener {
+        retView.imageButton_nextDay.setOnClickListener {
             model.onNextDayClicked()
+        }
+
+        retView.fab_addEvent.setOnClickListener {
+            val intent = Intent(context, NewEventActivity::class.java)
+            intent.putExtra(ScheduleViewModel.KEY_START_DATE, model.startDate.timeInMillis)
+            intent.putExtra(ScheduleViewModel.KEY_END_DATE, model.endDate.timeInMillis)
+            startActivity(intent)
         }
 
         return retView

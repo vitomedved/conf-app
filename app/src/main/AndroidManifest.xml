@@ -23,6 +23,10 @@
                 android:name=".login.LoginActivity"
                 android:label="@string/title_activity_login">
         </activity>
+        <activity
+                android:name=".event.NewEventActivity"
+                android:label="Add New Event">
+        </activity>
         <activity android:name=".login.RegistrationActivity">
         </activity>
         <activity

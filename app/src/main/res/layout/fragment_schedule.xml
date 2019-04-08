@@ -8,6 +8,17 @@
              android:id="@+id/fragment_schedule">
 
 
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_addEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/ic_plus_light_blue"
+            android:scaleType="center"
+            android:clickable="true"
+            />
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -92,7 +103,8 @@
         <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefresh_schedule"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+        android:background="@color/lightestBlue">
             <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

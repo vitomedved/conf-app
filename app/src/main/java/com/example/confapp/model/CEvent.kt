@@ -1,6 +1,7 @@
 package com.example.confapp.model
 
 import android.util.Log
+import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import java.io.Serializable
 import java.text.DateFormatSymbols
@@ -13,9 +14,9 @@ class CEvent (
     , val date: String = ""
     , val durationInMinutes: Int = -1
     , val hall: String = ""
-    , val id: Int = -1
+    , var id: String = ""
     , val name: String = ""
-    , val presenters: List<Int> = emptyList()
+    , val presenters: List<String> = emptyList()
     //, val time: String = ""
     , val type: String = ""
 ) : Serializable{
@@ -37,6 +38,7 @@ class CEvent (
         }
     }
 
+    @Exclude
     fun getDateString(): String{
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val currDate: Calendar = Calendar.getInstance()
@@ -51,6 +53,7 @@ class CEvent (
         return stringDate
     }
 
+    @Exclude
     fun getTimeString(): String{
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val currTime: Calendar = Calendar.getInstance()

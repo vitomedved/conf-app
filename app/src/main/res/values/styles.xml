@@ -21,4 +21,24 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="TextViewLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginStart">@dimen/margin_large</item>
+        <item name="android:layout_marginEnd">@dimen/margin_small</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:textSize">@dimen/textSize_medium</item>
+        <item name="android:textColor">@color/darkBlue</item>
+    </style>
+
+    <style name="TextViewInput">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:layout_marginEnd">@dimen/margin_large</item>
+        <item name="android:layout_marginStart">@dimen/margin_small</item>
+    </style>
+
 </resources>
