@@ -1,12 +1,12 @@
 package com.example.confapp.model
 
 import android.util.Log
-import com.google.firebase.database.Exclude
-import com.google.firebase.database.IgnoreExtraProperties
+import com.google.firebase.database.*
 import java.io.Serializable
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.Semaphore
 
 @IgnoreExtraProperties
 class CEvent (
@@ -26,8 +26,9 @@ class CEvent (
         QA("q&a")
     }
 
+
     private fun getDayOfMonthSuffix(n: Int): String {
-        if (n >= 11 && n <= 13) {
+        if (n in 11..13) {
             return "th"
         }
         when (n % 10) {
@@ -66,5 +67,14 @@ class CEvent (
         val formattedTime: String = date.substring(11) + " - " + formattedEndTime
 
         return formattedTime
+    }
+
+    @Exclude
+    fun getDateTimeCalendar(): Calendar{
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val currDate: Calendar = Calendar.getInstance()
+        currDate.time = dateFormat.parse(date)
+
+        return currDate
     }
 }

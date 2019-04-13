@@ -190,4 +190,15 @@ class ScheduleViewModel: ViewModel() {
         }
     }
 
+    fun removeEvent(index: Int): Boolean {
+        //Log.d("asd", m_events.value!![index].name)
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
+
+        val currentEventId = m_events.value!![index].id
+
+        ref.child("Data/event/$currentEventId").setValue(null)
+
+        return true
+    }
+
 }

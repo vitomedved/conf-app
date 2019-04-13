@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.example.confapp.model.CUsers
+import com.example.confapp.model.CUser
 import com.example.confapp.MainActivity
 import com.example.confapp.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -117,16 +117,16 @@ class LoginActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val databaseRef = FirebaseDatabase.getInstance().getReference("/model/user/$uid")
 
-        val user: CUsers = CUsers(
-            account.id!!,
+        val user: CUser = CUser(
+            uid!!,
             account.photoUrl.toString(),
             account.email!!,
             account.displayName!!,
             "-1"
-            , listOf(-1, -2)
+            , mutableListOf("-1", "-2")
         )
 
-        databaseRef.setValue(user)
+        /*databaseRef.setValue(user)
             .addOnSuccessListener {
                 Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
 
@@ -136,8 +136,12 @@ class LoginActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
-            }
+            }*/
+        Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
 
+        //Handler().postDelayed({progress.dismiss()}, 5000)
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onBackPressed() {

@@ -1,12 +1,12 @@
 package com.example.confapp.model
 
-class CUsers(
+class CUser(
     val uid: String = "",
     val avatar_url: String = "",
     val mail: String = "",
     val name: String = "",
     val password: String = "",
-    val subscribedEvents: List<Int> = emptyList()
+    val subscribedEvents: MutableList<String> = mutableListOf()
 ) {
 
 

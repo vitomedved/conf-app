@@ -6,46 +6,50 @@ import android.content.Intent
 import com.example.confapp.R
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.widget.ImageView
-import android.widget.TextView
+import com.example.confapp.NotificationUtils
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.model.CEvent
 import com.example.confapp.schedule.ScheduleViewModel
 import kotlinx.android.synthetic.main.activity_event_scrolling.*
 import kotlinx.android.synthetic.main.content_event_scrolling.*
+import java.util.*
+import com.example.confapp.MainActivity
+
 
 class EventScrollingActivity : AppCompatActivity() {
 
-    //private lateinit var imageView_eventTypeIcon: ImageView
-    //private lateinit var textView_eventType: TextView
-    //private lateinit var textView_eventDate: TextView
-    //private lateinit var textView_eventTime: TextView
-    //private lateinit var textView_eventLocation: TextView
-    //private lateinit var textView_aboutEvent: TextView
-
     private lateinit var button_favorite: FloatingActionButton
+    override fun onBackPressed() {
+        var launchedFromNotification = false
+
+        @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+        if(intent.extras.containsKey(NotificationUtils.TAG_CLICKED_FROM_NOTIFICATION)){
+            launchedFromNotification = intent.extras.getBoolean(NotificationUtils.TAG_CLICKED_FROM_NOTIFICATION)
+        }
+
+        if(launchedFromNotification){
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
+            finish()
+        }else{
+            super.onBackPressed()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_scrolling)
         setSupportActionBar(toolbar)
-        /*fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
 
-
-        //imageView_eventTypeIcon = findViewById(R.id.imageView_eventType)
-        //textView_eventType = findViewById(R.id.textView_eventType)
-        //textView_eventDate = findViewById(R.id.textView_eventDate)
-        //textView_eventTime = findViewById(R.id.textView_eventTime)
-        //textView_eventLocation = findViewById(R.id.textView_eventLocation)
-        //textView_aboutEvent = findViewById(R.id.textView_aboutEvent)
         button_favorite = findViewById(R.id.button_favorite)
 
         val viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+
+        viewModel.currentEvent.observe(this, Observer { newEvt ->
+            viewModel.updateEventLiveData()
+        })
 
         viewModel.evtTypeIcon.observe(this, Observer { evtTypeIcon ->
             imageView_eventType.setImageResource(evtTypeIcon!!)
@@ -79,16 +83,31 @@ class EventScrollingActivity : AppCompatActivity() {
             button_favorite.setImageResource(favIcon!!)
         })
 
-        val currEvt: CEvent = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT) as CEvent
 
-        if(currEvt != null){
+
+        val serializableEvt = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT)
+        val currEvt: CEvent
+
+        if(serializableEvt != null){
+            currEvt = serializableEvt as CEvent
             viewModel.updateCurrentEvent(currEvt)
+        }else{
+            val evtId = intent.getStringExtra("eventId")
+            viewModel.updateCurrentEvent(evtId)
+            this.title = viewModel.evtName.value
         }
 
         if(viewModel.isUserLoggedIn()){
             button_favorite.setOnClickListener { view ->
                 // Set current user to favorites
-                viewModel.toggleFavoriteEvent()
+
+                // Check if event is subscribed or not
+                val result = viewModel.toggleSubscribeToEvent()
+
+                if(result == EventViewModel.EVENT_SUBSCRIBED){
+                    val time: Long = viewModel.getHourBeforeEventStart()
+                    NotificationUtils().setNotification(Calendar.getInstance().timeInMillis + 5000, viewModel.currentEvent.value!!, this)
+                }
             }
         }
         else{

@@ -3,6 +3,7 @@ package com.example.confapp.schedule
 import android.content.Intent
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import android.widget.TextView
 import com.example.confapp.model.CEvent
 import com.example.confapp.R
 import com.example.confapp.event.EventScrollingActivity
+import kotlinx.android.synthetic.main.fragment_schedule.view.*
+import kotlinx.android.synthetic.main.list_item_event.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,18 +24,14 @@ class ScheduleRecyclerAdapter(/*var eventList: List<CEvent>*/): RecyclerView.Ada
     var eventList: List<CEvent> = listOf()
     //val events: MutableList<CEvent> = mutableListOf()
 
-    class ViewHolder(itemView: View, event: List<CEvent>): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    class ViewHolder(itemView: View, event: List<CEvent>): RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnCreateContextMenuListener{
 
         val evt = event
+        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+            menu!!.add(this.adapterPosition, v!!.id, 0, "Remove")
+        }
 
         override fun onClick(v: View) {
-            //val evtFragment = EventFragment()
-
-            //evtFragment.setCurrentEvent(evt[adapterPosition])
-
-            //val ctx = v.context as MainActivity
-            //ctx.supportFragmentManager.beginTransaction().replace(R.id.fragment_schedule, evtFragment).addToBackStack(null).commit()
-
             val intent = Intent(v.context, EventScrollingActivity::class.java).apply {
                 putExtra(ScheduleViewModel.KEY_CURRENT_EVENT, evt[adapterPosition])
             }
@@ -40,13 +39,16 @@ class ScheduleRecyclerAdapter(/*var eventList: List<CEvent>*/): RecyclerView.Ada
 
         }
 
-        val eventName = itemView.findViewById(R.id.textView_eventName) as TextView
-        val eventTime = itemView.findViewById(R.id.textView_eventTime) as TextView
-        val eventDuration = itemView.findViewById(R.id.textView_eventDuration) as TextView
-        val eventLocation = itemView.findViewById(R.id.textView_eventLocation) as TextView
-        val eventTypeImage = itemView.findViewById(R.id.imageView_eventType) as ImageView
+        val eventName = itemView.textView_eventName as TextView//itemView.findViewById(R.id.textView_eventName) as TextView
+        val eventTime = itemView.textView_eventTime as TextView//itemView.findViewById(R.id.textView_eventTime) as TextView
+        val eventDuration = itemView.textView_eventDuration as TextView//itemView.findViewById(R.id.textView_eventDuration) as TextView
+        val eventLocation = itemView.textView_eventLocation as TextView//itemView.findViewById(R.id.textView_eventLocation) as TextView
+        val eventTypeImage = itemView.imageView_eventType as ImageView//itemView.findViewById(R.id.imageView_eventType) as ImageView
 
-        val temp = itemView.setOnClickListener(this)
+        init{
+            itemView.setOnClickListener(this)
+            itemView.setOnCreateContextMenuListener(this)
+        }
     }
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -60,7 +62,7 @@ class ScheduleRecyclerAdapter(/*var eventList: List<CEvent>*/): RecyclerView.Ada
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val event: CEvent = eventList[p1]
-        //events.add(event)
+
         p0.eventName.text = event.name
 
         var time: String = event.date.substring(11)
@@ -68,16 +70,6 @@ class ScheduleRecyclerAdapter(/*var eventList: List<CEvent>*/): RecyclerView.Ada
         time = time + "h"
         p0.eventTime.text = time
 
-        /*val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
-        val durationTime: Calendar = Calendar.getInstance()
-        durationTime.time = dateFormat.parse(event.date)
-        durationTime.add(Calendar.MINUTE, event.durationInMinutes)
-
-        val now: Date = durationTime.time
-        val sdf = SimpleDateFormat("HH:mm")
-        val formattedTime: String = sdf.format(now)
-
-        val duration: String = event.date.substring(11) + " - " + formattedTime/*durationTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + durationTime.get(Calendar.MINUTE).toString()*/*/
         p0.eventDuration.text = event.getTimeString()//duration
 
         p0.eventLocation.text = event.hall

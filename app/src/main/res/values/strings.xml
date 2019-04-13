@@ -69,5 +69,6 @@
         <item>Q&amp;A</item>
     </string-array>
 
+    <string name="event_notification_channel_description">This event is starting soon</string>
 
 </resources>

@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.example.confapp.model.CUsers
+import com.example.confapp.model.CUser
 import com.example.confapp.MainActivity
 import com.example.confapp.R
 import com.google.firebase.FirebaseApp
@@ -139,13 +139,13 @@ class RegistrationActivity : AppCompatActivity() {
     private fun saveUserToFirebaseDatabase(avatar_url: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/model/user/$uid")
-        val user = CUsers(
+        val user = CUser(
             uid,
             avatar_url,
             email.text.toString(),
             username.text.toString(),
             password.text.toString().hashCode().toString()  //nac bolji hash?
-            , listOf(-1, -2)
+            , mutableListOf("-1", "-2")
         )
         ref.setValue(user)
             .addOnSuccessListener {

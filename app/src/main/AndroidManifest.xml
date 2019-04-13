@@ -18,6 +18,7 @@
                 android:name=".event.EventScrollingActivity"
                 android:label="@string/title_activity_event_scrolling"
                 android:theme="@style/AppTheme.NoActionBar">
+                <!--android:parentActivityName=".MainActivity">-->
         </activity>
         <activity
                 android:name=".login.LoginActivity"
@@ -39,6 +40,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <receiver
+                android:name=".event.notification.AlarmReceiver"
+                android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <service
+                android:name=".event.notification.EventNotificationService"
+                android:enabled="true"
+                android:permission="android.permission.BIND_JOB_SERVICE"/>
+
     </application>
 
 </manifest>

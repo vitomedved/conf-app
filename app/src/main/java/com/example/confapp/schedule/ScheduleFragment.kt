@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -27,11 +28,12 @@ class ScheduleFragment : Fragment() {
     private val adapter = ScheduleRecyclerAdapter()
 
     private lateinit var retView: View
+    private lateinit var model: ScheduleViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val isConnected = checkConnectivity()
 
-        val model = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+        model = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
 
         if(!isConnected)
         {
@@ -100,6 +102,23 @@ class ScheduleFragment : Fragment() {
         }
 
         return retView
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        super.onContextItemSelected(item)
+
+        //Toast.makeText(context, "Clicked ${item!!.title}", Toast.LENGTH_SHORT).show()
+        if(!checkConnectivity()){
+            Toast.makeText(context, "Connect to the internet to remove event", Toast.LENGTH_LONG).show()
+        }else{
+            if(model.removeEvent(item!!.groupId)){
+                Toast.makeText(context, "Event successfully removed", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(context, "Unable to delete event - there is no possible way for this to happen...", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        return true
     }
 
     // Returns false if device is not connected to internet, true if device is connected to internet
