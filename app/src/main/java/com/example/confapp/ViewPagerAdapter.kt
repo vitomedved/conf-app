@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.util.Log
 import com.example.confapp.schedule.ScheduleFragment
+import com.example.confapp.exhibitors.ExhibitorsFragment
+
 
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
@@ -12,7 +14,8 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return when (position) {
             0 -> {
                 Log.d("TABLAYOUT", "Clicked on 0")
-                Fragment()
+                ExhibitorsFragment()
+                //Fragment()
             }
             //1 -> BlankFragment()
             else -> {
@@ -28,7 +31,7 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
-            0 -> "Activity feed"
+            0 -> "Exhibitors"
             //1 -> "Second Tab"
             else -> {
                 return "Schedule"
