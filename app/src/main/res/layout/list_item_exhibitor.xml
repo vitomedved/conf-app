@@ -4,10 +4,11 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
-
     <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_cardView"
+            android:layout_marginTop="@dimen/margin_cardView"
             app:cardBackgroundColor="@android:color/white">
 
         <LinearLayout
@@ -16,18 +17,42 @@
                 android:orientation="horizontal"
                 android:weightSum="1">
 
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:gravity="center_vertical"
+                android:id="@+id/layout_eventListItem">
+
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView_exhibitorLogo"
+                    app:srcCompat="@drawable/ic_tag_presentation"
+                    android:layout_weight="0.2"
+                    android:layout_marginLeft="@dimen/margin_cardView"
+                    android:layout_marginRight="@dimen/margin_cardView"
+                    android:layout_marginBottom="@dimen/margin_cardView"
+                    android:layout_marginTop="@dimen/margin_cardView"
+                    />
+            <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/darkestBlue"
+                    android:layout_margin="5dp"/>
             <TextView
                     android:text="TextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView_exhibitorCompany"
-                    android:layout_weight="1"
+                    android:layout_weight="0.8"
                     android:textColor="@color/darkBlue"
-                    android:background="@color/lightestBlue"
                     android:padding="@dimen/card_view_padding"
                     android:textAlignment="center"
             />
-
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

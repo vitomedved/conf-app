@@ -3,11 +3,18 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".exhibitors.ExhibitorsFragment">
+             tools:context=".exhibitors.ExhibitorsFragment"
+             android:background="@android:color/white"
+             android:id="@+id/fragment_exhibitors">
 
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_exhibitors"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/lightestBlue">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_exhibitors"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        />
+    </LinearLayout>
 
 </FrameLayout>
