@@ -187,6 +187,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         } else if (id == R.id.nav_share) {
 
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "Check out this developer! \nhttps://www.linkedin.com/in/vito-medved-48aa78135/")
+                type = "text/plain"
+            }
+            startActivity(sendIntent)
+
         } else if (id == R.id.nav_send) {
 
         }
