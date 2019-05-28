@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -86,15 +84,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         })*/
-
-        /*
-        val fragmentAdapter = ViewPagerAdapter(supportFragmentManager)
-        val viewPager = findViewById<ViewPager>(R.id.viewPager)
-        viewPager.adapter = fragmentAdapter
-
-        val tabs = findViewById<TabLayout>(R.id.tabLayout)
-        tabs.setupWithViewPager(viewPager)
-        */
 
         var testtt = findViewById<NavigationView>(R.id.nav_view)
         var headd = testtt.getHeaderView(0)
