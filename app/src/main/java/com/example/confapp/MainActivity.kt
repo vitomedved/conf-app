@@ -16,9 +16,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.confapp.exhibitors.ExhibitorsFragment
 import com.example.confapp.model.CPresenter
 import com.example.confapp.model.CUser
 import com.example.confapp.login.LoginActivity
+import com.example.confapp.schedule.ScheduleFragment
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
@@ -62,6 +64,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
 
+        // odaberi koji activity zelis da se prikazuje prvi
+        var fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment()).commit()
+
         Firebase.setAndroidContext(this)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
@@ -81,12 +87,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })*/
 
+        /*
         val fragmentAdapter = ViewPagerAdapter(supportFragmentManager)
         val viewPager = findViewById<ViewPager>(R.id.viewPager)
         viewPager.adapter = fragmentAdapter
 
         val tabs = findViewById<TabLayout>(R.id.tabLayout)
         tabs.setupWithViewPager(viewPager)
+        */
 
         var testtt = findViewById<NavigationView>(R.id.nav_view)
         var headd = testtt.getHeaderView(0)
@@ -180,10 +188,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (id == R.id.nav_activityFeed) {
             // Handle the camera action
         } else if (id == R.id.nav_schedule) {
-
+            var fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment()).commit()
         } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_exhibitors) {
+            var fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.fragment_container, ExhibitorsFragment()).commit()
 
         } else if (id == R.id.nav_share) {
 

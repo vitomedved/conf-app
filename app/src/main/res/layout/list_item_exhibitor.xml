@@ -31,7 +31,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/imageView_exhibitorLogo"
-                    app:srcCompat="@drawable/ic_tag_presentation"
                     android:layout_weight="0.2"
                     android:layout_marginLeft="@dimen/margin_cardView"
                     android:layout_marginRight="@dimen/margin_cardView"

@@ -32,10 +32,6 @@ class ExhibitorsRecyclerAdapter(val exhibitorsList: MutableList<CExhibitor>): Re
 
         p0.exhibitorCompany.text = exhibitor.company
         Picasso.get().load(exhibitor.logo_url).into(p0.exhibitorLogo)
-
     }
 
-
-
 }
-

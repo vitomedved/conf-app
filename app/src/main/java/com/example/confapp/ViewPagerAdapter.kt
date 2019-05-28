@@ -14,8 +14,8 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return when (position) {
             0 -> {
                 Log.d("TABLAYOUT", "Clicked on 0")
-                ExhibitorsFragment()
-                //Fragment()
+                //ExhibitorsFragment()
+                Fragment()
             }
             //1 -> BlankFragment()
             else -> {
