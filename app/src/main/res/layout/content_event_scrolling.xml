@@ -9,22 +9,26 @@
         android:layout_height="match_parent"
         tools:context=".event.EventScrollingActivity" android:padding="@dimen/textPadding_medium"
         android:paddingStart="@dimen/padding_mediumToLarge">
-    <LinearLayout
+    <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:padding="@dimen/textPadding_medium">
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/event_scrolling_activity_progress_bar_content" android:layout_centerInParent="true"/>
         <TextView
-                android:text="@string/text_about_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView_aboutTitle"
                 android:textSize="@dimen/textSize_mediumToLarge"
                 android:layout_marginBottom="@dimen/text_margin" android:textColor="@color/darkestBlue"
-                android:textStyle="bold"/>
+                android:textStyle="bold" android:layout_alignParentTop="true"/>
         <TextView
-                android:text="Something about this event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView_aboutEvent"
                 android:lineSpacingExtra="@dimen/smallest_spacing" android:layout_marginBottom="@dimen/text_margin"
-                android:textSize="@dimen/textSize_medium" android:textColor="@color/darkBlue"/>
-    </LinearLayout>
+                android:textSize="@dimen/textSize_medium" android:textColor="@color/darkBlue"
+                android:layout_below="@+id/textView_aboutTitle"/>
+    </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
