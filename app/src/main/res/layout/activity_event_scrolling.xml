@@ -41,30 +41,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/iconSize_mediumToLarge" app:srcCompat="@drawable/ic_tag_qa"
                         android:id="@+id/imageView_eventType" android:layout_weight="0.2"/>
-                <LinearLayout
-                        android:orientation="vertical"
+                <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    <TextView
-                            android:text="Event type"
+                        android:layout_height="wrap_content" android:layout_weight="0.2">
+
+                    <ProgressBar
+                            style="?android:attr/progressBarStyle"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView_eventType"
-                            android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_large"
-                            android:layout_marginBottom="@dimen/margin_small"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/event_scrolling_activity_progress_bar_header"
+                            android:layout_centerInParent="true"/>
                     <TextView
-                            android:text="Event date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView_eventDate"
-                            android:textColor="@color/lightBlue" android:textSize="@dimen/textSize_medium"
-                            android:layout_marginBottom="@dimen/margin_small"/>
-                    <TextView
-                            android:text="Event time start"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView_eventTime"
-                            android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_medium"
-                            android:layout_marginBottom="@dimen/margin_small"/>
-                    <TextView
-                            android:text="Event place "
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" android:id="@+id/textView_eventLocation"
                             android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_medium"
@@ -72,7 +59,30 @@
                             android:paddingStart="@dimen/textPadding_medium"
                             android:paddingEnd="@dimen/textPadding_medium"
                             android:paddingBottom="@dimen/padding_small" android:paddingTop="@dimen/padding_small"
-                            android:layout_marginBottom="@dimen/margin_small"/>
+                            android:layout_marginBottom="@dimen/margin_small"
+                            android:layout_below="@+id/textView_eventTime"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView_eventTime"
+                            android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_medium"
+                            android:layout_marginBottom="@dimen/margin_small"
+                            android:layout_below="@+id/textView_eventDate"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView_eventDate"
+                            android:textColor="@color/lightBlue" android:textSize="@dimen/textSize_medium"
+                            android:layout_marginBottom="@dimen/margin_small"
+                            android:layout_below="@+id/textView_eventType"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView_eventType"
+                            android:textColor="@color/lightestBlue" android:textSize="@dimen/textSize_large"
+                            android:layout_marginBottom="@dimen/margin_small" android:layout_alignParentTop="true"/>
+                </RelativeLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                 </LinearLayout>
             </LinearLayout>
 

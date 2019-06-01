@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.confapp.event.favourite.FavouriteEventFragment
 import com.example.confapp.exhibitors.ExhibitorsFragment
+import com.example.confapp.aboutconf.AboutFragment
 import com.example.confapp.model.CPresenter
 import com.example.confapp.model.CUser
 import com.example.confapp.login.LoginActivity
@@ -65,9 +66,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
 
-        // odaberi koji activity zelis da se prikazuje prvi
+        // odaberi koji fragment zelis da se prikazuje prvi
         var fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment()).commit()
+        fragmentTransaction.replace(R.id.fragment_container, AboutFragment()).commit()
+
 
         Firebase.setAndroidContext(this)
 
