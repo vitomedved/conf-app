@@ -7,6 +7,7 @@ import com.example.confapp.R
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.example.confapp.NotificationUtils
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.model.CEvent
@@ -43,12 +44,17 @@ class EventScrollingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_event_scrolling)
         setSupportActionBar(toolbar)
 
+        event_scrolling_activity_progress_bar_header.visibility = View.VISIBLE
+        event_scrolling_activity_progress_bar_content.visibility = View.VISIBLE
+
         button_favorite = findViewById(R.id.button_favorite)
 
         val viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
-        viewModel.currentEvent.observe(this, Observer { newEvt ->
+        viewModel.currentEvent.observe(this, Observer {
             viewModel.updateEventLiveData()
+            event_scrolling_activity_progress_bar_header.visibility = View.INVISIBLE
+            event_scrolling_activity_progress_bar_content.visibility = View.INVISIBLE
         })
 
         viewModel.evtTypeIcon.observe(this, Observer { evtTypeIcon ->

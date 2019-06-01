@@ -45,9 +45,12 @@ class ScheduleFragment : Fragment() {
 
         retView.recyclerView_schedule.layoutManager = LinearLayoutManager(activity)
 
+        retView.fragment_schedule_progress_bar.visibility = View.VISIBLE
+
         model.events.observe(this, android.arch.lifecycle.Observer {newEvents ->
             adapter.eventList = newEvents!!
             retView.recyclerView_schedule.adapter = adapter
+            retView.fragment_schedule_progress_bar.visibility = View.INVISIBLE
         })
 
         model.currentDateString.observe(this, android.arch.lifecycle.Observer { newDate ->
