@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.confapp.event.favourite.FavouriteEventFragment
 import com.example.confapp.exhibitors.ExhibitorsFragment
 import com.example.confapp.model.CPresenter
 import com.example.confapp.model.CUser
@@ -36,7 +37,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var useremail_header: TextView
     lateinit var imageview_avatar_header: ImageView
     lateinit var login_signout_textView: TextView
-    val DEFAULT_AVATAR_URL: String = "https://firebasestorage.googleapis.com/v0/b/conf-app-14914.appspot.com/o/images%2F16480.png?alt=media&token=e43cdb99-36cb-4305-b0d2-5b63d34fc7cd"
+    val DEFAULT_AVATAR_URL: String =
+        "https://firebasestorage.googleapis.com/v0/b/conf-app-14914.appspot.com/o/images%2F16480.png?alt=media&token=e43cdb99-36cb-4305-b0d2-5b63d34fc7cd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -98,7 +100,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun verifyUserIsLoggedIn() {
 
         val uid = FirebaseAuth.getInstance().uid
-        if(uid == null){
+        if (uid == null) {
             login_signout_textView.text = "Log in"
             username_header.visibility = View.INVISIBLE
             useremail_header.visibility = View.INVISIBLE
@@ -108,10 +110,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
-        }
-        else{
+        } else {
             login_signout_textView.text = "Sign out"
-            firebaseRef.child("model/user/${uid}").addValueEventListener(object: ValueEventListener {
+            firebaseRef.child("model/user/${uid}").addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: FirebaseError?) {
                     Log.d("FIREBASE", "model from database is not loaded.")
                     username_header.text = "logcat je super - nes nevalja" //smislit pametnije
@@ -139,7 +140,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             })
         }
     }
-
 
 
     override fun onBackPressed() {
@@ -174,6 +174,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         val id = item.itemId
 
+        // TODO: use when(id) {} instead of if-else cases, it's kotlin
         if (id == R.id.nav_activityFeed) {
             // Handle the camera action
         } else if (id == R.id.nav_schedule) {
@@ -189,13 +190,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Check out this developer! \nhttps://www.linkedin.com/in/vito-medved-48aa78135/")
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "Check out this developer! \nhttps://www.linkedin.com/in/vito-medved-48aa78135/"
+                )
                 type = "text/plain"
             }
             startActivity(sendIntent)
 
         } else if (id == R.id.nav_send) {
 
+        } else if (R.id.nav_favourite_event == id) {
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FavouriteEventFragment())
+                .commit()
         }
 
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout

@@ -20,6 +20,10 @@
                 android:id="@+id/nav_exhibitors"
                 android:icon="@drawable/ic_tag_presentation"
                 android:title="Exhibitors"/>
+
+        <item   android:id="@+id/nav_favourite_event"
+                android:icon="@drawable/ic_star_gray"
+                android:title="Favourite events"/>
     </group>
 
     <item android:title="Communicate">
