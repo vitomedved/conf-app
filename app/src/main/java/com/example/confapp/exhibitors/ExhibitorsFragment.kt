@@ -46,7 +46,7 @@ class ExhibitorsFragment : Fragment() {
 
         retView = inflater.inflate(R.layout.fragment_exhibitors, container, false)
 
-        recyclerView = retView.findViewById<RecyclerView>(R.id.recyclerView_exhibitors)
+        recyclerView = retView.findViewById(R.id.recyclerView_exhibitors)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL, false)
 
         Firebase.setAndroidContext(this.context)
