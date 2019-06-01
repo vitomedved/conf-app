@@ -41,6 +41,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".user.UserProfileActivity"
+            android:theme="@style/AppTheme.popupwindow"
+        ></activity>
+
         <receiver
                 android:name=".event.notification.AlarmReceiver"
                 android:enabled="true" >

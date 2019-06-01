@@ -20,6 +20,7 @@ import com.example.confapp.model.CPresenter
 import com.example.confapp.model.CUser
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.schedule.ScheduleFragment
+import com.example.confapp.user.UserProfileActivity
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
@@ -94,6 +95,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         useremail_header = headd.findViewById(R.id.textView_userEmail_nav_header)
         imageview_avatar_header = headd.findViewById(R.id.imageView_avatar_nav_header)
         verifyUserIsLoggedIn()  //baci u onStart override?
+
+        imageview_avatar_header.setOnClickListener {
+            val intent = Intent(this, UserProfileActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 
@@ -107,7 +114,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Picasso.get().load(DEFAULT_AVATAR_URL).into(imageview_avatar_header)
 
             login_signout_textView.setOnClickListener {
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
                 startActivity(intent)
             }
         } else {
