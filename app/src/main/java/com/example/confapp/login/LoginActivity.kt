@@ -3,6 +3,7 @@ package com.example.confapp.login
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -11,6 +12,10 @@ import android.widget.Toast
 import com.example.confapp.model.CUser
 import com.example.confapp.MainActivity
 import com.example.confapp.R
+import com.firebase.client.DataSnapshot
+import com.firebase.client.Firebase
+import com.firebase.client.FirebaseError
+import com.firebase.client.ValueEventListener
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -21,6 +26,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 
 class LoginActivity : AppCompatActivity() {
     lateinit var email: EditText
@@ -30,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var gSignInClient: GoogleSignInClient
     lateinit var gso: GoogleSignInOptions
     private lateinit var auth: FirebaseAuth
+    lateinit var firebaseRef: Firebase
     val GOOGLE_SIGN_IN_RC: Int = 1
 
 
@@ -38,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
+        firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
 
         email = findViewById(R.id.editText_email_login)
         password = findViewById(R.id.editText_password_login)
@@ -50,8 +58,7 @@ class LoginActivity : AppCompatActivity() {
         gSignInClient = GoogleSignIn.getClient(this, gso)
         loginBtn.setOnClickListener {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email.text.toString(), password.text.toString())
-                .addOnCompleteListener {
-                    Toast.makeText(this, "Success!", Toast.LENGTH_LONG).show()
+                .addOnSuccessListener {
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -101,8 +108,38 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) {task ->
                 if(task.isSuccessful){
-                    Toast.makeText(this, "Google sign in SUCCESS", Toast.LENGTH_LONG).show()
-                    saveGoogleUserToFirebaseDatabase(account)
+                    Toast.makeText(this, "Google sign in SUCCESS  " + FirebaseAuth.getInstance().uid, Toast.LENGTH_LONG).show()
+                    val uid = FirebaseAuth.getInstance().uid
+                    var flag : Boolean = false
+                    firebaseRef.child("model/user/").addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(p0: FirebaseError?) {
+                            Log.d("FIREBASE", "model from database is not loaded.")
+
+                            return
+                        }
+
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val users = dataSnapshot!!.children
+                            users.forEach{
+                                if(uid == it.key.toString()){
+                                    flag = true
+                                    Toast.makeText(this@LoginActivity, "Found him -> " + it.key.toString(), Toast.LENGTH_LONG).show()
+                                }
+                                //Toast.makeText(this@LoginActivity, it.key.toString(), Toast.LENGTH_LONG).show()
+                            }
+                            if(flag == false){
+                                saveGoogleUserToFirebaseDatabase(account)
+                            }else{
+                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                startActivity(intent)
+                            }
+
+                        }
+                    })
+
+
+
+
                 }
                 else{
                     Toast.makeText(this, "Error!!", Toast.LENGTH_LONG).show()
@@ -115,6 +152,8 @@ class LoginActivity : AppCompatActivity() {
     private fun saveGoogleUserToFirebaseDatabase(account: GoogleSignInAccount) {
 
         val uid = FirebaseAuth.getInstance().uid ?: ""
+
+
         val databaseRef = FirebaseDatabase.getInstance().getReference("/model/user/$uid")
 
         val user: CUser = CUser(
@@ -125,23 +164,29 @@ class LoginActivity : AppCompatActivity() {
             "-1"
             , mutableListOf("-1", "-2")
         )
-
-        /*databaseRef.setValue(user)
+        // odkomentiram 129 - 139
+        databaseRef.setValue(user)
             .addOnSuccessListener {
-                Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
+
 
                 //Handler().postDelayed({progress.dismiss()}, 5000)
+
+                // MOZDA ODKOMENTIRAT
+
+                Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
-            }*/
+            }
         Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
-
+/*
         //Handler().postDelayed({progress.dismiss()}, 5000)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        */
     }
 
     override fun onBackPressed() {
