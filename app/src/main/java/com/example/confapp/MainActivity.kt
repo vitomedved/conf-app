@@ -185,7 +185,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // TODO: use when(id) {} instead of if-else cases, it's kotlin
         if (id == R.id.nav_activityFeed) {
-            // Handle the camera action
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AboutFragment())
+                .commit()
         } else if (id == R.id.nav_schedule) {
             var fragmentTransaction = supportFragmentManager.beginTransaction()
             fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment()).commit()
