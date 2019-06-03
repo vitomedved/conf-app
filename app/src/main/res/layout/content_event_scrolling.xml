@@ -30,5 +30,16 @@
                 android:lineSpacingExtra="@dimen/smallest_spacing" android:layout_marginBottom="@dimen/text_margin"
                 android:textSize="@dimen/textSize_medium" android:textColor="@color/darkBlue"
                 android:layout_below="@+id/textView_aboutTitle"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:background="@color/lightestBlue"
+                      android:layout_below="@+id/textView_aboutTitle">
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+            />
+        </LinearLayout>
+
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

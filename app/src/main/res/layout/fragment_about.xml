@@ -19,7 +19,7 @@
             app:layout_constraintHorizontal_bias="0.01"
             app:layout_constraintVertical_bias="0.01"
             android:gravity="center_vertical"
-            android:id="@+id/linearLayout2">
+            android:id="@+id/linearLayout_Date">
 
         <ImageView android:layout_width="60dp"
                    android:layout_height="60dp"
@@ -52,13 +52,14 @@
             app:layout_constraintHorizontal_bias="0.0"
             android:gravity="center_vertical"
             android:id="@+id/linearLayout3" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" app:layout_constraintVertical_bias="0.03">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_Date"
+            app:layout_constraintVertical_bias="0.03">
         <TextView
                 android:text="@string/confDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:id="@+id/textView2"
+                android:id="@+id/textView_eventDescription"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
@@ -68,7 +69,6 @@
         />
 
     </LinearLayout>
-
 
 
 </android.support.constraint.ConstraintLayout>

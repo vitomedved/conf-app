@@ -17,6 +17,7 @@ class CEvent (
     , var id: String = ""
     , val name: String = ""
     , val presenters: List<String> = emptyList()
+    , val comments: List<CComment> = emptyList()
     //, val time: String = ""
     , val type: String = ""
 ) : Serializable{

@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })*/
 
+
         var testtt = findViewById<NavigationView>(R.id.nav_view)
         var headd = testtt.getHeaderView(0)
         login_signout_textView = headd.findViewById(R.id.textView_log_in_sign_out_nav_header)
@@ -187,17 +188,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (id == R.id.nav_activityFeed) {
             // Handle the camera action
         } else if (id == R.id.nav_schedule) {
-            var fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.fragment_container, ScheduleFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ScheduleFragment()).commit()
         } else if (id == R.id.nav_about) {
-
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AboutFragment()).commit()
         } else if (id == R.id.nav_exhibitors) {
-            var fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.fragment_container, ExhibitorsFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ExhibitorsFragment()).commit()
 
         } else if (id == R.id.nav_share) {
 
             val sendIntent: Intent = Intent().apply {
+
                 action = Intent.ACTION_SEND
                 putExtra(
                     Intent.EXTRA_TEXT,

@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_event_scrolling.*
 import kotlinx.android.synthetic.main.content_event_scrolling.*
 import java.util.*
 import com.example.confapp.MainActivity
+import com.example.confapp.exhibitors.ExhibitorsRecyclerAdapter
 
 
 class EventScrollingActivity : AppCompatActivity() {
@@ -50,6 +51,11 @@ class EventScrollingActivity : AppCompatActivity() {
         button_favorite = findViewById(R.id.button_favorite)
 
         val viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+         /*
+        viewModel.comments.observe(this, Observer {
+
+        })
+        */
 
         viewModel.currentEvent.observe(this, Observer {
             viewModel.updateEventLiveData()

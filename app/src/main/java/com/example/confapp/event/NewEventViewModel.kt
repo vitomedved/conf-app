@@ -8,6 +8,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel;
 import android.widget.DatePicker
 import android.widget.TimePicker
+import com.example.confapp.model.CComment
 import com.example.confapp.model.CEvent
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -67,8 +68,11 @@ class NewEventViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, TimeP
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val stringDateTime = sdf.format(eventDate.time)
 
+        val comments = CComment()
+
         val eventUid = UUID.randomUUID().toString()
-        val event = CEvent(about, stringDateTime, duration.toInt(), hall, eventUid, name, presenterIds, type.toLowerCase())
+        val event = CEvent(about, stringDateTime, duration.toInt(), hall, eventUid, name, presenterIds,
+            listOf(comments), type.toLowerCase())
 
         saveEventToDatabase(event)
 
