@@ -129,22 +129,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for(child in dataSnapshot.children){
-                        val usr: CUser = child.getValue(CUser::class.java)
+                    val usr: CUser = dataSnapshot.getValue(CUser::class.java)
 
-                        val url = usr.avatar_url
-                        Picasso.get().load(url).into(imageview_avatar_header)
-                        username_header.visibility = View.VISIBLE
-                        useremail_header.visibility = View.VISIBLE
-                        username_header.text = usr.name
-                        useremail_header.text = usr.mail
+                    val url = usr.avatar_url
+                    Picasso.get().load(url).into(imageview_avatar_header)
+                    username_header.visibility = View.VISIBLE
+                    useremail_header.visibility = View.VISIBLE
+                    username_header.text = usr.name
+                    useremail_header.text = usr.mail
 
-                        login_signout_textView.setOnClickListener {
-                            FirebaseAuth.getInstance().signOut()
-                            val intent = Intent(this@MainActivity, LoginActivity::class.java)
-                            startActivity(intent)
-                        }
-
+                    login_signout_textView.setOnClickListener {
+                        FirebaseAuth.getInstance().signOut()
+                        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                        startActivity(intent)
                     }
 
 
