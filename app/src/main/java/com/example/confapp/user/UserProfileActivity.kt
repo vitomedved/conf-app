@@ -25,6 +25,7 @@ import com.example.confapp.login.RegistrationActivity
 class UserProfileActivity : AppCompatActivity(){
     lateinit var avatar: ImageView
     lateinit var name: TextView
+    lateinit var type: TextView
     lateinit var firebaseRef: Firebase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,7 @@ class UserProfileActivity : AppCompatActivity(){
         avatar = findViewById(com.example.confapp.R.id.imageView_avatar_userpopup)
 
         name = findViewById(com.example.confapp.R.id.user_name)
-
+        type = findViewById(com.example.confapp.R.id.user_type)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
         val uid = FirebaseAuth.getInstance().uid
@@ -55,10 +56,12 @@ class UserProfileActivity : AppCompatActivity(){
                     val url = usr.avatar_url
                     Picasso.get().load(url).into(avatar)
 
-
                     name.text = usr.name
-
-
+                    if(usr.level == 9){
+                        type.text = "Guest"
+                    }else{
+                        type.text = "sanko je sjebo.."
+                    }
 
                 }
             })

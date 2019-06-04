@@ -145,7 +145,8 @@ class RegistrationActivity : AppCompatActivity() {
             email.text.toString(),
             username.text.toString(),
             password.text.toString().hashCode().toString()  //nac bolji hash?
-            , mutableListOf("-1", "-2")
+            , mutableListOf("-1", "-2"),
+            9
         )
         ref.setValue(user)
             .addOnSuccessListener {

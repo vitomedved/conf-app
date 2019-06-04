@@ -162,7 +162,8 @@ class LoginActivity : AppCompatActivity() {
             account.email!!,
             account.displayName!!,
             "-1"
-            , mutableListOf("-1", "-2")
+            , mutableListOf("-1", "-2"),
+            9
         )
         // odkomentiram 129 - 139
         databaseRef.setValue(user)
