@@ -109,7 +109,7 @@ class NewEventFragment : Fragment() {
 
             }else{
                 Toast.makeText(context, "No internet connection, event not added", Toast.LENGTH_LONG).show()
-            }
+            } // gdje se ono zapisuje novi event u bazu?
         }
 
         return retView

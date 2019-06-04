@@ -9,8 +9,9 @@ import com.example.confapp.R
 import com.example.confapp.model.CComment
 
 
-class CommentsRecyclerAdapter(val commentsList: MutableList<CComment>):  RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
+class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
 
+    private var commentsList: MutableList<CComment> = mutableListOf()
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val commentDate = itemView.findViewById(R.id.textView_commentDate) as TextView
@@ -34,4 +35,12 @@ class CommentsRecyclerAdapter(val commentsList: MutableList<CComment>):  Recycle
         p0.commentAuthor.text = comment.author
         p0.commentContent.text = comment.content
     }
+
+    fun setData(comments: MutableList<CComment>){
+        commentsList.clear()
+        commentsList.addAll(comments)
+
+        notifyDataSetChanged()//sec mozda je problem u xml-u id i to
+    }//radi? ne crasha, ali ne prikazuje niš ajde ponovno
+
 }

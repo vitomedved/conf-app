@@ -95,7 +95,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun handleResult(completedTask: Task<GoogleSignInAccount>) {
         try {
-            val account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)
+            val account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)!!
 
             firebaseAuthWithGoogle(account!!)
         }catch (e: ApiException){

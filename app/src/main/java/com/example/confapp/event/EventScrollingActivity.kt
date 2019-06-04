@@ -7,7 +7,11 @@ import com.example.confapp.R
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import com.example.confapp.NotificationUtils
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.model.CEvent
@@ -16,7 +20,9 @@ import kotlinx.android.synthetic.main.activity_event_scrolling.*
 import kotlinx.android.synthetic.main.content_event_scrolling.*
 import java.util.*
 import com.example.confapp.MainActivity
+import com.example.confapp.event.comment.CommentsRecyclerAdapter
 import com.example.confapp.exhibitors.ExhibitorsRecyclerAdapter
+import com.example.confapp.model.CComment
 
 
 class EventScrollingActivity : AppCompatActivity() {
@@ -40,6 +46,8 @@ class EventScrollingActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var recyclerView: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_scrolling)
@@ -51,11 +59,18 @@ class EventScrollingActivity : AppCompatActivity() {
         button_favorite = findViewById(R.id.button_favorite)
 
         val viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
-         /*
+
+        recyclerView = findViewById(R.id.recyclerView_comments)
+        recyclerView.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+        val adapter = CommentsRecyclerAdapter()
+        recyclerView.adapter = adapter
+
         viewModel.comments.observe(this, Observer {
+            newCommentsList ->
+            adapter.setData(newCommentsList as MutableList<CComment>)
 
         })
-        */
+
 
         viewModel.currentEvent.observe(this, Observer {
             viewModel.updateEventLiveData()
@@ -100,14 +115,19 @@ class EventScrollingActivity : AppCompatActivity() {
         val serializableEvt = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT)
         val currEvt: CEvent
 
+        var evtId = ""
+
         if(serializableEvt != null){
             currEvt = serializableEvt as CEvent
             viewModel.updateCurrentEvent(currEvt)
+            evtId = currEvt.id
         }else{
-            val evtId = intent.getStringExtra("eventId")
+            evtId = intent.getStringExtra("eventId")
             viewModel.updateCurrentEvent(evtId)
             this.title = viewModel.evtName.value
         }
+// da odem na event?da
+        viewModel.getCommentsFromDatabase(evtId)
 
         if(viewModel.isUserLoggedIn()){
             button_favorite.setOnClickListener { view ->

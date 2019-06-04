@@ -43,7 +43,7 @@ class ScheduleFragment : Fragment() {
 
         retView = inflater.inflate(R.layout.fragment_schedule, container, false)
 
-        retView.recyclerView_schedule.layoutManager = LinearLayoutManager(activity)
+        retView.recyclerView_schedule.layoutManager = LinearLayoutManager(activity)// to fali
 
         retView.fragment_schedule_progress_bar.visibility = View.VISIBLE
 

@@ -156,7 +156,7 @@ class EventViewModel: ViewModel() {
         })
     }
 
-    fun getCommentsFromDatabase(id: String){
+    fun getCommentsFromDatabase(id: String){//odi ponovno u scrolling activity  crasha mi se sada na t
 
         FirebaseDatabase.getInstance().reference.child("Data/event/$id/comment").ref.addListenerForSingleValueEvent(object:
             ValueEventListener {
@@ -170,7 +170,7 @@ class EventViewModel: ViewModel() {
                     val comment: CComment = commentSnapshot.getValue(CComment::class.java)!!
 
                     comments.add(comment)
-                }
+                }//
 
                 m_comments.value = comments
 
