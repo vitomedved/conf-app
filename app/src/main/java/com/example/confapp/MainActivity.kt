@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
@@ -99,10 +100,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         imageview_avatar_header = headd.findViewById(R.id.imageView_avatar_nav_header)
         verifyUserIsLoggedIn()  //baci u onStart override?
 
+        val uid = FirebaseAuth.getInstance().uid
+
         imageview_avatar_header.setOnClickListener {
-            val intent = Intent(this, UserProfileActivity::class.java)
-            startActivity(intent)
+            if (uid != null){
+                val intent = Intent(this, UserProfileActivity::class.java)
+                startActivity(intent)
+            }else{
+                makeAlert()
+            }
+
         }
+
+    }
+
+    private fun makeAlert(){
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("User Profile")
+            .setMessage("To see user profile you need to be logged in, would you like to log in now?")
+            .setPositiveButton("YES"){dialog, which ->
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+            .setNeutralButton("Cancel"){dialog, which ->
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
 
     }
 
