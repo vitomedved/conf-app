@@ -49,12 +49,15 @@
                           android:hint="@string/write_a_comment"
                           android:id="@+id/editText_comment"
                           android:inputType="textCapSentences|textAutoCorrect"
+                          android:maxLength="150"
+
                 />
                 <Button android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:id="@+id/button_sendComment"
-                        android:text="@string/sendComment"/>
+                        android:background="@drawable/ic_menu_send"
+                        android:backgroundTint="@color/lightBlue"/>
 
             </LinearLayout>
 

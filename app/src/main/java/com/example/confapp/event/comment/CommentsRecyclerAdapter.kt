@@ -1,17 +1,21 @@
 package com.example.confapp.event.comment
 
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.confapp.R
 import com.example.confapp.model.CComment
+import com.example.confapp.model.CUser
+import kotlin.collections.forEach as forEach1
 
 
 class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
 
     private var commentsList: MutableList<CComment> = mutableListOf()
+    private var usersList: MutableList<CUser> = mutableListOf()
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val commentDate = itemView.findViewById(R.id.textView_commentDate) as TextView
@@ -31,16 +35,31 @@ class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.V
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val comment: CComment = commentsList[p1]
+
+        var myUser: CUser = CUser("","", "", comment.author)
+        for (user in usersList) {
+            if (user.uid == comment.author){
+                myUser = user
+            }
+        }
+
         p0.commentDate.text = comment.date
-        p0.commentAuthor.text = comment.author
+        p0.commentAuthor.text = myUser.name
         p0.commentContent.text = comment.content
+    }
+
+    fun updateUsers(newUsers: MutableList<CUser>){
+        usersList.clear()
+        usersList.addAll(newUsers)
+
+        notifyDataSetChanged()
     }
 
     fun setData(comments: MutableList<CComment>){
         commentsList.clear()
         commentsList.addAll(comments)
 
-        notifyDataSetChanged()//sec mozda je problem u xml-u id i to
-    }//radi? ne crasha, ali ne prikazuje niš ajde ponovno
+        notifyDataSetChanged()
+    }
 
 }

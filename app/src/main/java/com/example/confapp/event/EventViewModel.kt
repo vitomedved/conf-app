@@ -66,7 +66,9 @@ class EventViewModel: ViewModel() {
     val comments: MutableLiveData<List<CComment>>
         get() = m_comments
 
-
+    private val m_users = MutableLiveData<List<CUser>>()
+    val users: MutableLiveData<List<CUser>>
+        get() = m_users
 
 
 
@@ -203,6 +205,54 @@ class EventViewModel: ViewModel() {
             }
         })
     }
+
+    fun getUsersFromDatabase(){
+
+        FirebaseDatabase.getInstance().reference.child("model/user").ref.addListenerForSingleValueEvent(object:
+            ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("EventViewModel", "User can not be loaded.")
+            }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val users: MutableList<CUser> = mutableListOf()
+
+                for(commentSnapshot in dataSnapshot.children){
+                    val user: CUser = commentSnapshot.getValue(CUser::class.java)!!
+
+                    users.add(user)
+                }
+
+                m_users.value = users
+            }
+        })
+    }
+
+/*
+    fun getUsernameById(id: String): String {
+        var userName = ""
+
+        FirebaseDatabase.getInstance().reference.child("model/user/$id").ref.addListenerForSingleValueEvent(object:
+            ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("EventViewModel", "Username can not be loaded via ID.")
+                userName=id
+            }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                //userName = dataSnapshot.value!!.toString()
+                //Log.d("probica", id)
+                //Log.d("probica", dataSnapshot.getValue(CUser::class.java)?.name.toString())
+                if (dataSnapshot.getValue(CUser::class.java)?.name != null) {
+                    userName =  dataSnapshot.getValue(CUser::class.java)?.name.toString()
+                }else{
+                    userName = id
+                }
+            }
+        })
+
+        return userName
+    }
+*/
+
 
     fun isUserLoggedIn(): Boolean{
         return m_currentFirebaseUser != null
