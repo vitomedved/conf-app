@@ -18,7 +18,7 @@ class CEvent (
     , val name: String = ""
     , val presenters: List<String> = emptyList()
     // TODO zasto ne radi s comment ?
-    , val comments: List<Int> = emptyList()
+    , val comments: List<String> = emptyList()
     //, val time: String = ""
     , val type: String = ""
 ) : Serializable{

@@ -68,13 +68,10 @@ class NewEventViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, TimeP
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val stringDateTime = sdf.format(eventDate.time)
 
-        // neka bude ovako za sada ok samo prva dva komentara onda zanemari, tj one koji su prazni
-        // ako ovo nece raditi, a moguce da nece onda stavi ovako to isprobaj
-
         // val comment = CComment(-1, "dummy", "dummy", "dummy")
         val eventUid = UUID.randomUUID().toString()
         val event = CEvent(about, stringDateTime, duration.toInt(), hall, eventUid, name, presenterIds,
-            listOf(-1, -1), type.toLowerCase())
+            listOf("-1", "-1"), type.toLowerCase())
 
         saveEventToDatabase(event)
 

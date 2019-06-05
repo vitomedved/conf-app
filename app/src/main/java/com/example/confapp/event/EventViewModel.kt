@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
-import com.example.confapp.NotificationUtils
 import com.example.confapp.model.CEvent
 import com.example.confapp.R
 import com.example.confapp.model.CComment
@@ -12,9 +11,7 @@ import com.example.confapp.model.CUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.timer
 
 
 class EventViewModel: ViewModel() {
@@ -70,7 +67,6 @@ class EventViewModel: ViewModel() {
         get() = m_comments
 
 
-    //private var m_currentTime = Calendar.getInstance().getTime();
 
 
 
@@ -162,7 +158,31 @@ class EventViewModel: ViewModel() {
         })
     }
 
-    fun getCommentsFromDatabase(id: String){//odi ponovno u scrolling activity  crasha mi se sada na t
+
+    fun onSendCommentClick(eventId: String, date: String, content: String): Boolean {
+
+        if(content == ""){
+            return false
+        }
+
+        var author = m_currentUser!!.uid
+        val commentUid = UUID.randomUUID().toString()
+        val comment = CComment(commentUid, author, content, date)
+
+        saveCommentToDatabase(eventId, comment)
+
+        return true
+    }
+
+
+    private fun saveCommentToDatabase(id: String, comment: CComment) {
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
+        val key = ref.child("Data/event/$id/comment").push().key
+        comment.id = key!!
+        ref.child("Data/event/$id/comment/$key").setValue(comment)
+    }
+
+    fun getCommentsFromDatabase(id: String){
 
         FirebaseDatabase.getInstance().reference.child("Data/event/$id/comment").ref.addListenerForSingleValueEvent(object:
             ValueEventListener {
@@ -176,7 +196,7 @@ class EventViewModel: ViewModel() {
                     val comment: CComment = commentSnapshot.getValue(CComment::class.java)!!
 
                     comments.add(comment)
-                }//
+                }
 
                 m_comments.value = comments
 

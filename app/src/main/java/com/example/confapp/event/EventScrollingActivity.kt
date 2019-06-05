@@ -1,17 +1,18 @@
 package com.example.confapp.event
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import com.example.confapp.R
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
+import android.widget.Toast
 import com.example.confapp.NotificationUtils
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.model.CEvent
@@ -21,8 +22,11 @@ import kotlinx.android.synthetic.main.content_event_scrolling.*
 import java.util.*
 import com.example.confapp.MainActivity
 import com.example.confapp.event.comment.CommentsRecyclerAdapter
-import com.example.confapp.exhibitors.ExhibitorsRecyclerAdapter
 import com.example.confapp.model.CComment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
 
 
 class EventScrollingActivity : AppCompatActivity() {
@@ -46,8 +50,29 @@ class EventScrollingActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun makeAlert(){
+        val builder = AlertDialog.Builder(this)
+
+        builder.setTitle("User Profile")
+            .setMessage("You must be logged in to post a comment, would you like to log in now?")
+            .setPositiveButton("YES"){dialog, which ->
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+            .setNeutralButton("Cancel"){dialog, which ->
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+
+    }
+
+
+
     private lateinit var recyclerView: RecyclerView
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_scrolling)
@@ -55,6 +80,7 @@ class EventScrollingActivity : AppCompatActivity() {
 
         event_scrolling_activity_progress_bar_header.visibility = View.VISIBLE
         event_scrolling_activity_progress_bar_content.visibility = View.VISIBLE
+
 
         button_favorite = findViewById(R.id.button_favorite)
 
@@ -65,13 +91,16 @@ class EventScrollingActivity : AppCompatActivity() {
         val adapter = CommentsRecyclerAdapter()
         recyclerView.adapter = adapter
 
+
         viewModel.comments.observe(this, Observer {
             newCommentsList ->
             adapter.setData(newCommentsList as MutableList<CComment>)
 
         })
 
-
+        val currentDate  = Calendar.getInstance().time
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val stringDateTime = sdf.format(currentDate)
 
 
 
@@ -115,6 +144,11 @@ class EventScrollingActivity : AppCompatActivity() {
 
 
 
+
+
+
+
+
         val serializableEvt = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT)
         val currEvt: CEvent
 
@@ -129,8 +163,11 @@ class EventScrollingActivity : AppCompatActivity() {
             viewModel.updateCurrentEvent(evtId)
             this.title = viewModel.evtName.value
         }
-// da odem na event?da
+
         viewModel.getCommentsFromDatabase(evtId)
+        //viewModel.onSendCommentClick()
+
+
 
         if(viewModel.isUserLoggedIn()){
             button_favorite.setOnClickListener { view ->
@@ -144,11 +181,24 @@ class EventScrollingActivity : AppCompatActivity() {
                     NotificationUtils().setNotification(Calendar.getInstance().timeInMillis + 5000, viewModel.currentEvent.value!!, this)
                 }
             }
+
+            button_sendComment.setOnClickListener {
+                editText_comment.text.toString()
+
+                if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString())) {
+                    Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
+                }
+
+            }
         }
         else{
             button_favorite.setOnClickListener { view ->
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+            }
+
+            button_sendComment.setOnClickListener {
+                makeAlert()
             }
         }
     }
