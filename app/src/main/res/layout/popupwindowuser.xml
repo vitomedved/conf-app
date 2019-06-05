@@ -7,87 +7,87 @@
             android:layout_height="match_parent"
             tools:context=".login.RegistrationActivity" android:background="@color/darkestBlue">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent" android:background="@color/betweenDarkBlue">
-    <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="287dp"
-            tools:srcCompat="@tools:sample/avatars"
-            android:id="@+id/imageView_avatar_userpopup"/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:background="@color/betweenDarkBlue">
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="287dp"
+                tools:srcCompat="@tools:sample/avatars"
+                android:id="@+id/imageView_avatar_userpopup"/>
 
-    <ImageButton
-            android:layout_width="59dp"
-            android:layout_height="47dp"
-            android:id="@+id/mail_icon"
-            android:layout_below="@+id/imageView_avatar_userpopup"
-            android:src="@android:drawable/ic_dialog_email"
-            android:background="@null"/>
+        <ImageButton
+                android:layout_width="59dp"
+                android:layout_height="47dp"
+                android:id="@+id/mail_icon"
+                android:layout_below="@+id/imageView_avatar_userpopup"
+                android:src="@android:drawable/ic_dialog_email"
+                android:background="@null"/>
 
-    <TextView
-            android:text="email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_email"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_below="@+id/imageView_avatar_userpopup"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/mail_icon"
-            android:layout_centerInParent="true"
-            android:textAlignment="center" android:layout_marginTop="13dp" android:layout_marginRight="6dp"/>
+        <TextView
+                android:text="email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_email"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_below="@+id/imageView_avatar_userpopup"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/mail_icon"
+                android:layout_centerInParent="true"
+                android:textAlignment="center" android:layout_marginTop="13dp" android:layout_marginRight="6dp"/>
 
-    <TextView
-            android:text="Name: "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_name_text"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_below="@+id/user_email"
-            android:layout_alignParentLeft="true"/>
+        <TextView
+                android:text="Name: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_name_text"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_below="@+id/user_email"
+                android:layout_alignParentLeft="true"/>
 
-    <TextView
-            android:text="ime prezime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_name"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_below="@+id/user_email"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/user_name_text"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"/>
-    <TextView
-            android:text="Type: "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_type_text"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_below="@+id/user_name_text"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"/>
-    <TextView
-            android:text="tip korisnika"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_type"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_below="@+id/user_name"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/user_type_text"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:textAlignment="center"/>
+        <TextView
+                android:text="ime prezime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_name"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_below="@+id/user_email"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/user_name_text"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center"/>
+        <TextView
+                android:text="Type: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_type_text"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_below="@+id/user_name_text"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center"/>
+        <TextView
+                android:text="tip korisnika"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_type"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_below="@+id/user_name"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/user_type_text"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center"/>
 
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </ScrollView>
