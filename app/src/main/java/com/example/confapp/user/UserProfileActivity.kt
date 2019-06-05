@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.confapp.model.CUser
@@ -26,6 +27,8 @@ class UserProfileActivity : AppCompatActivity(){
     lateinit var avatar: ImageView
     lateinit var name: TextView
     lateinit var type: TextView
+    lateinit var mail: TextView
+    lateinit var mail_icon: ImageButton
     lateinit var firebaseRef: Firebase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +40,14 @@ class UserProfileActivity : AppCompatActivity(){
 
         name = findViewById(com.example.confapp.R.id.user_name)
         type = findViewById(com.example.confapp.R.id.user_type)
+        mail = findViewById(com.example.confapp.R.id.user_email)
+        mail_icon = findViewById(com.example.confapp.R.id.mail_icon)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
         val uid = intent.getStringExtra("uid").toString()
         //Toast.makeText(this, uid, Toast.LENGTH_LONG).show()
+
+        val logged_uid = FirebaseAuth.getInstance().uid
 
         firebaseRef.child("model/user/${uid}").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: FirebaseError?) {
@@ -56,10 +63,27 @@ class UserProfileActivity : AppCompatActivity(){
                 Picasso.get().load(url).into(avatar)
 
                 name.text = usr.name
+                mail.text = usr.mail
+
                 if(usr.level == 9){
                     type.text = "Guest"
                 }else{
                     type.text = "sanko je sjebo.."
+                }
+
+                mail_icon.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.type = "text/html"
+                    intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>("rasanko@gmail.com"))
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Conf App")
+                    intent.putExtra(Intent.EXTRA_TEXT, "Type message here")
+                    startActivity(intent)
+                }
+
+                if(logged_uid == uid){
+                    mail_icon.visibility = View.INVISIBLE
+                }else{
+                    mail_icon.visibility = View.VISIBLE
                 }
 
             }
@@ -73,7 +97,7 @@ class UserProfileActivity : AppCompatActivity(){
         var height : Int = dm.heightPixels
 
         width = (width * 0.8).toInt()
-        height = (height * 0.6).toInt()
+        height = (height * 0.6).toInt() //malo vidjet kako se renderira
 
         getWindow().setLayout(width, height)
 
