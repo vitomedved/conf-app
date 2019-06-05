@@ -23,9 +23,7 @@ import java.util.*
 import com.example.confapp.MainActivity
 import com.example.confapp.event.comment.CommentsRecyclerAdapter
 import com.example.confapp.model.CComment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
+import com.example.confapp.model.CUser
 import java.text.SimpleDateFormat
 
 
@@ -91,6 +89,7 @@ class EventScrollingActivity : AppCompatActivity() {
         val adapter = CommentsRecyclerAdapter()
         recyclerView.adapter = adapter
 
+        viewModel.getUsersFromDatabase()
 
         viewModel.comments.observe(this, Observer {
             newCommentsList ->
@@ -142,9 +141,10 @@ class EventScrollingActivity : AppCompatActivity() {
             button_favorite.setImageResource(favIcon!!)
         })
 
-
-
-
+        viewModel.users.observe(this, Observer {users ->
+            viewModel.getUsersFromDatabase()
+            adapter.updateUsers(users as MutableList<CUser>)
+        })
 
 
 
@@ -165,7 +165,6 @@ class EventScrollingActivity : AppCompatActivity() {
         }
 
         viewModel.getCommentsFromDatabase(evtId)
-        //viewModel.onSendCommentClick()
 
 
 
@@ -203,3 +202,4 @@ class EventScrollingActivity : AppCompatActivity() {
         }
     }
 }
+
