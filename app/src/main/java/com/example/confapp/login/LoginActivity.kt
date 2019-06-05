@@ -193,7 +193,7 @@ class LoginActivity : AppCompatActivity() {
         */
     }
 
-    fun getCurrentDate(): String{
+    private fun getCurrentDate(): String{
         val currentDate  = Calendar.getInstance().time
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         val stringDateTime = sdf.format(currentDate)
