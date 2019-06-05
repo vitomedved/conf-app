@@ -105,6 +105,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         imageview_avatar_header.setOnClickListener {
             if (uid != null){
                 val intent = Intent(this, UserProfileActivity::class.java)
+                intent.putExtra("uid", uid)
                 startActivity(intent)
             }else{
                 makeAlert()

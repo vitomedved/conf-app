@@ -39,46 +39,45 @@ class UserProfileActivity : AppCompatActivity(){
         type = findViewById(com.example.confapp.R.id.user_type)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
-        val uid = FirebaseAuth.getInstance().uid
+        val uid = intent.getStringExtra("uid").toString()
         //Toast.makeText(this, uid, Toast.LENGTH_LONG).show()
-        if (uid != null){
 
-            firebaseRef.child("model/user/${uid}").addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(p0: FirebaseError?) {
-                    Log.d("FIREBASE", "model from database is not loaded.")
+        firebaseRef.child("model/user/${uid}").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: FirebaseError?) {
+                Log.d("FIREBASE", "model from database is not loaded.")
 
-                    return
+                return
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val usr: CUser = dataSnapshot.getValue(CUser::class.java)
+
+                val url = usr.avatar_url
+                Picasso.get().load(url).into(avatar)
+
+                name.text = usr.name
+                if(usr.level == 9){
+                    type.text = "Guest"
+                }else{
+                    type.text = "sanko je sjebo.."
                 }
 
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val usr: CUser = dataSnapshot.getValue(CUser::class.java)
-
-                    val url = usr.avatar_url
-                    Picasso.get().load(url).into(avatar)
-
-                    name.text = usr.name
-                    if(usr.level == 9){
-                        type.text = "Guest"
-                    }else{
-                        type.text = "sanko je sjebo.."
-                    }
-
-                }
-            })
+            }
+        })
 
 
-            var dm : DisplayMetrics = DisplayMetrics()
-            getWindowManager().defaultDisplay.getMetrics(dm)
+        var dm : DisplayMetrics = DisplayMetrics()
+        getWindowManager().defaultDisplay.getMetrics(dm)
 
-            var width : Int = dm.widthPixels
-            var height : Int = dm.heightPixels
+        var width : Int = dm.widthPixels
+        var height : Int = dm.heightPixels
 
-            width = (width * 0.8).toInt()
-            height = (height * 0.6).toInt()
+        width = (width * 0.8).toInt()
+        height = (height * 0.6).toInt()
 
-            getWindow().setLayout(width, height)
+        getWindow().setLayout(width, height)
 
-        }
+
 
     }
 
