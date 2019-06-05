@@ -7,8 +7,8 @@ class CUser(
     val name: String = "",
     val password: String = "",
     val subscribedEvents: MutableList<String> = mutableListOf(),
-    val level: Int = 9
-    //val date_joined: Date
+    val level: Int = 9,
+    val date_joined: String = ""
 ) {
 
 

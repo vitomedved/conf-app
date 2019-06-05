@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.text.SimpleDateFormat
 import java.util.*
 
 class RegistrationActivity : AppCompatActivity() {
@@ -146,7 +147,8 @@ class RegistrationActivity : AppCompatActivity() {
             username.text.toString(),
             password.text.toString().hashCode().toString()  //nac bolji hash?
             , mutableListOf("-1", "-2"),
-            9
+            9,
+            getCurrentDate()
         )
         ref.setValue(user)
             .addOnSuccessListener {
@@ -161,7 +163,13 @@ class RegistrationActivity : AppCompatActivity() {
             }
 
     }
+    fun getCurrentDate(): String{
+        val currentDate  = Calendar.getInstance().time
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val stringDateTime = sdf.format(currentDate)
 
+        return stringDateTime
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()

@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LoginActivity : AppCompatActivity() {
     lateinit var email: EditText
@@ -163,7 +165,8 @@ class LoginActivity : AppCompatActivity() {
             account.displayName!!,
             "-1"
             , mutableListOf("-1", "-2"),
-            9
+            9,
+            getCurrentDate()
         )
         // odkomentiram 129 - 139
         databaseRef.setValue(user)
@@ -188,6 +191,14 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         */
+    }
+
+    fun getCurrentDate(): String{
+        val currentDate  = Calendar.getInstance().time
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val stringDateTime = sdf.format(currentDate)
+
+        return stringDateTime
     }
 
     override fun onBackPressed() {

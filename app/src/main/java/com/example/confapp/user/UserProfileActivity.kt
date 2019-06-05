@@ -29,6 +29,7 @@ class UserProfileActivity : AppCompatActivity(){
     lateinit var type: TextView
     lateinit var mail: TextView
     lateinit var mail_icon: ImageButton
+    lateinit var date_joined: TextView
     lateinit var firebaseRef: Firebase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,7 @@ class UserProfileActivity : AppCompatActivity(){
         type = findViewById(com.example.confapp.R.id.user_type)
         mail = findViewById(com.example.confapp.R.id.user_email)
         mail_icon = findViewById(com.example.confapp.R.id.mail_icon)
+        date_joined = findViewById(com.example.confapp.R.id.date_joined_user)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
         val uid = intent.getStringExtra("uid").toString()
@@ -64,6 +66,7 @@ class UserProfileActivity : AppCompatActivity(){
 
                 name.text = usr.name
                 mail.text = usr.mail
+                date_joined.text = usr.date_joined
 
                 if(usr.level == 9){
                     type.text = "Guest"
