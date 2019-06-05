@@ -72,6 +72,9 @@ class EventScrollingActivity : AppCompatActivity() {
         })
 
 
+
+
+
         viewModel.currentEvent.observe(this, Observer {
             viewModel.updateEventLiveData()
             event_scrolling_activity_progress_bar_header.visibility = View.INVISIBLE

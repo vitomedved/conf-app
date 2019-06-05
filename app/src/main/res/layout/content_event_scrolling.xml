@@ -32,9 +32,30 @@
                 android:layout_below="@+id/textView_aboutTitle"/>
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
+                      android:layout_below="@id/textView_aboutEvent"
+                      android:orientation="horizontal"
+                      android:id="@+id/writeACommentContainer"
+                      android:weightSum="1">
+            <EditText android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="0.8"
+                      android:hint="@string/write_a_comment"
+                      android:id="@+id/editText_comment"
+                      android:inputType="textCapSentences|textAutoCorrect"
+                      />
+            <Button android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:id="@+id/button_sendComment"
+                    android:text="@string/sendComment"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
                       android:background="@color/lightestBlue"
                       android:id="@+id/comments_container"
-                      android:layout_below="@id/textView_aboutEvent" android:orientation="vertical">
+                      android:layout_below="@id/writeACommentContainer" android:orientation="vertical">
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView_comments"
                     android:layout_width="match_parent"

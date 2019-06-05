@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timer
 
+
 class EventViewModel: ViewModel() {
 
     companion object {
@@ -67,6 +68,11 @@ class EventViewModel: ViewModel() {
     private val m_comments = MutableLiveData<List<CComment>>()
     val comments: MutableLiveData<List<CComment>>
         get() = m_comments
+
+
+    //private var m_currentTime = Calendar.getInstance().getTime();
+
+
 
 
     private lateinit var database: DatabaseReference

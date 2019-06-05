@@ -82,5 +82,7 @@
         ravnodušan! \nVidimo se u Rijeci!
     </string>
     <string name="title_activity_maps">Map</string>
+    <string name="write_a_comment">Write a comment...</string>
+    <string name="sendComment">send</string>
 
 </resources>
