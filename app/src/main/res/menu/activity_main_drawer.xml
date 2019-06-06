@@ -24,6 +24,10 @@
         <item   android:id="@+id/nav_favourite_event"
                 android:icon="@drawable/ic_star_gray"
                 android:title="Favourite events"/>
+
+        <item android:id="@+id/nav_map"
+              android:icon="@android:drawable/ic_menu_mapmode"
+              android:title="Map"/>
     </group>
 
     <item android:title="Communicate">

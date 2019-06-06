@@ -21,6 +21,7 @@ import com.example.confapp.aboutconf.AboutFragment
 import com.example.confapp.model.CPresenter
 import com.example.confapp.model.CUser
 import com.example.confapp.login.LoginActivity
+import com.example.confapp.map.MapFragment
 import com.example.confapp.schedule.ScheduleFragment
 import com.example.confapp.user.UserProfileActivity
 import com.firebase.client.DataSnapshot
@@ -238,6 +239,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         } else if (R.id.nav_favourite_event == id) {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FavouriteEventFragment())
+                .commit()
+        } else if (R.id.nav_map == id) {
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, MapFragment())
                 .commit()
         }
 
