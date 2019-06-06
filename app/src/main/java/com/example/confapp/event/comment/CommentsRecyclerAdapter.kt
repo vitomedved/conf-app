@@ -1,5 +1,7 @@
 package com.example.confapp.event.comment
 
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +11,10 @@ import android.widget.TextView
 import com.example.confapp.R
 import com.example.confapp.model.CComment
 import com.example.confapp.model.CUser
+import com.example.confapp.user.UserProfileActivity
 import kotlin.collections.forEach as forEach1
+
+
 
 
 class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
@@ -40,12 +45,21 @@ class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.V
         for (user in usersList) {
             if (user.uid == comment.author){
                 myUser = user
+                // ovo prebaciti dolje kad pobrišemo milicu i branimira
+                p0.commentAuthor.setOnClickListener {
+                    val intent = Intent(p0.itemView.context, UserProfileActivity::class.java)
+                    intent.putExtra("uid", myUser.uid)
+                    p0.itemView.context.startActivity(intent)
+                }
             }
         }
 
         p0.commentDate.text = comment.date
         p0.commentAuthor.text = myUser.name
         p0.commentContent.text = comment.content
+
+
+
     }
 
     fun updateUsers(newUsers: MutableList<CUser>){
