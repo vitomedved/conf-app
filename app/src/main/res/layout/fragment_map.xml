@@ -1,16 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:background="@color/betweenDarkBlue"
                                              android:layout_height="match_parent">
-
-
-    <TextView
-            android:text="TextView"
+    <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView2"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"/>
+            app:srcCompat="@drawable/conf_map"
+            android:id="@+id/imageView_map_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+    />
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline_1_3_4h"
+                                          android:orientation="horizontal"
+                                          app:layout_constraintGuide_percent="0.1"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline_1v"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.26"/>
+    <ImageButton
+            android:layout_width="41dp"
+            android:layout_height="78dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/imageButton_hall1_map"
+            app:layout_constraintTop_toTopOf="@+id/guideline_1_3_4h"
+            app:layout_constraintStart_toStartOf="@+id/guideline_1v"
+    />
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline_2v"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.40"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline_2h"
+                                          android:orientation="horizontal"
+                                          app:layout_constraintGuide_percent="0.07"/>
+    <ImageButton
+            android:layout_width="37dp"
+            android:layout_height="78dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/imageButton_hall2_map"
+            app:layout_constraintTop_toTopOf="@+id/guideline_2h"
+            app:layout_constraintStart_toStartOf="@+id/guideline_2v"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline3_v"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.54"/>
+    <ImageButton
+            android:layout_width="41dp"
+            android:layout_height="76dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/imageButton_hall3_map"
+            app:layout_constraintTop_toTopOf="@+id/guideline_1_3_4h"
+            app:layout_constraintStart_toStartOf="@+id/guideline3_v"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline4_v"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.7"/>
+    <ImageButton
+            android:layout_width="41dp"
+            android:layout_height="78dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/imageButton_hall4_map"
+            app:layout_constraintTop_toTopOf="@+id/guideline_1_3_4h"
+            app:layout_constraintStart_toStartOf="@+id/guideline4_v"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline5_v"
+                                          android:orientation="vertical"
+                                          app:layout_constraintGuide_percent="0.84"/>
+    <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                          android:id="@+id/guideline5_h"
+                                          android:orientation="horizontal"
+                                          app:layout_constraintGuide_percent="0.23"/>
+    <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="42dp" tools:srcCompat="@tools:sample/avatars"
+            android:id="@+id/imageButton_hall5_map"
+            app:layout_constraintStart_toStartOf="@+id/guideline5_v"
+            app:layout_constraintTop_toTopOf="@+id/guideline5_h"/>
+    <TextView
+            android:text="Select a hall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_display_text_map" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_map_image" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:textColor="@color/colorAccent"/>
+
 </android.support.constraint.ConstraintLayout>
