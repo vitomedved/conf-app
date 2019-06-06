@@ -77,7 +77,7 @@ class UserProfileActivity : AppCompatActivity(){
                 mail_icon.setOnClickListener {
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "text/html"
-                    intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>("rasanko@gmail.com"))
+                    intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(usr.mail))
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Conf App")
                     intent.putExtra(Intent.EXTRA_TEXT, "Type message here")
                     startActivity(intent)
