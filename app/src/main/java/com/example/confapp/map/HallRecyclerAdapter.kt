@@ -18,13 +18,24 @@ import java.util.*
 
 class HallRecyclerAdapter (val eventList: MutableList<CEvent>): RecyclerView.Adapter<HallRecyclerAdapter.ViewHolder>(){
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
 
         val eventName = itemView.textView_eventName as TextView//itemView.findViewById(R.id.textView_eventName) as TextView
         val eventTime = itemView.textView_eventTime as TextView//itemView.findViewById(R.id.textView_eventTime) as TextView
         val eventDuration = itemView.textView_eventDuration as TextView//itemView.findViewById(R.id.textView_eventDuration) as TextView
         val eventLocation = itemView.textView_eventLocation as TextView//itemView.findViewById(R.id.textView_eventLocation) as TextView
         val eventTypeImage = itemView.imageView_eventType as ImageView//itemView.findViewById(R.id.imageView_eventType) as ImageView
+
+        override fun onClick(v: View) {
+            val intent = Intent(v.context, EventScrollingActivity::class.java).apply {
+                putExtra(ScheduleViewModel.KEY_CURRENT_EVENT, eventList[adapterPosition])
+            }
+            v.context.startActivity(intent)
+        }
+
+        init{
+            itemView.setOnClickListener(this)
+        }
 
     }
 
