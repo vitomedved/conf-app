@@ -30,6 +30,9 @@ import java.text.SimpleDateFormat
 class EventScrollingActivity : AppCompatActivity() {
 
     private lateinit var button_favorite: FloatingActionButton
+
+    private var evtId = ""
+
     override fun onBackPressed() {
         var launchedFromNotification = false
 
@@ -76,13 +79,28 @@ class EventScrollingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_event_scrolling)
         setSupportActionBar(toolbar)
 
-        event_scrolling_activity_progress_bar_header.visibility = View.VISIBLE
+        //event_scrolling_activity_progress_bar_header.visibility = View.VISIBLE
         event_scrolling_activity_progress_bar_content.visibility = View.VISIBLE
 
 
         button_favorite = findViewById(R.id.button_favorite)
 
         val viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+
+
+        val serializableEvt = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT)
+        val currEvt: CEvent
+
+        if(serializableEvt != null){
+            currEvt = serializableEvt as CEvent
+            viewModel.updateCurrentEvent(currEvt)
+            evtId = currEvt.id
+        }else{
+            evtId = intent.getStringExtra("eventId")
+            viewModel.updateCurrentEvent(evtId)
+            this.title = viewModel.evtName.value
+        }
+
 
         recyclerView = findViewById(R.id.recyclerView_comments)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
@@ -105,7 +123,7 @@ class EventScrollingActivity : AppCompatActivity() {
 
         viewModel.currentEvent.observe(this, Observer {
             viewModel.updateEventLiveData()
-            event_scrolling_activity_progress_bar_header.visibility = View.INVISIBLE
+            //event_scrolling_activity_progress_bar_header.visibility = View.INVISIBLE
             event_scrolling_activity_progress_bar_content.visibility = View.INVISIBLE
         })
 
@@ -142,27 +160,13 @@ class EventScrollingActivity : AppCompatActivity() {
         })
 
         viewModel.users.observe(this, Observer {users ->
-            viewModel.getUsersFromDatabase()
             adapter.updateUsers(users as MutableList<CUser>)
+            viewModel.getCommentsFromDatabase(evtId)
         })
 
-
-
-
-        val serializableEvt = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT)
-        val currEvt: CEvent
-
-        var evtId = ""
-
-        if(serializableEvt != null){
-            currEvt = serializableEvt as CEvent
-            viewModel.updateCurrentEvent(currEvt)
-            evtId = currEvt.id
-        }else{
-            evtId = intent.getStringExtra("eventId")
-            viewModel.updateCurrentEvent(evtId)
-            this.title = viewModel.evtName.value
-        }
+        viewModel.comments.observe(this, Observer { newComments ->
+            adapter.setData(newComments as MutableList<CComment>)
+        })
 
         viewModel.getCommentsFromDatabase(evtId)
 
@@ -186,6 +190,7 @@ class EventScrollingActivity : AppCompatActivity() {
 
                 if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString())) {
                     Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
+                    viewModel.getCommentsFromDatabase(evtId)
                 }
 
             }

@@ -4,6 +4,9 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +16,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.confapp.R
 import com.example.confapp.event.favourite.recycler.FavouriteEventAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_favourite_event.view.*
 
 class FavouriteEventFragment : Fragment() {
@@ -23,6 +28,15 @@ class FavouriteEventFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         retView = inflater.inflate(R.layout.fragment_favourite_event, container, false)
+
+        val isConnected = checkConnectivity()
+
+        val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+
+        if (!isConnected) {
+            retView = inflater.inflate(R.layout.fragment_no_connection, container, false)
+            return retView
+        }
 
         viewModel = ViewModelProviders.of(this).get(FavouriteEventViewModel::class.java)
 
@@ -38,7 +52,9 @@ class FavouriteEventFragment : Fragment() {
         viewModel.isProgressBarLoading.observe(this, Observer { isLoading ->
             when (isLoading) {
                 true -> {
-                    retView.fragment_favourite_event_progress_bar.visibility = View.VISIBLE
+                    if (isLoggedIn) {
+                        retView.fragment_favourite_event_progress_bar.visibility = View.VISIBLE
+                    }
                 }
 
                 false -> {
@@ -52,6 +68,20 @@ class FavouriteEventFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel = ViewModelProviders.of(this).get(FavouriteEventViewModel::class.java)
         viewModel.initViewModel()
+    }
+
+    private fun checkConnectivity(): Boolean {
+        var ret = false
+
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+
+        if (isConnected) {
+            ret = true
+        }
+        return ret
     }
 }

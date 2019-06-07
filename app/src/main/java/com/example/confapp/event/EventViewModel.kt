@@ -164,6 +164,7 @@ class EventViewModel: ViewModel() {
     fun onSendCommentClick(eventId: String, date: String, content: String): Boolean {
 
         if(content == ""){
+            // TODO: should send some kind of toast or something saying that comment can not be empty
             return false
         }
 

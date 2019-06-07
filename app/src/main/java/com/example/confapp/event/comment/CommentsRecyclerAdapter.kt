@@ -66,7 +66,7 @@ class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.V
         usersList.clear()
         usersList.addAll(newUsers)
 
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
 
     fun setData(comments: MutableList<CComment>){

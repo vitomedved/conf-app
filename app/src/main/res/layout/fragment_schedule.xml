@@ -17,7 +17,7 @@
             app:srcCompat="@drawable/ic_plus_light_blue"
             android:scaleType="center"
             android:clickable="true"
-            />
+    />
 
     <LinearLayout
             android:orientation="vertical"
@@ -105,19 +105,26 @@
                     android:id="@+id/swipeRefresh_schedule"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/lightestBlue" android:layout_alignParentTop="true">
+                    android:layout_alignParentTop="true">
                 <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/recyclerView_schedule"/>
 
             </android.support.v4.widget.SwipeRefreshLayout>
-            <ProgressBar
+            <!--<ProgressBar
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fragment_schedule_progress_bar" android:layout_centerInParent="true"
-            />
+            />-->
+            <com.airbnb.lottie.LottieAnimationView android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   app:lottie_loop="true"
+                                                   app:lottie_autoPlay="true"
+                                                   android:layout_centerInParent="true"
+                                                   android:id="@+id/fragment_schedule_progress_bar"
+                                                   app:lottie_fileName="loading-dots.json"/>
         </RelativeLayout>
 
     </LinearLayout>
