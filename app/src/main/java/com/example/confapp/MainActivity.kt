@@ -236,7 +236,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(sendIntent)
 
         } else if (id == R.id.nav_send) {
-
+            sendMail()
         } else if (R.id.nav_favourite_event == id) {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FavouriteEventFragment())
                 .commit()
@@ -248,5 +248,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun sendMail(){
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/html"
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>("rasanko@gmail.com", "matea.ignatoski@gmail.com"/*, sandi.ljubic@riteh.hr*/))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Conf App")
+        intent.putExtra(Intent.EXTRA_TEXT, "Type message here")
+        startActivity(intent)
     }
 }
