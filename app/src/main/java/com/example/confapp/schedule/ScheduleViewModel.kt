@@ -4,15 +4,23 @@ import com.example.confapp.R
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.util.Log
+import android.view.View
 import com.example.confapp.model.CConference
 import com.example.confapp.model.CEvent
+import com.example.confapp.model.CUser
+import com.firebase.client.Firebase
+import com.firebase.client.FirebaseError
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ScheduleViewModel: ViewModel() {
+class ScheduleViewModel : ViewModel() {
 
     companion object {
         const val KEY_CURRENT_EVENT = "CURRENT_EVENT"
@@ -55,20 +63,21 @@ class ScheduleViewModel: ViewModel() {
     private var m_isFirstDay = MutableLiveData<Boolean>()
     private var m_isLastDay = MutableLiveData<Boolean>()
 
+    private var m_user: CUser? = null
+
     val currentLeftArrowIcon = MutableLiveData<Int>()
     val currentRightArrowIcon = MutableLiveData<Int>()
 
 
-
-    init{
+    init {
         database = FirebaseDatabase.getInstance().reference
-
+        initUserFromDatabase()
         initDatesFromDatabase()
         initEventsFromDatabase()
     }
 
     private fun initEventsFromDatabase() {
-        database.child("Data/event").addValueEventListener(object: ValueEventListener {
+        database.child("Data/event").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("ScheduleViewModel", "onCancelled called from database reference.")
             }
@@ -80,13 +89,12 @@ class ScheduleViewModel: ViewModel() {
                 val eventDate = Calendar.getInstance()
 
 
-                for(eventSnapshot in dataSnapshot.children){
+                for (eventSnapshot in dataSnapshot.children) {
                     val event: CEvent = eventSnapshot.getValue(CEvent::class.java)!!
 
                     eventDate.time = dateFormat.parse(event.date)
 
-                    if(eventDate.get(Calendar.DAY_OF_YEAR) == m_currentDate.get(Calendar.DAY_OF_YEAR))
-                    {
+                    if (eventDate.get(Calendar.DAY_OF_YEAR) == m_currentDate.get(Calendar.DAY_OF_YEAR)) {
                         evt.add(event)
                     }
                 }
@@ -101,7 +109,7 @@ class ScheduleViewModel: ViewModel() {
     }
 
     private fun getEventsFromDatabase() {
-        database.child("Data/event").addListenerForSingleValueEvent(object: ValueEventListener {
+        database.child("Data/event").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("ScheduleViewModel", "onCancelled called from database reference.")
             }
@@ -113,13 +121,12 @@ class ScheduleViewModel: ViewModel() {
                 val eventDate = Calendar.getInstance()
 
 
-                for(eventSnapshot in dataSnapshot.children){
+                for (eventSnapshot in dataSnapshot.children) {
                     val event: CEvent = eventSnapshot.getValue(CEvent::class.java)!!
 
                     eventDate.time = dateFormat.parse(event.date)
 
-                    if(eventDate.get(Calendar.DAY_OF_YEAR) == m_currentDate.get(Calendar.DAY_OF_YEAR))
-                    {
+                    if (eventDate.get(Calendar.DAY_OF_YEAR) == m_currentDate.get(Calendar.DAY_OF_YEAR)) {
                         evt.add(event)
                     }
                 }
@@ -130,13 +137,13 @@ class ScheduleViewModel: ViewModel() {
     }
 
     private fun initDatesFromDatabase() {
-        database.child("Data/conference").addValueEventListener(object: ValueEventListener {
+        database.child("Data/conference").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("ScheduleViewModel", "Date is never")
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for(conferenceSnapshot in dataSnapshot.children){
+                for (conferenceSnapshot in dataSnapshot.children) {
                     val conference: CConference = conferenceSnapshot.getValue(CConference::class.java)!!
 
                     val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -156,19 +163,17 @@ class ScheduleViewModel: ViewModel() {
         m_currentMonthString.value = m_shortMonthNames[m_currentDate.get(Calendar.MONTH)]
         m_currentWeekdayString.value = m_shortWeekNames[m_currentDate.get(Calendar.DAY_OF_WEEK)]
 
-        if(m_currentDate.compareTo(m_startDate) == 0)
-        {
+        if (m_currentDate.compareTo(m_startDate) == 0) {
             currentLeftArrowIcon.value = R.drawable.ic_arrow_left_grayed
             m_isFirstDay.value = true
-        }else {
+        } else {
             currentLeftArrowIcon.value = R.drawable.ic_arrow_left
             m_isFirstDay.value = false
         }
-        if(m_currentDate.compareTo(m_endDate) == 0)
-        {
+        if (m_currentDate.compareTo(m_endDate) == 0) {
             currentRightArrowIcon.value = R.drawable.ic_arrow_right_grayed
             m_isLastDay.value = true
-        }else {
+        } else {
             currentRightArrowIcon.value = R.drawable.ic_arrow_right
             m_isLastDay.value = false
         }
@@ -177,14 +182,14 @@ class ScheduleViewModel: ViewModel() {
     }
 
     fun onPrevDayClicked() {
-        if(m_isFirstDay.value != true){
+        if (m_isFirstDay.value != true) {
             m_currentDate.add(Calendar.DAY_OF_YEAR, -1)
             updateDates()
         }
     }
 
     fun onNextDayClicked() {
-        if(m_isLastDay.value != true){
+        if (m_isLastDay.value != true) {
             m_currentDate.add(Calendar.DAY_OF_YEAR, 1)
             updateDates()
         }
@@ -192,6 +197,10 @@ class ScheduleViewModel: ViewModel() {
 
     fun removeEvent(index: Int): Boolean {
         //Log.d("asd", m_events.value!![index].name)
+        if (m_user == null || m_user?.level == 0) {
+
+            return false
+        }
         val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
 
         val currentEventId = m_events.value!![index].id
@@ -199,6 +208,22 @@ class ScheduleViewModel: ViewModel() {
         ref.child("Data/event/$currentEventId").setValue(null)
 
         return true
+    }
+
+    fun initUserFromDatabase() {
+        val logged_uid = FirebaseAuth.getInstance().uid
+
+        database.child("model/user/$logged_uid").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("ScheduleViewModel", "onCancelled called from database reference.")
+            }
+
+            override fun onDataChange(dataSnapshot: com.google.firebase.database.DataSnapshot) {
+                val usr: CUser? = dataSnapshot.getValue(CUser::class.java)
+
+                m_user = usr
+            }
+        })
     }
 
 }
