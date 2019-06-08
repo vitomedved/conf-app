@@ -17,14 +17,14 @@
     <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                           android:id="@+id/guideline_1_3_4h"
                                           android:orientation="horizontal"
-                                          app:layout_constraintGuide_percent="0.1"/>
+                                          app:layout_constraintGuide_percent="0.05"/>
     <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                           android:id="@+id/guideline_1v"
                                           android:orientation="vertical"
                                           app:layout_constraintGuide_percent="0.26"/>
     <ImageButton
-            android:layout_width="41dp"
-            android:layout_height="78dp" tools:srcCompat="@tools:sample/avatars"
+            android:layout_width="42dp"
+            android:layout_height="117dp" tools:srcCompat="@tools:sample/avatars"
             android:id="@+id/imageButton_hall1_map"
             app:layout_constraintTop_toTopOf="@+id/guideline_1_3_4h"
             app:layout_constraintStart_toStartOf="@+id/guideline_1v"
@@ -36,10 +36,10 @@
     <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                           android:id="@+id/guideline_2h"
                                           android:orientation="horizontal"
-                                          app:layout_constraintGuide_percent="0.07"/>
+                                          app:layout_constraintGuide_percent="0.02"/>
     <ImageButton
-            android:layout_width="37dp"
-            android:layout_height="78dp" tools:srcCompat="@tools:sample/avatars"
+            android:layout_width="38dp"
+            android:layout_height="130dp" tools:srcCompat="@tools:sample/avatars"
             android:id="@+id/imageButton_hall2_map"
             app:layout_constraintTop_toTopOf="@+id/guideline_2h"
             app:layout_constraintStart_toStartOf="@+id/guideline_2v"/>
@@ -48,8 +48,8 @@
                                           android:orientation="vertical"
                                           app:layout_constraintGuide_percent="0.54"/>
     <ImageButton
-            android:layout_width="41dp"
-            android:layout_height="76dp" tools:srcCompat="@tools:sample/avatars"
+            android:layout_width="40dp"
+            android:layout_height="116dp" tools:srcCompat="@tools:sample/avatars"
             android:id="@+id/imageButton_hall3_map"
             app:layout_constraintTop_toTopOf="@+id/guideline_1_3_4h"
             app:layout_constraintStart_toStartOf="@+id/guideline3_v"/>
@@ -58,8 +58,8 @@
                                           android:orientation="vertical"
                                           app:layout_constraintGuide_percent="0.7"/>
     <ImageButton
-            android:layout_width="41dp"
-            android:layout_height="78dp" tools:srcCompat="@tools:sample/avatars"
+            android:layout_width="44dp"
+            android:layout_height="114dp" tools:srcCompat="@tools:sample/avatars"
             android:id="@+id/imageButton_hall4_map"
             app:layout_constraintTop_toTopOf="@+id/guideline_1_3_4h"
             app:layout_constraintStart_toStartOf="@+id/guideline4_v"/>
@@ -70,10 +70,10 @@
     <android.support.constraint.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                           android:id="@+id/guideline5_h"
                                           android:orientation="horizontal"
-                                          app:layout_constraintGuide_percent="0.23"/>
+                                          app:layout_constraintGuide_percent="0.16"/>
     <ImageButton
             android:layout_width="50dp"
-            android:layout_height="42dp" tools:srcCompat="@tools:sample/avatars"
+            android:layout_height="77dp" tools:srcCompat="@tools:sample/avatars"
             android:id="@+id/imageButton_hall5_map"
             app:layout_constraintStart_toStartOf="@+id/guideline5_v"
             app:layout_constraintTop_toTopOf="@+id/guideline5_h"/>
