@@ -24,7 +24,11 @@
                 android:orientation="horizontal"
                 android:weightSum="1"
                 android:gravity="center_vertical"
-                android:id="@+id/layout_eventListItem">
+                android:id="@+id/layout_eventListItem"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:focusable="true"
+        >
 
 
             <LinearLayout
