@@ -25,6 +25,9 @@ import com.example.confapp.event.comment.CommentsRecyclerAdapter
 import com.example.confapp.model.CComment
 import com.example.confapp.model.CUser
 import java.text.SimpleDateFormat
+import android.content.Context
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 
 
 class EventScrollingActivity : AppCompatActivity() {
@@ -170,7 +173,17 @@ class EventScrollingActivity : AppCompatActivity() {
 
         viewModel.getCommentsFromDatabase(evtId)
 
+        // oprosti Vito ako ovo nije prema pravilima, ali radi :)
+        fun View.hideKeyboard() {
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(windowToken, 0)
+        }
 
+        editText_comment.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                v.hideKeyboard()
+            }
+        }
 
         if(viewModel.isUserLoggedIn()){
             button_favorite.setOnClickListener { view ->
@@ -191,6 +204,8 @@ class EventScrollingActivity : AppCompatActivity() {
                 if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString())) {
                     Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
                     viewModel.getCommentsFromDatabase(evtId)
+                    editText_comment.text.clear()
+                    editText_comment.clearFocus()
                 }
 
             }

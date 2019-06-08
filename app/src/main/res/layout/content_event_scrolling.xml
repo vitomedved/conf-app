@@ -8,11 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".event.EventScrollingActivity" android:padding="@dimen/textPadding_medium"
-        android:paddingStart="@dimen/padding_mediumToLarge">
+        android:paddingStart="@dimen/padding_mediumToLarge"
+        >
     <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:padding="@dimen/textPadding_medium">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/textPadding_medium"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:focusable="true"
+    >
         <com.airbnb.lottie.LottieAnimationView android:layout_width="match_parent"
                                                android:layout_height="300dp"
                                                app:lottie_loop="true"
@@ -42,7 +48,8 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/comments_container"
-                      android:layout_below="@id/textView_aboutEvent" android:orientation="vertical">
+                      android:layout_below="@id/textView_aboutEvent"
+                      android:orientation="vertical">
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="match_parent"
                           android:orientation="horizontal"
