@@ -85,5 +85,6 @@
     <string name="write_a_comment">Write a comment...</string>
     <string name="sendComment">send</string>
     <string name="contentDescriptionUploadedImage">uploaded image</string>
+    <string name="contentDescription_image_in_comment">Image in comment</string>
 
 </resources>

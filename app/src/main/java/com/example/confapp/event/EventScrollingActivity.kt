@@ -176,8 +176,6 @@ class EventScrollingActivity : AppCompatActivity() {
 
         viewModel.getCommentsFromDatabase(evtId)
 
-        var selectedPhotoUri: Uri? = null
-
 
         // oprosti Vito ako ovo nije prema pravilima, ali radi :)
         fun View.hideKeyboard() {
@@ -207,11 +205,13 @@ class EventScrollingActivity : AppCompatActivity() {
             button_sendComment.setOnClickListener {
                 editText_comment.text.toString()
 
-                if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString())) {
+                if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString(), selectedPhotoUri)) {
                     Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
                     viewModel.getCommentsFromDatabase(evtId)
                     editText_comment.text.clear()
                     editText_comment.clearFocus()
+                    imageView_uploadedImage.setImageBitmap(null)
+                    imageView_uploadedImage.layoutParams.height = -2
                 }
             }
 
@@ -240,7 +240,6 @@ class EventScrollingActivity : AppCompatActivity() {
         }
     }
 
-
     var selectedPhotoUri: Uri? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -256,8 +255,10 @@ class EventScrollingActivity : AppCompatActivity() {
             // TODO AKO SE VITI NE SVIĐA ONA LAJNA MAKNI
             imageView_uploadedImage.layoutParams.height = 200
             imageView_uploadedImage.setImageBitmap(bitmap)
+
         }
     }
+
 
 }
 

@@ -3,7 +3,9 @@ package com.example.confapp.event
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import com.example.confapp.model.CEvent
 import com.example.confapp.R
 import com.example.confapp.model.CComment
@@ -11,6 +13,7 @@ import com.example.confapp.model.CUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
 
@@ -73,7 +76,7 @@ class EventViewModel: ViewModel() {
 
 
 
-    private lateinit var database: DatabaseReference
+    private var database: DatabaseReference
 
 
     private var m_currentFirebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -142,6 +145,7 @@ class EventViewModel: ViewModel() {
 
 
 
+
     fun updateCurrentEvent(evt: CEvent){
         m_currentEvent.value = evt
     }
@@ -164,18 +168,53 @@ class EventViewModel: ViewModel() {
     }
 
 
-    fun onSendCommentClick(eventId: String, date: String, content: String): Boolean {
+    fun onSendCommentClick(eventId: String, date: String, content: String, imageUri: Uri?): Boolean {
 
-        if(content == ""){
+        if(content == "" && imageUri == null){
             // TODO: should send some kind of toast or something saying that comment can not be empty
             return false
         }
 
         var author = m_currentUser!!.uid
         val commentUid = UUID.randomUUID().toString()
-        val comment = CComment(commentUid, author, content, date)
+        //val comment = CComment(commentUid, author, content, date, imageUri.toString())
 
-        saveCommentToDatabase(eventId, comment)
+        Log.d("probica2", imageUri.toString())
+
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/comments/$filename")
+        var imageUrl : String = ""
+        var comment : CComment
+
+        // ZNAM DA JE OVO JAKO GLUPO, POPRAVITI ĆU SUTRA
+        ref.putFile(imageUri!!)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener {
+                    imageUrl = it.toString()
+                    Log.d("upload slike", imageUrl)
+                    comment = CComment(commentUid, author, content, date, imageUrl)
+                    saveCommentToDatabase(eventId, comment)
+
+
+                    // Toast.makeText(this, "URL: $it", Toast.LENGTH_LONG).show()
+                }
+                    .addOnFailureListener {
+                        Log.d("upload slike", "nope lvl 1")
+                        comment = CComment(commentUid, author, content, date, "")
+                        saveCommentToDatabase(eventId, comment)
+                        //Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+                    }
+            }
+            .addOnFailureListener{
+                Log.d("upload slike", "nope lvl 2")
+
+                //Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+
+
+
+
+
 
         return true
     }
@@ -203,7 +242,6 @@ class EventViewModel: ViewModel() {
 
                     comments.add(comment)
                 }
-
                 comments.sortByDescending { it.date }
                 m_comments.value = comments
 
