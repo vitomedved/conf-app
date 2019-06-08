@@ -84,5 +84,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="write_a_comment">Write a comment...</string>
     <string name="sendComment">send</string>
+    <string name="contentDescriptionUploadedImage">uploaded image</string>
 
 </resources>

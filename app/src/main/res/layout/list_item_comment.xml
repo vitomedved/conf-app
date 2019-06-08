@@ -68,7 +68,6 @@
                     android:textColor="@color/darkBlue"
                     android:padding="@dimen/card_view_padding"
                     android:gravity="center"
-                    android:justificationMode="inter_word"
                     android:textAlignment="center"
             />
         </LinearLayout>

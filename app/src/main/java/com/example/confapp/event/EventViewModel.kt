@@ -204,6 +204,7 @@ class EventViewModel: ViewModel() {
                     comments.add(comment)
                 }
 
+                comments.sortByDescending { it.date }
                 m_comments.value = comments
 
             }

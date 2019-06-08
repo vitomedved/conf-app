@@ -1,6 +1,7 @@
 package com.example.confapp.event
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -26,6 +27,8 @@ import com.example.confapp.model.CComment
 import com.example.confapp.model.CUser
 import java.text.SimpleDateFormat
 import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 
@@ -173,6 +176,9 @@ class EventScrollingActivity : AppCompatActivity() {
 
         viewModel.getCommentsFromDatabase(evtId)
 
+        var selectedPhotoUri: Uri? = null
+
+
         // oprosti Vito ako ovo nije prema pravilima, ali radi :)
         fun View.hideKeyboard() {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -207,8 +213,16 @@ class EventScrollingActivity : AppCompatActivity() {
                     editText_comment.text.clear()
                     editText_comment.clearFocus()
                 }
-
             }
+
+            button_uploadImage.setOnClickListener {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/comments/*"
+                startActivityForResult(intent, 0)
+            }
+
+
+
         }
         else{
             button_favorite.setOnClickListener { view ->
@@ -219,7 +233,31 @@ class EventScrollingActivity : AppCompatActivity() {
             button_sendComment.setOnClickListener {
                 makeAlert()
             }
+
+            button_uploadImage.setOnClickListener {
+                makeAlert()
+            }
         }
     }
+
+
+    var selectedPhotoUri: Uri? = null
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+            selectedPhotoUri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+            Log.d("probica", selectedPhotoUri.toString())
+
+
+            // TODO NASTAVI OVDJE - PRIKAZ UPLOADANE
+            // TODO AKO SE VITI NE SVIĐA ONA LAJNA MAKNI
+            imageView_uploadedImage.layoutParams.height = 200
+            imageView_uploadedImage.setImageBitmap(bitmap)
+        }
+    }
+
 }
 
