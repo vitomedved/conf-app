@@ -139,6 +139,9 @@ class EventViewModel: ViewModel() {
 
     }
 
+
+
+
     fun updateCurrentEvent(evt: CEvent){
         m_currentEvent.value = evt
     }
