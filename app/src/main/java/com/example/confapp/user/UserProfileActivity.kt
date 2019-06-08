@@ -21,10 +21,12 @@ import com.squareup.picasso.Picasso
 import android.widget.ImageView
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.login.RegistrationActivity
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 class UserProfileActivity : AppCompatActivity(){
     lateinit var avatar: ImageView
+    lateinit var avatar2: CircleImageView
     lateinit var name: TextView
     lateinit var type: TextView
     lateinit var mail: TextView
@@ -38,7 +40,7 @@ class UserProfileActivity : AppCompatActivity(){
         setContentView(com.example.confapp.R.layout.popupwindowuser)
 
         avatar = findViewById(com.example.confapp.R.id.imageView_avatar_userpopup)
-
+        avatar2 = findViewById(com.example.confapp.R.id.imageViewC_avatar_userpopup)
         name = findViewById(com.example.confapp.R.id.user_name)
         type = findViewById(com.example.confapp.R.id.user_type)
         mail = findViewById(com.example.confapp.R.id.user_email)
@@ -62,8 +64,9 @@ class UserProfileActivity : AppCompatActivity(){
                 val usr: CUser = dataSnapshot.getValue(CUser::class.java)
 
                 val url = usr.avatar_url
-                Picasso.get().load(url).into(avatar)
+                //Picasso.get().load(url).into(avatar)
 
+                Picasso.get().load(url).into(avatar2)
                 name.text = usr.name
                 mail.text = usr.mail
                 date_joined.text = usr.date_joined

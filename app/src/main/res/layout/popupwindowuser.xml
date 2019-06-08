@@ -10,17 +10,33 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                     android:layout_height="match_parent" android:background="@color/betweenDarkBlue">
+
+
         <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="287dp"
-                tools:srcCompat="@tools:sample/avatars"
-                android:id="@+id/imageView_avatar_userpopup"/>
+                android:layout_height="222dp"
+                android:background="@color/darkestBlue"
+                android:src="@color/darkestBlue"
+                android:id="@+id/imageView_avatar_userpopup"
+        />
+        <!--tools:srcCompat="@tools:sample/avatars"-->
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="400dp"
+                android:layout_height="223dp"
+                android:src="@drawable/icon"
+                android:id="@id/imageViewC_avatar_userpopup"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000" android:layout_marginTop="37dp" android:layout_alignParentTop="true"/>
+
+        />
 
         <ImageButton
                 android:layout_width="59dp"
                 android:layout_height="47dp"
                 android:id="@+id/mail_icon"
-                android:layout_below="@+id/imageView_avatar_userpopup"
+                android:layout_below="@+id/imageViewC_avatar_userpopup"
                 android:src="@android:drawable/ic_dialog_email"
                 android:background="@null"/>
 
@@ -31,7 +47,7 @@
                 android:id="@+id/user_email"
                 android:textSize="20sp"
                 android:textColor="@android:color/white"
-                android:layout_below="@+id/imageView_avatar_userpopup"
+                android:layout_below="@+id/imageViewC_avatar_userpopup"
                 android:layout_alignParentRight="true"
                 android:layout_toRightOf="@id/mail_icon"
                 android:layout_centerInParent="true"
