@@ -47,7 +47,9 @@
         <activity
                 android:name=".event.EventScrollingActivity"
                 android:label="@string/title_activity_event_scrolling"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustPan" >
+
 
             <!-- android:parentActivityName=".MainActivity"> -->
         </activity>

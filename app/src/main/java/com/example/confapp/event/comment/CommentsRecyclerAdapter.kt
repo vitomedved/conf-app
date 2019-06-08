@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.confapp.R
 import com.example.confapp.model.CComment
 import com.example.confapp.model.CUser
 import com.example.confapp.user.UserProfileActivity
+import com.squareup.picasso.Picasso
 import kotlin.collections.forEach as forEach1
 
 
@@ -26,6 +28,7 @@ class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.V
         val commentDate = itemView.findViewById(R.id.textView_commentDate) as TextView
         val commentAuthor = itemView.findViewById(R.id.textView_commentAuthor) as TextView
         val commentContent = itemView.findViewById(R.id.textView_commentContent) as TextView
+        val commentImage = itemView.findViewById(R.id.imageView_imageInComment) as ImageView
 
     }
 
@@ -57,7 +60,9 @@ class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.V
         p0.commentDate.text = comment.date
         p0.commentAuthor.text = myUser.name
         p0.commentContent.text = comment.content
-
+        if ( comment.imageUrl != "") {
+            Picasso.get().load(comment.imageUrl).into(p0.commentImage)
+        }
 
 
     }

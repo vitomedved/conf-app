@@ -23,7 +23,7 @@ import java.util.*
 
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class NewEventFragment : Fragment() {
+class NewEventFragment : Fragment(), AddPresentersFragmentDialog.PresenterSelected {
 
     private lateinit var retView: View
 
@@ -37,6 +37,8 @@ class NewEventFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(NewEventViewModel::class.java)
 
+        viewModel.getPresenters()
+
         viewModel.pickedDate.observe(this, android.arch.lifecycle.Observer { newDate ->
             retView.editText_eventDate.setText(newDate)
         })
@@ -47,25 +49,25 @@ class NewEventFragment : Fragment() {
 
 
         retView.editText_eventName.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus){
+            if (!hasFocus) {
                 v.hideKeyboard()
             }
         }
 
         retView.editText_eventDuration.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus){
+            if (!hasFocus) {
                 v.hideKeyboard()
             }
         }
 
         retView.editText_eventHall.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus){
+            if (!hasFocus) {
                 v.hideKeyboard()
             }
         }
 
         retView.editText_aboutEvent.setOnFocusChangeListener { v, hasFocus ->
-            if(!hasFocus){
+            if (!hasFocus) {
                 v.hideKeyboard()
             }
         }
@@ -88,26 +90,42 @@ class NewEventFragment : Fragment() {
             showTimeDialog()
         }
 
+        viewModel.exhibitors.observe(this, android.arch.lifecycle.Observer { exhibitors ->
+            viewModel.initBoolArr()
+            retView.button_addPresenters.setOnClickListener {
+                val exhibs = exhibitors!!.map { it.company }.toTypedArray()
+
+                //viewModel.initBoolArr()
+
+                val dialog = AddPresentersFragmentDialog(exhibs, viewModel.selectedPresentersArray)
+                dialog.setPresenterSelectedCallback(this)
+                dialog.isCancelable = false
+                dialog.show(fragmentManager, "AddPresenterDialog")
+            }
+        })
+
         retView.button_addEvent.setOnClickListener {
-            if(checkConnectivity()){
-                if(viewModel.onAddEventClick(
-                    retView.editText_eventName.text.toString(),
-                    retView.editText_aboutEvent.text.toString(),
-                    retView.editText_eventDate.text.toString(),
-                    retView.editText_eventTime.text.toString(),
-                    retView.editText_eventHall.text.toString(),
-                    retView.spinner_eventType.selectedItem.toString(),
-                    retView.editText_eventDuration.text.toString(),
-                    mutableListOf())){
+            if (checkConnectivity()) {
+                if (viewModel.onAddEventClick(
+                        retView.editText_eventName.text.toString(),
+                        retView.editText_aboutEvent.text.toString(),
+                        retView.editText_eventDate.text.toString(),
+                        retView.editText_eventTime.text.toString(),
+                        retView.editText_eventHall.text.toString(),
+                        retView.spinner_eventType.selectedItem.toString(),
+                        retView.editText_eventDuration.text.toString(),
+                        mutableListOf()
+                    )
+                ) {
 
                     Toast.makeText(context, "Event added to database", Toast.LENGTH_SHORT).show()
                     //activity!!.supportFragmentManager.beginTransaction().remove(this).commit()
                     activity!!.finish()
-                }else{
+                } else {
                     Toast.makeText(context, "Fill all required data to add an event", Toast.LENGTH_SHORT).show()
                 }
 
-            }else{
+            } else {
                 Toast.makeText(context, "No internet connection, event not added", Toast.LENGTH_LONG).show()
             }
         }
@@ -115,8 +133,16 @@ class NewEventFragment : Fragment() {
         return retView
     }
 
+    override fun onPositiveClicked(listOfCheckedPresenters: BooleanArray) {
+        viewModel.selectedPresentersArray = listOfCheckedPresenters
+    }
+
+    override fun onNegativeClicked() {
+        Toast.makeText(context, "Canceled adding presenters", Toast.LENGTH_SHORT).show()
+    }
+
     private fun showTimeDialog() {
-        if(retView.editText_eventTime.hasFocus()){
+        if (retView.editText_eventTime.hasFocus()) {
             TimePickerDialog(context, viewModel, 0, 0, true).show()
         }
     }
@@ -128,7 +154,7 @@ class NewEventFragment : Fragment() {
 
     private fun showDateDialog() {
 
-        if(retView.editText_eventDate.hasFocus()){
+        if (retView.editText_eventDate.hasFocus()) {
             val start = Calendar.getInstance()
             val end = Calendar.getInstance()
 
@@ -156,8 +182,7 @@ class NewEventFragment : Fragment() {
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
 
-        if(isConnected)
-        {
+        if (isConnected) {
             ret = true
         }
         return ret

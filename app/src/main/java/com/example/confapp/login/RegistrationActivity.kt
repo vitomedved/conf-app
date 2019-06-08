@@ -127,7 +127,6 @@ class RegistrationActivity : AppCompatActivity() {
                 }
         }
 
-
     }
 
     private fun saveUserToFirebaseDatabase(avatar_url: String) {

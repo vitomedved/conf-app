@@ -14,12 +14,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.airbnb.lottie.LottieAnimationView
 import com.example.confapp.R
 import com.example.confapp.model.CExhibitor
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
 import com.firebase.client.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_exhibitors.view.*
 
 @Suppress("DEPRECATION")
 class ExhibitorsFragment : Fragment() {
@@ -29,7 +31,6 @@ class ExhibitorsFragment : Fragment() {
 
     private lateinit var retView: View
     private lateinit var recyclerView: RecyclerView
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -48,6 +49,8 @@ class ExhibitorsFragment : Fragment() {
 
         recyclerView = retView.findViewById(R.id.recyclerView_exhibitors)
         recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL, false)
+
+        retView.fragment_exhibitors_loading_animation.visibility = View.VISIBLE
 
         Firebase.setAndroidContext(this.context)
 
@@ -70,6 +73,7 @@ class ExhibitorsFragment : Fragment() {
 
                 //Log.d("FIREBASE", "Events loaded from database, adding adapter. Total events: " + exhibitors.size)
 
+                retView.fragment_exhibitors_loading_animation.visibility = View.INVISIBLE
                 val adapter = ExhibitorsRecyclerAdapter(exhibitors)
                 recyclerView.adapter = adapter
             }
