@@ -15,7 +15,7 @@ class NewEventActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.confapp.R.layout.activity_new_event)
+        setContentView(R.layout.activity_new_event)
 
         supportFragmentManager.beginTransaction().replace(R.id.activity_newEvent, NewEventFragment(), FRAGMENT_TAG).commit()
     }
