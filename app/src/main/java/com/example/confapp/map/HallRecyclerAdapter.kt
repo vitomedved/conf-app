@@ -44,19 +44,6 @@ class HallRecyclerAdapter (val eventList: MutableList<CEvent>): RecyclerView.Ada
             R.layout.list_item_event, p0, false
         )
 
-        /*
-        override fun onClick(v: View) {
-            val intent = Intent(v.context, EventScrollingActivity::class.java).apply {
-                putExtra(ScheduleViewModel.KEY_CURRENT_EVENT, m_events[adapterPosition])
-            }
-            v.context.startActivity(intent)
-        }
-
-        init{
-            itemView.setOnClickListener(this)
-        }
-        */
-
         return ViewHolder(view)
     }
 
