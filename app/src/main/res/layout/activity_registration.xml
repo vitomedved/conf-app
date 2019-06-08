@@ -5,7 +5,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".login.RegistrationActivity" android:background="@color/darkestBlue">
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,9 +20,10 @@
                 android:background="@drawable/rounded_button_select_image"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp" android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"/>
         <EditText
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:paddingLeft="8dp"
                 android:inputType="textPersonName"
@@ -32,9 +33,10 @@
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="24dp"
                 android:hint="@string/edittext_username_hint_registration"
                 android:background="@drawable/rounded_edittext_login_registration"
-                app:layout_constraintTop_toBottomOf="@+id/button_select_image_register"/>
+                app:layout_constraintTop_toBottomOf="@+id/button_select_image_register"
+                android:layout_below="@id/button_select_image_register" android:layout_centerHorizontal="true"/>
         <EditText
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:paddingLeft="8dp"
                 android:inputType="textEmailAddress"
@@ -44,9 +46,10 @@
                 app:layout_constraintStart_toStartOf="@+id/editText_username_registration"
                 app:layout_constraintEnd_toEndOf="@+id/editText_username_registration"
                 android:hint="@string/edittext_email_hint_registration"
-                android:background="@drawable/rounded_edittext_login_registration"/>
+                android:background="@drawable/rounded_edittext_login_registration"
+                android:layout_below="@id/editText_username_registration" android:layout_centerHorizontal="true"/>
         <EditText
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:paddingLeft="8dp"
                 android:inputType="textPassword"
@@ -56,12 +59,13 @@
                 app:layout_constraintStart_toStartOf="@+id/editText_email_registration"
                 app:layout_constraintEnd_toEndOf="@+id/editText_email_registration"
                 android:background="@drawable/rounded_edittext_login_registration"
-                android:hint="@string/edittext_password_hint_registration"/>
+                android:hint="@string/edittext_password_hint_registration"
+                android:layout_below="@id/editText_email_registration" android:layout_centerHorizontal="true"/>
 
 
         <Button
                 android:text="@string/button_register_registration"
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_register_registration" android:layout_marginTop="64dp"
                 app:layout_constraintTop_toBottomOf="@+id/editText_password_registration"
@@ -70,7 +74,8 @@
                 android:layout_marginStart="16dp" android:background="@drawable/rounded_button_register_login"
                 android:textColor="@color/darkestBlue"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="18sp" android:layout_below="@id/editText_password_registration"
+                android:layout_centerHorizontal="true"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circleimageview_profile_image_registration"
@@ -80,7 +85,9 @@
                 app:layout_constraintTop_toTopOf="@+id/button_select_image_register"
                 app:layout_constraintBottom_toBottomOf="@+id/button_select_image_register"
                 app:layout_constraintEnd_toEndOf="@+id/button_select_image_register"
-                app:layout_constraintStart_toStartOf="@+id/button_select_image_register"/>
+                app:layout_constraintStart_toStartOf="@+id/button_select_image_register"
+                android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+                android:layout_marginTop="32dp"/>
 
 
         <TextView
@@ -92,6 +99,18 @@
                 app:layout_constraintStart_toStartOf="@+id/button_register_registration"
                 app:layout_constraintEnd_toEndOf="@+id/button_register_registration"
                 android:textColor="@color/lightBlue"
-                android:textSize="18sp"/>
-    </android.support.constraint.ConstraintLayout>
+                android:textSize="18sp" android:layout_below="@id/button_register_registration"
+                android:layout_centerHorizontal="true"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:lottie_fileName="loading-dots.json"
+                android:visibility="invisible"
+                android:id="@+id/activity_registration_loading_animation"
+                android:layout_centerInParent="true"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+        />
+    </RelativeLayout>
 </ScrollView>

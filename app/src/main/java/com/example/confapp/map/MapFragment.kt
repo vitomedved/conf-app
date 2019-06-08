@@ -70,6 +70,8 @@ class MapFragment: Fragment() {
                 }
                 events.sortBy { it.date }
 
+                retView.fragment_map_loading_animation.visibility = View.INVISIBLE
+
                 hallBtn1.setOnClickListener{loadEvents(events,"Hall 1")}
                 hallBtn2.setOnClickListener{loadEvents(events,"Hall 2")}
                 hallBtn3.setOnClickListener{loadEvents(events,"Hall 3")}

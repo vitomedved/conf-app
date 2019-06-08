@@ -15,9 +15,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.confapp.event.favourite.FavouriteEventFragment
 import com.example.confapp.exhibitors.ExhibitorsFragment
 import com.example.confapp.aboutconf.AboutFragment
+import com.example.confapp.gmaps.GMapsActivity
 import com.example.confapp.model.CPresenter
 import com.example.confapp.model.CUser
 import com.example.confapp.login.LoginActivity
@@ -28,6 +30,8 @@ import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
 import com.firebase.client.FirebaseError
 import com.firebase.client.ValueEventListener
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
@@ -112,6 +116,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 makeAlert()
             }
 
+        }
+
+
+    }
+
+    fun isMapsOk(): Boolean{
+        val available: Int = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+        if (available == ConnectionResult.SUCCESS){
+            Toast.makeText(this,"available!", Toast.LENGTH_LONG).show()
+            return true
+        }else{
+            return false
         }
 
     }
@@ -213,8 +229,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // TODO: use when(id) {} instead of if-else cases, it's kotlin
         if (id == R.id.nav_activityFeed) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, AboutFragment())
-                .commit()
+            if(isMapsOk()){
+                Toast.makeText(this,"we good", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, GMapsActivity::class.java)
+                startActivity(intent)
+            }
         } else if (id == R.id.nav_schedule) {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ScheduleFragment()).commit()
         } else if (id == R.id.nav_about) {

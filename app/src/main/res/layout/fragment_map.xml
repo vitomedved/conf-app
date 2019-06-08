@@ -105,15 +105,25 @@
                  app:layout_constraintEnd_toEndOf="parent"
                  app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout android:layout_width="match_parent"
+        <RelativeLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:background="@color/lightestBlue">
             <android.support.v7.widget.RecyclerView
+                    android:layout_alignParentTop="true"
                     android:id="@+id/recyclerView_map"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
             />
-        </LinearLayout>
+            <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:lottie_fileName="loading-dots.json"
+                    android:id="@+id/fragment_map_loading_animation"
+                    android:layout_centerInParent="true"
+                    app:lottie_loop="true"
+                    app:lottie_autoPlay="true"
+            />
+        </RelativeLayout>
 
     </FrameLayout>
 

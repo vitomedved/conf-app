@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.airbnb.lottie.LottieAnimationView
 import com.example.confapp.model.CUser
 import com.example.confapp.MainActivity
 import com.example.confapp.R
@@ -31,7 +33,7 @@ class RegistrationActivity : AppCompatActivity() {
     lateinit var selectImgBtn: Button
     lateinit var alreadyHaveAcc: TextView
     lateinit var circleImg: CircleImageView
-    lateinit var progress: ProgressDialog
+    lateinit var loadAnim: LottieAnimationView
     val DEFAULT_AVATAR_URL: String = "https://firebasestorage.googleapis.com/v0/b/conf-app-14914.appspot.com/o/images%2F16480.png?alt=media&token=e43cdb99-36cb-4305-b0d2-5b63d34fc7cd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +46,12 @@ class RegistrationActivity : AppCompatActivity() {
         registerBtn = findViewById(R.id.button_register_registration)
         selectImgBtn = findViewById(R.id.button_select_image_register)
         alreadyHaveAcc = findViewById(R.id.textView_alreadyHaveAcc_registration)
+        loadAnim = findViewById(R.id.activity_registration_loading_animation)
 
         FirebaseApp.initializeApp(this);
 
         registerBtn.setOnClickListener {
-            //startLoadingCircle()
+            loadAnim.visibility = View.VISIBLE
             performRegistration()
         }
 
@@ -77,18 +80,8 @@ class RegistrationActivity : AppCompatActivity() {
             circleImg = findViewById(R.id.circleimageview_profile_image_registration)
             circleImg.setImageBitmap(bitmap)
             selectImgBtn.alpha = 0F
-/*
-            val bitmapDrawable = BitmapDrawable(bitmap)
-            selectImgBtn.setBackgroundDrawable(bitmapDrawable)
-*/
-        }
-    }
 
-    private fun startLoadingCircle(){
-        val progress = ProgressDialog(this)
-        progress.setMessage("Please wait..")
-        progress.setCancelable(false)
-        progress.show()
+        }
     }
 
     private fun performRegistration() {
@@ -156,6 +149,7 @@ class RegistrationActivity : AppCompatActivity() {
 
                 //Handler().postDelayed({progress.dismiss()}, 5000)
                 val intent = Intent(this, MainActivity::class.java)
+                loadAnim.visibility = View.INVISIBLE
                 startActivity(intent)
             }
             .addOnFailureListener {

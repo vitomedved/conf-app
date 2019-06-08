@@ -85,4 +85,8 @@
     <string name="write_a_comment">Write a comment...</string>
     <string name="sendComment">send</string>
 
+    <string name="maps_api_key">
+        AIzaSyDy-Efv37oOprCICK4TsGg8qUvfdHS0rtk
+    </string>
+
 </resources>
