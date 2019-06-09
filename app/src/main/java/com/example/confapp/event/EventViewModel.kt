@@ -183,37 +183,31 @@ class EventViewModel: ViewModel() {
 
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/comments/$filename")
-        var imageUrl : String = ""
+        var imageUrl : String
         var comment : CComment
 
-        // ZNAM DA JE OVO JAKO GLUPO, POPRAVITI ĆU SUTRA
-        ref.putFile(imageUri!!)
-            .addOnSuccessListener {
-                ref.downloadUrl.addOnSuccessListener {
-                    imageUrl = it.toString()
-                    Log.d("upload slike", imageUrl)
-                    comment = CComment(commentUid, author, content, date, imageUrl)
-                    saveCommentToDatabase(eventId, comment)
+        if (imageUri == null) {
+            comment = CComment(commentUid, author, content, date, "")
+            saveCommentToDatabase(eventId, comment)
 
-
-                    // Toast.makeText(this, "URL: $it", Toast.LENGTH_LONG).show()
-                }
-                    .addOnFailureListener {
-                        Log.d("upload slike", "nope lvl 1")
-                        comment = CComment(commentUid, author, content, date, "")
+        }else {
+            ref.putFile(imageUri)
+                .addOnSuccessListener {
+                    ref.downloadUrl.addOnSuccessListener {
+                        imageUrl = it.toString()
+                        Log.d("upload slike", imageUrl)
+                        comment = CComment(commentUid, author, content, date, imageUrl)
                         saveCommentToDatabase(eventId, comment)
-                        //Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
                     }
-            }
-            .addOnFailureListener{
-                Log.d("upload slike", "nope lvl 2")
+                        .addOnFailureListener {
+                            Log.d("upload slike", "nope lvl 1")
+                        }
+                }
+                .addOnFailureListener{
+                    Log.d("upload slike", "nope lvl 2")
 
-                //Toast.makeText(this, "Failed; exception: ${it.message}", Toast.LENGTH_LONG).show()
-            }
-
-
-
-
+                }
+        }
 
 
         return true
@@ -269,32 +263,6 @@ class EventViewModel: ViewModel() {
             }
         })
     }
-
-/*
-    fun getUsernameById(id: String): String {
-        var userName = ""
-
-        FirebaseDatabase.getInstance().reference.child("model/user/$id").ref.addListenerForSingleValueEvent(object:
-            ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("EventViewModel", "Username can not be loaded via ID.")
-                userName=id
-            }
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                //userName = dataSnapshot.value!!.toString()
-                //Log.d("probica", id)
-                //Log.d("probica", dataSnapshot.getValue(CUser::class.java)?.name.toString())
-                if (dataSnapshot.getValue(CUser::class.java)?.name != null) {
-                    userName =  dataSnapshot.getValue(CUser::class.java)?.name.toString()
-                }else{
-                    userName = id
-                }
-            }
-        })
-
-        return userName
-    }
-*/
 
 
     fun isUserLoggedIn(): Boolean{
