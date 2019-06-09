@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun isMapsOk(): Boolean{
         val available: Int = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
         if (available == ConnectionResult.SUCCESS){
-            Toast.makeText(this,"available!", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this,"available!", Toast.LENGTH_LONG).show()
             return true
         }else{
             return false
@@ -230,7 +230,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // TODO: use when(id) {} instead of if-else cases, it's kotlin
         if (id == R.id.nav_activityFeed) {
             if(isMapsOk()){
-                Toast.makeText(this,"we good", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this,"we good", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, GMapsActivity::class.java)
                 startActivity(intent)
             }
