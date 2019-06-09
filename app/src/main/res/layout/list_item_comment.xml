@@ -61,24 +61,27 @@
 
             <LinearLayout android:layout_width="0dp"
                           android:layout_weight="0.6"
-                          android:orientation="vertical"
+                          android:orientation="horizontal"
                           android:layout_height="match_parent"
+                          android:weightSum="1"
                           tools:ignore="UseCompoundDrawables">
-                <ImageView android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
+
+                <ImageView android:layout_width="0dp"
+                           android:layout_height="match_parent"
+                           android:layout_weight="0.3"
                            android:contentDescription="@string/contentDescription_image_in_comment"
                            android:id="@+id/imageView_imageInComment"
-                />
+                           tools:ignore="NestedWeights"/>
                 <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:id="@+id/textView_commentContent"
                         android:textColor="@color/darkBlue"
+                        android:layout_weight="0.7"
                         android:padding="@dimen/card_view_padding"
                         android:gravity="center"
                         android:textAlignment="center"
                 />
-
 
             </LinearLayout>
 
