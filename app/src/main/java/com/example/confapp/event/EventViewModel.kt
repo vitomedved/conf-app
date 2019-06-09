@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import com.example.confapp.model.CEvent
 import com.example.confapp.R
@@ -72,7 +73,6 @@ class EventViewModel: ViewModel() {
     private val m_users = MutableLiveData<List<CUser>>()
     val users: MutableLiveData<List<CUser>>
         get() = m_users
-
 
 
 

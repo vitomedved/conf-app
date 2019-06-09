@@ -1,12 +1,17 @@
 package com.example.confapp.event.comment
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat.startActivity
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.confapp.R
@@ -19,7 +24,7 @@ import kotlin.collections.forEach as forEach1
 
 
 
-class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
+class CommentsRecyclerAdapter :  RecyclerView.Adapter<CommentsRecyclerAdapter.ViewHolder>() {
 
     private var commentsList: MutableList<CComment> = mutableListOf()
     private var usersList: MutableList<CUser> = mutableListOf()
@@ -29,8 +34,27 @@ class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.V
         val commentAuthor = itemView.findViewById(R.id.textView_commentAuthor) as TextView
         val commentContent = itemView.findViewById(R.id.textView_commentContent) as TextView
         val commentImage = itemView.findViewById(R.id.imageView_imageInComment) as ImageView
+        /*
+        init {
+            commentImage.let{
+                commentImage.setOnClickListener {
+
+                    val intent = Intent(itemView.context, ImageEnlargerActivity::class.java)
+                    //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, itemView, ViewCompat.getTransitionName(commentImage)!!)  //makeSceneTransitionAnimation(this, commentImage, ViewCompat.getTransitionName(commentImage)!!)
+                    //itemView.context.startActivity(intent)
+                    //var zoomAnimation = AnimationUtils.loadAnimation(itemView.context, R.anim.zoom_in)
+                    //commentImage.startAnimation(zoomAnimation)
+                    intent.putExtra("image", R.id.imageView_imageInComment)
+                    itemView.context.startActivity(intent)
+                }
+            }
+        }*/
+
+
 
     }
+
+
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(p0.context).inflate(R.layout.list_item_comment, p0, false)
@@ -62,10 +86,26 @@ class CommentsRecyclerAdapter():  RecyclerView.Adapter<CommentsRecyclerAdapter.V
         p0.commentContent.text = comment.content
         if ( comment.imageUrl != "") {
             Picasso.get().load(comment.imageUrl).into(p0.commentImage)
+            p0.commentImage.visibility = View.VISIBLE
+
+            p0.commentImage.setOnClickListener {
+
+                val intent = Intent(p0.itemView.context, ImageEnlargerActivity::class.java)
+                //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, itemView, ViewCompat.getTransitionName(commentImage)!!)  //makeSceneTransitionAnimation(this, commentImage, ViewCompat.getTransitionName(commentImage)!!)
+                //itemView.context.startActivity(intent)
+                //var zoomAnimation = AnimationUtils.loadAnimation(itemView.context, R.anim.zoom_in)
+                //commentImage.startAnimation(zoomAnimation)
+
+                intent.putExtra("image", comment.imageUrl)
+                p0.itemView.context.startActivity(intent)
+            }
+
+        }else{
+            p0.commentImage.visibility = View.GONE
         }
 
-
     }
+
 
     fun updateUsers(newUsers: MutableList<CUser>){
         usersList.clear()

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/darkestBlue</item>
         <item name="colorPrimaryDark">@color/darkestBlue</item>
         <item name="colorAccent">@color/lightBlue</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -48,5 +49,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    
+
 
 </resources>

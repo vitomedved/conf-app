@@ -29,8 +29,13 @@ import java.text.SimpleDateFormat
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.view.ViewCompat
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import com.example.confapp.event.comment.ImageEnlargerActivity
+import kotlinx.android.synthetic.main.list_item_comment.*
 
 
 class EventScrollingActivity : AppCompatActivity() {
@@ -124,7 +129,6 @@ class EventScrollingActivity : AppCompatActivity() {
         val currentDate  = Calendar.getInstance().time
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val stringDateTime = sdf.format(currentDate)
-
 
 
         viewModel.currentEvent.observe(this, Observer {
