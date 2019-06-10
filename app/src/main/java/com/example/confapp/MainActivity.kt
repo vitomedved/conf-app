@@ -19,6 +19,7 @@ import android.widget.Toast
 import com.example.confapp.event.favourite.FavouriteEventFragment
 import com.example.confapp.exhibitors.ExhibitorsFragment
 import com.example.confapp.aboutconf.AboutFragment
+import com.example.confapp.event.EventScrollingActivity
 import com.example.confapp.gmaps.GMapsActivity
 import com.example.confapp.model.CPresenter
 import com.example.confapp.model.CUser
@@ -33,6 +34,8 @@ import com.firebase.client.ValueEventListener
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.auth.FirebaseAuth
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 import com.squareup.picasso.Picasso
 
 
@@ -218,9 +221,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         return if (id == R.id.action_settings) {
+            IntentIntegrator(this).initiateScan()
             true
         } else super.onOptionsItemSelected(item)
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null){
+            if (result.contents != null){
+                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show()
+                val intent = Intent(this, EventScrollingActivity::class.java).putExtra("eventId",result.contents.toString())
+                startActivity(intent)
+            }else{
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+            }
+        }else{
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
