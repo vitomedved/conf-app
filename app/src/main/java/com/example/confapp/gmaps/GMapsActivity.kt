@@ -37,8 +37,11 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
     private lateinit var mMap: GoogleMap
 
     private lateinit var marker: Marker
+    private lateinit var usrLocation: LatLng
+
     private lateinit var mInfo: ImageView
     private lateinit var mTarget: ImageView
+    private lateinit var mPerson: ImageView
 
     var mLocationPermissionGranted: Boolean = false
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
@@ -49,6 +52,7 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
 
         mInfo = findViewById(R.id.place_info)
         mTarget = findViewById(R.id.target_marker)
+        mPerson = findViewById(R.id.person_marker)
 
         getLocationPermission()
 
@@ -86,7 +90,7 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
         mMap = p0!!
 
         if (mLocationPermissionGranted){
-            getDeviceLocation()
+            getDeviceLocation(false)
 
             val permission = ContextCompat.checkSelfPermission(this,
                 FINE_LOCATION)
@@ -106,6 +110,10 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
 
         mTarget.setOnClickListener {
             moveCamera(RITEH_LOCATION, DEFAULT_ZOOM)
+        }
+
+        mPerson.setOnClickListener {
+            getDeviceLocation(true)
         }
 
         mInfo.setOnClickListener {
@@ -154,7 +162,7 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
         }
     }
 // mozda ako stignem
-    fun getDeviceLocation(){
+    fun getDeviceLocation(move: Boolean){
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         try {
@@ -165,7 +173,10 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
                         //Toast.makeText(this, "found your location ;) ;)", Toast.LENGTH_LONG).show()
                         var userLocation : Location = it.result
 
-                        //moveCamera(LatLng(userLocation.latitude, userLocation.longitude), DEFAULT_ZOOM)
+                        if (move){
+                            moveCamera(LatLng(userLocation.latitude, userLocation.longitude), DEFAULT_ZOOM)
+                        }
+
                     }else{
                         Toast.makeText(this, "Failed to find you :(", Toast.LENGTH_LONG).show()
                     }
