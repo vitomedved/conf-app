@@ -69,6 +69,14 @@
         <item>Q&amp;A</item>
     </string-array>
 
+    <string-array name="hall_array">
+        <item>Hall 1</item>
+        <item>Hall 2</item>
+        <item>Hall 3</item>
+        <item>Hall 4</item>
+        <item>Hall 5</item>
+    </string-array>
+
     <string name="event_notification_channel_description">This event is starting soon</string>
 
     <!-- TODO: Remove or change this placeholder text -->

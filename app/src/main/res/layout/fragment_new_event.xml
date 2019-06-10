@@ -101,13 +101,14 @@
                     android:layout_height="match_parent"
                     android:id="@+id/textView_eventHall"
                     style="@style/TextViewLabel"/>
-            <EditText
+            <Spinner
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/editText_eventHall"
-                    style="@style/TextViewInput" android:hint="@string/placeholder_event_location"/>
+                    android:id="@+id/spinner_eventHall"
+                    style="@style/TextViewInput"
+                    android:entries="@array/hall_array"
+            />
+
         </TableRow>
         <TableRow
                 android:layout_width="match_parent"

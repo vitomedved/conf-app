@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".event.comment.ImageEnlargerActivity">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:id="@+id/zoomImage_container">
 
         <ImageView android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:padding="6dp"
                    android:id="@+id/imageView_zoomImage"
                    android:transitionName="image_transition"
-        />
-
-        <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:lottie_fileName="loading-dots.json"
-                android:visibility="invisible"
-                android:id="@+id/image_enlarger_loading_animation"
-                android:layout_centerInParent="true"
-                app:lottie_loop="true"
-                app:lottie_autoPlay="true"
         />
 
 

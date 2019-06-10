@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
             android:allowBackup="true"
@@ -26,8 +26,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:hardwareAccelerated="true">
-        <activity android:name=".event.comment.ImageEnlargerActivity">
-        </activity>
+        <activity android:name=".event.comment.ImageEnlargerActivity"
+            android:theme="@style/AppTheme.popupwindow"/>
+
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

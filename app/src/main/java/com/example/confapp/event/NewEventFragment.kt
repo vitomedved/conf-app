@@ -60,12 +60,6 @@ class NewEventFragment : Fragment(), AddPresentersFragmentDialog.PresenterSelect
             }
         }
 
-        retView.editText_eventHall.setOnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                v.hideKeyboard()
-            }
-        }
-
         retView.editText_aboutEvent.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 v.hideKeyboard()
@@ -111,7 +105,7 @@ class NewEventFragment : Fragment(), AddPresentersFragmentDialog.PresenterSelect
                         retView.editText_aboutEvent.text.toString(),
                         retView.editText_eventDate.text.toString(),
                         retView.editText_eventTime.text.toString(),
-                        retView.editText_eventHall.text.toString(),
+                        retView.spinner_eventHall.selectedItem.toString(),
                         retView.spinner_eventType.selectedItem.toString(),
                         retView.editText_eventDuration.text.toString(),
                         mutableListOf()
