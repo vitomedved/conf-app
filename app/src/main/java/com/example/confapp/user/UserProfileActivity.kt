@@ -104,7 +104,7 @@ class UserProfileActivity : AppCompatActivity(){
         var height : Int = dm.heightPixels
 
         width = (width * 0.8).toInt()
-        height = (height * 0.52).toInt() //malo vidjet kako se renderira // TODO promjeniti
+        height = (height * 0.6).toInt() //malo vidjet kako se renderira // TODO promjeniti
 
         getWindow().setLayout(width, height)
 
