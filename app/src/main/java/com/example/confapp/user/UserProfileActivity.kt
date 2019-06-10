@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
 import android.widget.ImageView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.login.RegistrationActivity
 import de.hdodenhof.circleimageview.CircleImageView
@@ -30,7 +31,7 @@ class UserProfileActivity : AppCompatActivity(){
     lateinit var name: TextView
     lateinit var type: TextView
     lateinit var mail: TextView
-    lateinit var mail_icon: ImageButton
+    lateinit var mail_icon: LottieAnimationView
     lateinit var date_joined: TextView
     lateinit var firebaseRef: Firebase
 
@@ -44,7 +45,7 @@ class UserProfileActivity : AppCompatActivity(){
         name = findViewById(com.example.confapp.R.id.user_name)
         type = findViewById(com.example.confapp.R.id.user_type)
         mail = findViewById(com.example.confapp.R.id.user_email)
-        mail_icon = findViewById(com.example.confapp.R.id.mail_icon)
+        mail_icon = findViewById(com.example.confapp.R.id.user_email_animation)
         date_joined = findViewById(com.example.confapp.R.id.date_joined_user)
 
         firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
@@ -103,7 +104,7 @@ class UserProfileActivity : AppCompatActivity(){
         var height : Int = dm.heightPixels
 
         width = (width * 0.8).toInt()
-        height = (height * 0.6).toInt() //malo vidjet kako se renderira
+        height = (height * 0.52).toInt() //malo vidjet kako se renderira // TODO promjeniti
 
         getWindow().setLayout(width, height)
 
