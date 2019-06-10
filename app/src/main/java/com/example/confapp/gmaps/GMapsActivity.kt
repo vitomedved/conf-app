@@ -2,6 +2,8 @@ package com.example.confapp.gmaps
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -9,6 +11,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import bolts.Task
 import com.example.confapp.R
@@ -19,7 +22,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import java.io.IOException
 import java.util.jar.Manifest
 
 class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
@@ -31,20 +36,43 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
 
+    private lateinit var marker: Marker
+    private lateinit var mInfo: ImageView
+    private lateinit var mTarget: ImageView
+
     var mLocationPermissionGranted: Boolean = false
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gmaps)
-        //ova ga crasha
-        //mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        //initMap()
+        mInfo = findViewById(R.id.place_info)
+        mTarget = findViewById(R.id.target_marker)
+
         getLocationPermission()
 
     }
 
+
+/*
+    fun geoLocate(){
+        val search: String = "Tehnički fakultet"
+        val geocoder = Geocoder(this)
+        var list: List<Address>? = null
+        try {
+            list = geocoder.getFromLocationName(search, 1)
+        }catch (e: IOException){
+            Toast.makeText(this, "IOException: " + e.message, Toast.LENGTH_LONG).show()
+        }
+
+        if (list!!.isNotEmpty()){
+            var address: Address = list[0]
+
+            Toast.makeText(this, "result: " + address.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+*/
     fun initMap(){
 
         val mapFragment = supportFragmentManager
@@ -56,13 +84,38 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
     override fun onMapReady(p0: GoogleMap?) {
         Toast.makeText(this, "Map is ready!", Toast.LENGTH_LONG).show()
         mMap = p0!!
-/*
+
         if (mLocationPermissionGranted){
             getDeviceLocation()
+
+            val permission = ContextCompat.checkSelfPermission(this,
+                FINE_LOCATION)
+
+            if (permission == PackageManager.PERMISSION_GRANTED) {
+                mMap?.isMyLocationEnabled = true
+            }
         }
-*/
-        mMap.addMarker(MarkerOptions().position(RITEH_LOCATION).title("Tehnički fakultet u Rijeci"))
+
+        val snippet: String = "Vukovarska ul. 58, 51000, Rijeka\n" +
+                "Phone Number: 051 651 444\n" +
+                "Website: riteh.uniri.hr\n" +
+                "Rating: 4.4"
+        val options = MarkerOptions().position(RITEH_LOCATION).title("Tehnički fakultet u Rijeci").snippet(snippet)
+        marker = mMap.addMarker(options)
         moveCamera(RITEH_LOCATION, DEFAULT_ZOOM)
+
+        mTarget.setOnClickListener {
+            moveCamera(RITEH_LOCATION, DEFAULT_ZOOM)
+        }
+
+        mInfo.setOnClickListener {
+            if (marker.isInfoWindowShown){
+                marker.hideInfoWindow()
+            }else{
+                marker.showInfoWindow()
+            }
+        }
+        //geoLocate()
 
     }
 
@@ -109,10 +162,10 @@ class GMapsActivity :AppCompatActivity(), OnMapReadyCallback{
                 var location: com.google.android.gms.tasks.Task<Location> = mFusedLocationProviderClient.lastLocation
                 location.addOnCompleteListener {
                     if (it.isSuccessful){
-                        Toast.makeText(this, "found your location ;) ;)", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(this, "found your location ;) ;)", Toast.LENGTH_LONG).show()
                         var userLocation : Location = it.result
 
-                        moveCamera(LatLng(userLocation.latitude, userLocation.longitude), DEFAULT_ZOOM)
+                        //moveCamera(LatLng(userLocation.latitude, userLocation.longitude), DEFAULT_ZOOM)
                     }else{
                         Toast.makeText(this, "Failed to find you :(", Toast.LENGTH_LONG).show()
                     }

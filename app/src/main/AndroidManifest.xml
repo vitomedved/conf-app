@@ -78,7 +78,9 @@
         <activity
                 android:name=".user.UserProfileActivity"
                 android:theme="@style/AppTheme.popupwindow"/>
-        <activity android:name=".gmaps.GMapsActivity"/>
+        <activity
+                android:name=".gmaps.GMapsActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
 
         <receiver
                 android:name=".event.notification.AlarmReceiver"
