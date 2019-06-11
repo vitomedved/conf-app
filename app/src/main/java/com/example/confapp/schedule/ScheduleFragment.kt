@@ -22,6 +22,9 @@ import com.example.confapp.event.NewEventActivity
 import kotlinx.android.synthetic.main.fragment_schedule.*
 import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import java.util.*
+import android.support.design.widget.CoordinatorLayout
+
+
 
 
 class ScheduleFragment : Fragment() {
@@ -43,6 +46,8 @@ class ScheduleFragment : Fragment() {
 
         retView = inflater.inflate(R.layout.fragment_schedule, container, false)
 
+        retView.findViewById<FloatingActionButton>(R.id.fab_addEvent).hide()
+
         retView.recyclerView_schedule.layoutManager = LinearLayoutManager(activity)// to fali
 
         retView.fragment_schedule_progress_bar.visibility = View.VISIBLE
@@ -51,6 +56,12 @@ class ScheduleFragment : Fragment() {
             adapter.eventList = newEvents!!
             retView.recyclerView_schedule.adapter = adapter
             retView.fragment_schedule_progress_bar.visibility = View.INVISIBLE
+        })
+
+        model.user.observe(this, android.arch.lifecycle.Observer { newUser ->
+            if(newUser!!.level == 0){
+                retView.fab_addEvent.show()
+            }
         })
 
         model.currentDateString.observe(this, android.arch.lifecycle.Observer { newDate ->
