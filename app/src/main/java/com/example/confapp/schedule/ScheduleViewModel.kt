@@ -63,7 +63,13 @@ class ScheduleViewModel : ViewModel() {
     private var m_isFirstDay = MutableLiveData<Boolean>()
     private var m_isLastDay = MutableLiveData<Boolean>()
 
-    private var m_user: CUser? = null
+    //private var m_user: CUser? = null
+
+    private var m_user1 = MutableLiveData<CUser>()
+    val user: LiveData<CUser>
+        get() = m_user1
+
+    private var m_isCurrentUserAdmin = false
 
     val currentLeftArrowIcon = MutableLiveData<Int>()
     val currentRightArrowIcon = MutableLiveData<Int>()
@@ -106,6 +112,10 @@ class ScheduleViewModel : ViewModel() {
 
     fun updateEvents() {
         getEventsFromDatabase()
+    }
+
+    fun isCurrentUserAdmin(): Boolean {
+        return m_user1.value?.level == 0
     }
 
     private fun getEventsFromDatabase() {
@@ -197,8 +207,7 @@ class ScheduleViewModel : ViewModel() {
 
     fun removeEvent(index: Int): Boolean {
         //Log.d("asd", m_events.value!![index].name)
-        if (m_user == null || m_user?.level == 0) {
-
+        if (m_user1.value == null || m_user1.value?.level != 0) {
             return false
         }
         val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
@@ -210,7 +219,7 @@ class ScheduleViewModel : ViewModel() {
         return true
     }
 
-    fun initUserFromDatabase() {
+    private fun initUserFromDatabase() {
         val logged_uid = FirebaseAuth.getInstance().uid
 
         database.child("model/user/$logged_uid").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -218,10 +227,12 @@ class ScheduleViewModel : ViewModel() {
                 Log.e("ScheduleViewModel", "onCancelled called from database reference.")
             }
 
-            override fun onDataChange(dataSnapshot: com.google.firebase.database.DataSnapshot) {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val usr: CUser? = dataSnapshot.getValue(CUser::class.java)
 
-                m_user = usr
+                //m_user = usr
+                m_user1.value = usr
+                m_isCurrentUserAdmin = usr?.level == 0
             }
         })
     }
