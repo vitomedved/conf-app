@@ -217,6 +217,9 @@ class EventViewModel: ViewModel() {
         val key = ref.child("Data/event/$id/comment").push().key
         comment.id = key!!
         ref.child("Data/event/$id/comment/$key").setValue(comment)
+
+        // TODO: update comments
+        getCommentsFromDatabase(m_currentEvent.value!!.id)
     }
 
     fun getCommentsFromDatabase(id: String){
@@ -322,6 +325,7 @@ class EventViewModel: ViewModel() {
         ref.child("Data/event/$eventId/comment/$commentId").setValue(null)
         // TODO remove image from storage
 
+        getCommentsFromDatabase(m_currentEvent.value!!.id)
         return true
     }
 

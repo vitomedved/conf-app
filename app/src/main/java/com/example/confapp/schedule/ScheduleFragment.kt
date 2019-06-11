@@ -117,7 +117,7 @@ class ScheduleFragment : Fragment() {
             if(model.removeEvent(item!!.groupId)){
                 Toast.makeText(context, "Event successfully removed", Toast.LENGTH_LONG).show()
             }else{
-                Toast.makeText(context, "Unable to delete event - there is no possible way for this to happen...", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Insufficient permission", Toast.LENGTH_LONG).show()
             }
         }
 
