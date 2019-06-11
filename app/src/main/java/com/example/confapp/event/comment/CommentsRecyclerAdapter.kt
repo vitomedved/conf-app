@@ -29,7 +29,6 @@ class CommentsRecyclerAdapter :  RecyclerView.Adapter<CommentsRecyclerAdapter.Vi
 
         override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
             menu!!.add(this.adapterPosition, v!!.getId(), 0, "Remove")
-            Log.d("probica", "stisnul si me")
         }
 
         val commentDate = itemView.findViewById(R.id.textView_commentDate) as TextView

@@ -5,8 +5,6 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
 import com.example.confapp.model.CEvent
 import com.example.confapp.R
 import com.example.confapp.model.CComment
@@ -16,6 +14,12 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+
+
+
+
+
+
 
 
 class EventViewModel: ViewModel() {
@@ -315,17 +319,29 @@ class EventViewModel: ViewModel() {
 
     fun removeComment(eventId: String, commentIndex: Int): Boolean {
         //Log.d("asd", m_events.value!![index].name)
-        if (m_currentUser!!.uid !=  m_comments.value!![commentIndex].author && m_currentUser!!.level != 0) {
+        if ( m_currentUser == null || (m_currentUser!!.uid !=  m_comments.value!![commentIndex].author && m_currentUser!!.level != 0 ) ) {
 
             return false
         }
+
         val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
         val commentId = m_comments.value!![commentIndex].id
 
+
+        val storageReference = FirebaseStorage.getInstance()
+            .getReferenceFromUrl(m_comments.value!![commentIndex].imageUrl)
+        storageReference.delete().addOnSuccessListener {
+            // File deleted successfully
+            Log.e("firebasestorage", "onSuccess: deleted file")
+        }.addOnFailureListener {
+            // Uh-oh, an error occurred!
+            Log.e("firebasestorage", "onFailure: did not delete file")
+        }
+
         ref.child("Data/event/$eventId/comment/$commentId").setValue(null)
-        // TODO remove image from storage
 
         getCommentsFromDatabase(m_currentEvent.value!!.id)
+
         return true
     }
 

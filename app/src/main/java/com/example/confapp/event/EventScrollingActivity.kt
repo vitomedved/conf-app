@@ -125,12 +125,6 @@ class EventScrollingActivity : AppCompatActivity() {
 
         viewModel.getUsersFromDatabase()
 
-        viewModel.comments.observe(this, Observer {
-            newCommentsList ->
-            adapter.setData(newCommentsList as MutableList<CComment>)
-
-        })
-
         val currentDate  = Calendar.getInstance().time
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
         val stringDateTime = sdf.format(currentDate)
@@ -179,14 +173,14 @@ class EventScrollingActivity : AppCompatActivity() {
             viewModel.getCommentsFromDatabase(evtId)
         })
 
-        /*viewModel.comments.observe(this, Observer { newComments ->
+        viewModel.comments.observe(this, Observer { newComments ->
             adapter.setData(newComments as MutableList<CComment>)
-        })*/
+        })
 
         viewModel.getCommentsFromDatabase(evtId)
 
 
-        // oprosti Vito ako ovo nije prema pravilima, ali radi :) :)
+        // oprosti Vito ako ovo nije prema pravilima, ali radi :)
         fun View.hideKeyboard() {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(windowToken, 0)
@@ -225,6 +219,7 @@ class EventScrollingActivity : AppCompatActivity() {
             }
 
             button_uploadImage.setOnClickListener {
+
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "image/comments/*"
                 startActivityForResult(intent, 0)
@@ -263,7 +258,7 @@ class EventScrollingActivity : AppCompatActivity() {
             if(viewModel.removeComment(evtId, item.groupId)){
                 Toast.makeText(this, "Comment successfully removed", Toast.LENGTH_LONG).show()
             }else{
-                Toast.makeText(this, "You have no power, little man", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Unable to delete comment - there is no possible way for this to happen...", Toast.LENGTH_LONG).show()
             }
         }
 
