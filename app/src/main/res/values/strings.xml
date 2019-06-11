@@ -98,5 +98,6 @@
     <string name="maps_api_key">
         AIzaSyDy-Efv37oOprCICK4TsGg8qUvfdHS0rtk
     </string>
+    <string name="remove_comment">Remove comment</string>
 
 </resources>

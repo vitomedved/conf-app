@@ -179,8 +179,6 @@ class EventViewModel: ViewModel() {
         val commentUid = UUID.randomUUID().toString()
         //val comment = CComment(commentUid, author, content, date, imageUri.toString())
 
-        Log.d("probica2", imageUri.toString())
-
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/comments/$filename")
         var imageUrl : String
@@ -310,6 +308,21 @@ class EventViewModel: ViewModel() {
         time.add(Calendar.HOUR_OF_DAY, -1)
 
         return time.timeInMillis
+    }
+
+    fun removeComment(eventId: String, commentIndex: Int): Boolean {
+        //Log.d("asd", m_events.value!![index].name)
+        if (m_currentUser!!.uid !=  m_comments.value!![commentIndex].author && m_currentUser!!.level != 0) {
+
+            return false
+        }
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
+        val commentId = m_comments.value!![commentIndex].id
+
+        ref.child("Data/event/$eventId/comment/$commentId").setValue(null)
+        // TODO remove image from storage
+
+        return true
     }
 
 }

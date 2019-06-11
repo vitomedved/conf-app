@@ -1,17 +1,12 @@
 package com.example.confapp.event.comment
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.content.ContextCompat.startActivity
-import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.confapp.R
@@ -29,11 +24,19 @@ class CommentsRecyclerAdapter :  RecyclerView.Adapter<CommentsRecyclerAdapter.Vi
     private var commentsList: MutableList<CComment> = mutableListOf()
     private var usersList: MutableList<CUser> = mutableListOf()
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnCreateContextMenuListener {
+
+
+        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+            menu!!.add(this.adapterPosition, v!!.getId(), 0, "Remove")
+            Log.d("probica", "stisnul si me")
+        }
+
         val commentDate = itemView.findViewById(R.id.textView_commentDate) as TextView
         val commentAuthor = itemView.findViewById(R.id.textView_commentAuthor) as TextView
         val commentContent = itemView.findViewById(R.id.textView_commentContent) as TextView
         val commentImage = itemView.findViewById(R.id.imageView_imageInComment) as ImageView
+
         /*
         init {
             commentImage.let{
@@ -50,7 +53,10 @@ class CommentsRecyclerAdapter :  RecyclerView.Adapter<CommentsRecyclerAdapter.Vi
             }
         }*/
 
-
+        init {
+            //itemView.setOnCreateContextMenuListener(this)
+            commentContent.setOnCreateContextMenuListener(this) // zasto ovo radiiii a linija gore neeee
+        }
 
     }
 
@@ -91,11 +97,6 @@ class CommentsRecyclerAdapter :  RecyclerView.Adapter<CommentsRecyclerAdapter.Vi
             p0.commentImage.setOnClickListener {
 
                 val intent = Intent(p0.itemView.context, ImageEnlargerActivity::class.java)
-                //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, itemView, ViewCompat.getTransitionName(commentImage)!!)  //makeSceneTransitionAnimation(this, commentImage, ViewCompat.getTransitionName(commentImage)!!)
-                //itemView.context.startActivity(intent)
-                //var zoomAnimation = AnimationUtils.loadAnimation(itemView.context, R.anim.zoom_in)
-                //commentImage.startAnimation(zoomAnimation)
-
                 intent.putExtra("image", comment.imageUrl)
                 p0.itemView.context.startActivity(intent)
             }
@@ -111,7 +112,6 @@ class CommentsRecyclerAdapter :  RecyclerView.Adapter<CommentsRecyclerAdapter.Vi
         usersList.clear()
         usersList.addAll(newUsers)
 
-        //notifyDataSetChanged()
     }
 
     fun setData(comments: MutableList<CComment>){

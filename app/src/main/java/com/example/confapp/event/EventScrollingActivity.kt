@@ -27,11 +27,14 @@ import com.example.confapp.model.CComment
 import com.example.confapp.model.CUser
 import java.text.SimpleDateFormat
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.ViewCompat
 import android.util.Log
+import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import com.example.confapp.event.comment.ImageEnlargerActivity
@@ -43,6 +46,8 @@ class EventScrollingActivity : AppCompatActivity() {
     private lateinit var button_favorite: FloatingActionButton
 
     private var evtId = ""
+
+    private lateinit var viewModel: EventViewModel
 
     override fun onBackPressed() {
         var launchedFromNotification = false
@@ -96,7 +101,7 @@ class EventScrollingActivity : AppCompatActivity() {
 
         button_favorite = findViewById(R.id.button_favorite)
 
-        val viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
 
         val serializableEvt = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT)
@@ -242,6 +247,27 @@ class EventScrollingActivity : AppCompatActivity() {
                 makeAlert()
             }
         }
+
+
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        super.onContextItemSelected(item)
+
+        Toast.makeText(this, "Clicked ${item!!.groupId}", Toast.LENGTH_SHORT).show()
+        if(!checkConnectivity()){
+            Toast.makeText(this, "Connect to the internet to remove event", Toast.LENGTH_LONG).show()
+        }else{
+
+
+            if(viewModel.removeComment(evtId, item.groupId)){
+                Toast.makeText(this, "Comment successfully removed", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(this, "Unable to delete comment - there is no possible way for this to happen...", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        return true
     }
 
     var selectedPhotoUri: Uri? = null
@@ -261,6 +287,21 @@ class EventScrollingActivity : AppCompatActivity() {
             imageView_uploadedImage.setImageBitmap(bitmap)
 
         }
+    }
+
+    // Returns false if device is not connected to internet, true if device is connected to internet
+    private fun checkConnectivity(): Boolean {
+        var ret = false
+
+        val connectivityManager = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+
+        if(isConnected)
+        {
+            ret = true
+        }
+        return ret
     }
 
 
