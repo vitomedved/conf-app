@@ -74,8 +74,8 @@ class UserProfileActivity : AppCompatActivity(){
 
                 if(usr.level == 9){
                     type.text = "Guest"
-                }else{
-                    type.text = "sanko je sjebo.."
+                }else if(usr.level == 0){
+                    type.text = "Admin"
                 }
 
                 mail_icon.setOnClickListener {
