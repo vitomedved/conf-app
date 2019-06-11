@@ -26,6 +26,7 @@ import com.example.confapp.model.CUser
 import com.example.confapp.login.LoginActivity
 import com.example.confapp.map.MapFragment
 import com.example.confapp.schedule.ScheduleFragment
+import com.example.confapp.user.UserListFragmentAdmin
 import com.example.confapp.user.UserProfileActivity
 import com.firebase.client.DataSnapshot
 import com.firebase.client.Firebase
@@ -222,6 +223,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         return if (id == R.id.action_settings) {
             IntentIntegrator(this).initiateScan()
+
+
+            // ovo bi bilo za eventualni user profile
+            //supportFragmentManager.beginTransaction().replace(R.id.fragment_container, UserListFragmentAdmin()).commit()
+
             true
         } else super.onOptionsItemSelected(item)
 
