@@ -130,7 +130,8 @@ class EventScrollingActivity : AppCompatActivity() {
         recyclerViewExhibitors.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
         val adapterExhibitors = ExhibitorsRecyclerAdapter()
         recyclerViewExhibitors.adapter = adapterExhibitors
-        viewModel.getExhibitorsFromDatabaseByEventId(evtId)
+        //viewModel.getExhibitorsFromDatabaseByEventId(evtId)
+        viewModel.getExhibitorsFromDatabase(evtId)
 
         viewModel.getUsersFromDatabase()
 

@@ -233,23 +233,27 @@ class EventViewModel: ViewModel() {
     var m_exhibitorsList : MutableList<CExhibitor> = mutableListOf()
 
 
-    private fun getExhibitorById(id: String) {
-        FirebaseDatabase.getInstance().reference.child("Data/exhibitor/$id").ref.addListenerForSingleValueEvent(object:
+    // nije glupo ako radi :)
+    fun getExhibitorsFromDatabase(id: String) {
+        val exhibitorsId: MutableList<String> = mutableListOf()
+
+        FirebaseDatabase.getInstance().reference.child("Data/event/$id/presenters").ref.addListenerForSingleValueEvent(object:
             ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 Log.e("EventViewModel", "Exhibitor can not be loaded via ID.")
             }
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.d("probica12", "odradil sam ovo " + id)
 
-                m_exhibitorsList.add(dataSnapshot.getValue(CExhibitor::class.java)!!)
-                Log.d("probica14", m_exhibitorsList.toString())
+                for(exhibitorSnapshot in dataSnapshot.children){
 
+                    if( exhibitorSnapshot.value.toString() != "-1" ){
+                        exhibitorsId.add(exhibitorSnapshot.value.toString())
+                    }
+                }
             }
         })
-    }
 
-    private fun getExhibitorsFromDatabase() {
+
         FirebaseDatabase.getInstance().reference.child("Data/exhibitor").ref.addListenerForSingleValueEvent(object:
             ValueEventListener {
 
@@ -262,40 +266,12 @@ class EventViewModel: ViewModel() {
 
                 for(eventSnapshot in p0!!.children){
                     val exhibitor: CExhibitor = eventSnapshot.getValue(CExhibitor::class.java)!!
-                    exhibitorList.add(exhibitor)
+                    if ( exhibitor.id in exhibitorsId) {
+                        exhibitorList.add(exhibitor)
+                    }
                 }
 
                 m_exhibitors.value = exhibitorList
-            }
-        })
-        Log.d("probica12", m_exhibitors.value.toString())
-
-    }
-
-    fun getExhibitorsFromDatabaseByEventId(id: String){
-
-        FirebaseDatabase.getInstance().reference.child("Data/event/$id/presenters").ref.addListenerForSingleValueEvent(object:
-            ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("EventViewModel", "Exhibitor can not be loaded via ID.")
-            }
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val exhibitorsId: MutableList<String> = mutableListOf()
-                //m_exhibitorsList = mutableListOf()
-
-                for(exhibitorSnapshot in dataSnapshot.children){
-
-                    exhibitorsId.add(exhibitorSnapshot.value.toString())
-                    getExhibitorById(exhibitorSnapshot.value.toString())
-                    Log.d("probica17", m_exhibitorsList.toString())
-
-                }
-
-                Log.d("probica12", exhibitorsId.toString())
-                Log.d("probica13", m_exhibitorsList.toString())
-
-
-                m_exhibitors.value = m_exhibitorsList
             }
         })
 
