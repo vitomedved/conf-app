@@ -42,6 +42,7 @@ class ImageEnlargerActivity : AppCompatActivity() {
 
         //getWindow().setLayout( ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         window.setLayout(width, height)
-        window.decorView.background = ColorDrawable(Color.TRANSPARENT)
+        //window.decorView.background = ColorDrawable(Color.TRANSPARENT)
+
     }
 }

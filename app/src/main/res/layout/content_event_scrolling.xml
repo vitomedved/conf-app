@@ -33,20 +33,35 @@
                 android:id="@+id/event_scrolling_activity_progress_bar_content" android:layout_centerInParent="true"/>-->
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView_aboutTitle"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_aboutTitle"
                 android:textSize="@dimen/textSize_mediumToLarge"
-                android:layout_marginBottom="@dimen/text_margin" android:textColor="@color/darkestBlue"
-                android:textStyle="bold" android:layout_alignParentTop="true"/>
+                android:layout_marginBottom="@dimen/text_margin"
+                android:textColor="@color/darkestBlue"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"/>
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView_aboutEvent"
-        android:lineSpacingExtra="@dimen/smallest_spacing" android:layout_marginBottom="@dimen/text_margin"
-        android:textSize="@dimen/textSize_medium" android:textColor="@color/darkBlue"
-        android:layout_below="@+id/textView_aboutTitle"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_aboutEvent"
+                android:lineSpacingExtra="@dimen/smallest_spacing"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:textSize="@dimen/textSize_medium"
+                android:textColor="@color/darkBlue"
+                android:layout_below="@+id/textView_aboutTitle"/>
+
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/textView_aboutEvent"
+                android:id="@+id/view_lineBetweenAboutAndExhibitors"
+                android:background="@color/darkestBlue"
+        />
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_eventExhibitors"
-                android:layout_below="@+id/textView_aboutEvent"
+                android:layout_below="@+id/view_lineBetweenAboutAndExhibitors"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
         />

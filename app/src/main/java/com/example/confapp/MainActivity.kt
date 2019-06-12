@@ -127,13 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun isMapsOk(): Boolean{
         val available: Int = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
-        if (available == ConnectionResult.SUCCESS){
-            //Toast.makeText(this,"available!", Toast.LENGTH_LONG).show()
-            return true
-        }else{
-            return false
-        }
-
+        return available == ConnectionResult.SUCCESS
     }
 
     private fun makeAlert(){
@@ -191,8 +185,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         startActivity(intent)
                     }
-
-
                 }
             })
         }

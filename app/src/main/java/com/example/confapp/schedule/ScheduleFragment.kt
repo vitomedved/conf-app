@@ -59,7 +59,7 @@ class ScheduleFragment : Fragment() {
         })
 
         model.user.observe(this, android.arch.lifecycle.Observer { newUser ->
-            if(newUser!!.level == 0){
+            if(newUser?.level == 0){
                 retView.fab_addEvent.show()
             }
         })
