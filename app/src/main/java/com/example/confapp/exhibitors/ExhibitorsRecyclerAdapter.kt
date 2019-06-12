@@ -16,7 +16,9 @@ import android.net.Uri
 import android.os.Bundle
 
 
-class ExhibitorsRecyclerAdapter(val exhibitorsList: MutableList<CExhibitor>): RecyclerView.Adapter<ExhibitorsRecyclerAdapter.ViewHolder>() {
+class ExhibitorsRecyclerAdapter: RecyclerView.Adapter<ExhibitorsRecyclerAdapter.ViewHolder>() {
+
+    var exhibitorsList: MutableList<CExhibitor> = mutableListOf()
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val exhibitorCompany = itemView.findViewById(R.id.textView_exhibitorCompany) as TextView
@@ -51,6 +53,13 @@ class ExhibitorsRecyclerAdapter(val exhibitorsList: MutableList<CExhibitor>): Re
 
         }
 
+    }
+
+    fun setData(exhibitors: MutableList<CExhibitor>){
+        exhibitorsList.clear()
+        exhibitorsList.addAll(exhibitors)
+
+        notifyDataSetChanged()
     }
 
 }

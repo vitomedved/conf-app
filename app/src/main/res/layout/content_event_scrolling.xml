@@ -44,11 +44,18 @@
         android:textSize="@dimen/textSize_medium" android:textColor="@color/darkBlue"
         android:layout_below="@+id/textView_aboutTitle"/>
 
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_eventExhibitors"
+                android:layout_below="@+id/textView_aboutEvent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        />
+
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/comments_container"
-                      android:layout_below="@id/textView_aboutEvent"
+                      android:layout_below="@id/recyclerView_eventExhibitors"
                       android:orientation="vertical">
 
             <LinearLayout android:layout_width="match_parent"

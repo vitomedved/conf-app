@@ -31,14 +31,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.provider.MediaStore
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.view.ViewCompat
 import android.util.Log
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import com.example.confapp.event.comment.ImageEnlargerActivity
-import kotlinx.android.synthetic.main.list_item_comment.*
+import com.example.confapp.exhibitors.ExhibitorsRecyclerAdapter
+import com.example.confapp.model.CExhibitor
 
 
 class EventScrollingActivity : AppCompatActivity() {
@@ -48,6 +45,7 @@ class EventScrollingActivity : AppCompatActivity() {
     private var evtId = ""
 
     private lateinit var viewModel: EventViewModel
+
 
     override fun onBackPressed() {
         var launchedFromNotification = false
@@ -80,6 +78,7 @@ class EventScrollingActivity : AppCompatActivity() {
             .setNeutralButton("Cancel"){dialog, which ->
             }
 
+
         val dialog: AlertDialog = builder.create()
         dialog.show()
 
@@ -88,6 +87,9 @@ class EventScrollingActivity : AppCompatActivity() {
 
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewExhibitors: RecyclerView
+
+
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,6 +124,13 @@ class EventScrollingActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
         val adapter = CommentsRecyclerAdapter()
         recyclerView.adapter = adapter
+
+
+        recyclerViewExhibitors = findViewById(R.id.recyclerView_eventExhibitors)
+        recyclerViewExhibitors.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+        val adapterExhibitors = ExhibitorsRecyclerAdapter()
+        recyclerViewExhibitors.adapter = adapterExhibitors
+        viewModel.getExhibitorsFromDatabaseByEventId(evtId)
 
         viewModel.getUsersFromDatabase()
 
@@ -175,6 +184,10 @@ class EventScrollingActivity : AppCompatActivity() {
 
         viewModel.comments.observe(this, Observer { newComments ->
             adapter.setData(newComments as MutableList<CComment>)
+        })
+
+        viewModel.exhibitors.observe(this, Observer { newExhibitors ->
+            adapterExhibitors.setData(newExhibitors as MutableList<CExhibitor>)
         })
 
         viewModel.getCommentsFromDatabase(evtId)
@@ -275,9 +288,6 @@ class EventScrollingActivity : AppCompatActivity() {
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
             Log.d("probica", selectedPhotoUri.toString())
 
-
-            // TODO NASTAVI OVDJE - PRIKAZ UPLOADANE
-            // TODO AKO SE VITI NE SVIĐA ONA LAJNA MAKNI
             imageView_uploadedImage.layoutParams.height = 200
             imageView_uploadedImage.setImageBitmap(bitmap)
 
@@ -301,4 +311,3 @@ class EventScrollingActivity : AppCompatActivity() {
 
 
 }
-
