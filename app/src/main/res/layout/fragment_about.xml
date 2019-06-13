@@ -44,7 +44,8 @@
                   android:layout_height="wrap_content"
                   android:text="@string/confDates"
                   android:textAlignment="center"
-                  android:textSize="35sp"
+                  style="@android:style/TextAppearance.DeviceDefault.Large"
+
         />
 
     </LinearLayout>
