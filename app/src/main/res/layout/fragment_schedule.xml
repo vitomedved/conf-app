@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/textView"
                     android:textSize="@dimen/textSize_medium"
-                    android:textColor="@color/blue" android:text="@string/textPlaceholder_weekName"
+                    android:textColor="@color/blue" android:text=""
                     android:textAllCaps="true"/>
             <LinearLayout
                     android:weightSum="1"
