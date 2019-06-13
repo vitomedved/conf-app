@@ -79,12 +79,11 @@
 
     <string name="event_notification_channel_description">This event is starting soon</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confDates">20 - 25 July 2019</string>
     <string name="confDescription">Peterodnevna konferencija kreirana upravo prema Vama, developerima! Uz cjelodnevne
         događaje poput edukativnih i inspiracijskih govora, panel rasprava, predavanja i radionica koje vode stručnjaci
-        iz industrije organizirani su i „networking eventi“ (čitaj: zabave do ranojutarnjih sati). Naravno, sav taj
+        iz industrije organizirani su i „networking eventi“ (čitaj: zabave do ranojutarnjih sati). \nNaravno, sav taj
         sadržaj zahtjeva besplatnu kavu i pivu koje teku u potocima. Za one koji vole ići po konferencijama primarno
         zbog hrane, a tek onda radi novih znanja pripremili smo vrhunski catering pored kojeg nitko ne može ostati
         ravnodušan! \nVidimo se u Rijeci!
