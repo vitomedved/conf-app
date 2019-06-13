@@ -38,6 +38,7 @@ import com.example.confapp.exhibitors.ExhibitorsRecyclerAdapter
 import com.example.confapp.model.CExhibitor
 
 
+@Suppress("DEPRECATION")
 class EventScrollingActivity : AppCompatActivity() {
 
     private lateinit var button_favorite: FloatingActionButton
@@ -216,7 +217,7 @@ class EventScrollingActivity : AppCompatActivity() {
                     val result = viewModel.toggleSubscribeToEvent()
 
                     if(result == EventViewModel.EVENT_SUBSCRIBED){
-                        val time: Long = viewModel.getHourBeforeEventStart()
+                        viewModel.getHourBeforeEventStart()
                         NotificationUtils().setNotification(Calendar.getInstance().timeInMillis + 5000, viewModel.currentEvent.value!!, this)
                         }
                 }
@@ -226,7 +227,7 @@ class EventScrollingActivity : AppCompatActivity() {
                 editText_comment.text.toString()
 
                 if(!checkConnectivity()){
-                    Toast.makeText(this, "Connect to the internet ", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Connect to the internet", Toast.LENGTH_LONG).show()
                 }else{
 
                     if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString(), selectedPhotoUri)) {
@@ -237,7 +238,7 @@ class EventScrollingActivity : AppCompatActivity() {
                         imageView_uploadedImage.setImageBitmap(null)
                         imageView_uploadedImage.layoutParams.height = -2
                     }else{
-                        Toast.makeText(this, "Unable to add comment", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Comment cannot be blank", Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -307,7 +308,7 @@ class EventScrollingActivity : AppCompatActivity() {
     private fun checkConnectivity(): Boolean {
         var ret = false
 
-        val connectivityManager = this?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
 

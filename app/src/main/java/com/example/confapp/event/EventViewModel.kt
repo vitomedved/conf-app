@@ -90,7 +90,7 @@ class EventViewModel: ViewModel() {
 
     init{
         if(isUserLoggedIn()){
-            val currentUserId: String = m_currentFirebaseUser!!.uid.toString()
+            val currentUserId: String = m_currentFirebaseUser!!.uid
             FirebaseDatabase.getInstance().reference.child("model/user/$currentUserId").ref.addListenerForSingleValueEvent(object:
                 ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -179,11 +179,10 @@ class EventViewModel: ViewModel() {
     fun onSendCommentClick(eventId: String, date: String, content: String, imageUri: Uri?): Boolean {
 
         if(content == "" && imageUri == null){
-            // TODO: should send some kind of toast or something saying that comment can not be empty
             return false
         }
 
-        var author = m_currentUser!!.uid
+        val author = m_currentUser!!.uid
         val commentUid = UUID.randomUUID().toString()
         //val comment = CComment(commentUid, author, content, date, imageUri.toString())
 
@@ -226,7 +225,6 @@ class EventViewModel: ViewModel() {
         comment.id = key!!
         ref.child("Data/event/$id/comment/$key").setValue(comment)
 
-        // TODO: update comments
         getCommentsFromDatabase(m_currentEvent.value!!.id)
     }
 
@@ -264,7 +262,7 @@ class EventViewModel: ViewModel() {
             override fun onDataChange(p0: DataSnapshot) {
                 val exhibitorList: MutableList<CExhibitor> = mutableListOf()
 
-                for(eventSnapshot in p0!!.children){
+                for(eventSnapshot in p0.children){
                     val exhibitor: CExhibitor = eventSnapshot.getValue(CExhibitor::class.java)!!
                     if ( exhibitor.id in exhibitorsId) {
                         exhibitorList.add(exhibitor)
@@ -328,7 +326,7 @@ class EventViewModel: ViewModel() {
     fun toggleSubscribeToEvent(): Int{
         // Check if current user is subscribed to this event
 
-        var ret = EVENT_SUB_ERROR
+        val ret: Int
 
         // If yes, delete id from list, and update database
         if(isUserSubscribed()){
@@ -361,7 +359,7 @@ class EventViewModel: ViewModel() {
     }
 
     fun getHourBeforeEventStart(): Long {
-        var time = m_currentEvent.value!!.getDateTimeCalendar()
+        val time = m_currentEvent.value!!.getDateTimeCalendar()
 
         time.add(Calendar.HOUR_OF_DAY, -1)
 

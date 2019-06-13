@@ -1,5 +1,6 @@
 package com.example.confapp.user
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -61,6 +62,7 @@ class UserProfileActivity : AppCompatActivity(){
                 return
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val usr: CUser = dataSnapshot.getValue(CUser::class.java)
 
@@ -97,7 +99,7 @@ class UserProfileActivity : AppCompatActivity(){
         })
 
 
-        var dm : DisplayMetrics = DisplayMetrics()
+        val dm = DisplayMetrics()
         getWindowManager().defaultDisplay.getMetrics(dm)
 
         var width : Int = dm.widthPixels
