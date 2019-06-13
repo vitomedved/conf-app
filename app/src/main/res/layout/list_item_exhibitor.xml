@@ -50,6 +50,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView_urlExhibitor"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:layout_weight="0.11"
                     android:paddingRight="15dp"
                     android:layout_marginLeft="@dimen/margin_cardView"

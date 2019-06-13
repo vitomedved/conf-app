@@ -110,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) {task ->
                 if(task.isSuccessful){
-                    Toast.makeText(this, "Google sign in SUCCESS  " + FirebaseAuth.getInstance().uid, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, "Google sign in SUCCESS  " + FirebaseAuth.getInstance().uid, Toast.LENGTH_LONG).show()
                     val uid = FirebaseAuth.getInstance().uid
                     var flag : Boolean = false
                     firebaseRef.child("model/user/").addListenerForSingleValueEvent(object : ValueEventListener {
@@ -125,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
                             users.forEach{
                                 if(uid == it.key.toString()){
                                     flag = true
-                                    Toast.makeText(this@LoginActivity, "Found him -> " + it.key.toString(), Toast.LENGTH_LONG).show()
+                                    //Toast.makeText(this@LoginActivity, "Found him -> " + it.key.toString(), Toast.LENGTH_LONG).show()
                                 }
                                 //Toast.makeText(this@LoginActivity, it.key.toString(), Toast.LENGTH_LONG).show()
                             }

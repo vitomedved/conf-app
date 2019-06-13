@@ -20,4 +20,19 @@
                                            android:id="@+id/fragment_favourite_event_progress_bar"
                                            app:lottie_fileName="loading-dots.json"
                                            android:visibility="invisible"/>
+    <TextView
+            android:text="Please log in to see favourite events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/fragment_favourite_event_log_in_text"
+            android:textSize="18sp" android:layout_centerHorizontal="true"
+            android:layout_above="@id/fragment_favourite_event_shy_wolf" android:visibility="invisible"/>
+    <com.airbnb.lottie.LottieAnimationView android:layout_width="400dp"
+                                           android:layout_height="400dp"
+                                           app:lottie_loop="true"
+                                           app:lottie_autoPlay="true"
+                                           android:layout_centerInParent="true"
+                                           android:id="@+id/fragment_favourite_event_shy_wolf"
+                                           app:lottie_fileName="shy-wolf.json"
+                                           android:visibility="invisible"/>
+
 </RelativeLayout>

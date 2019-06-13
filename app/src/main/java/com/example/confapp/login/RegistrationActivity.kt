@@ -99,6 +99,7 @@ class RegistrationActivity : AppCompatActivity() {
                 Log.d("Regg", "USPJEEEH: ${it.result.user.uid}")
             }
             .addOnFailureListener{
+                loadAnim.visibility = View.INVISIBLE
                 Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }

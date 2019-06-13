@@ -127,13 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun isMapsOk(): Boolean{
         val available: Int = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
-        if (available == ConnectionResult.SUCCESS){
-            //Toast.makeText(this,"available!", Toast.LENGTH_LONG).show()
-            return true
-        }else{
-            return false
-        }
-
+        return available == ConnectionResult.SUCCESS
     }
 
     private fun makeAlert(){
@@ -191,8 +185,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         val intent = Intent(this@MainActivity, LoginActivity::class.java)
                         startActivity(intent)
                     }
-
-
                 }
             })
         }
@@ -205,6 +197,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawer.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
+            //finish()
+            //moveTaskToBack(true)
         }
     }
 
@@ -238,14 +232,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (result != null){
             if (result.contents != null){
                 //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show()
-                val intent = Intent(this, EventScrollingActivity::class.java).putExtra("eventId",result.contents.toString())
-                startActivity(intent)
+                checkEventId(result.contents.toString())
+
+
             }else{
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
             }
         }else{
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    fun checkEventId(id: String){
+        var flag = false
+        firebaseRef.child("Data/event/").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: FirebaseError?) {
+                Log.d("FIREBASE", "model from database is not loaded.")
+
+                return
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val events = dataSnapshot!!.children
+                events.forEach{
+
+                    if(id == it.key.toString()){
+                        val intent = Intent(this@MainActivity, EventScrollingActivity::class.java).putExtra("eventId",id.toString())
+                        startActivity(intent)
+                    }
+
+                }
+                Toast.makeText(this@MainActivity, "Event not found! :(", Toast.LENGTH_LONG).show()
+
+            }
+        })
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

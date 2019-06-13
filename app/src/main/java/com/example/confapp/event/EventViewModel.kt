@@ -5,17 +5,19 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.Uri
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
 import com.example.confapp.model.CEvent
 import com.example.confapp.R
 import com.example.confapp.model.CComment
+import com.example.confapp.model.CExhibitor
 import com.example.confapp.model.CUser
+import com.firebase.client.FirebaseError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+
+
 
 
 class EventViewModel: ViewModel() {
@@ -70,10 +72,15 @@ class EventViewModel: ViewModel() {
     val comments: MutableLiveData<List<CComment>>
         get() = m_comments
 
+    private val m_exhibitors = MutableLiveData<List<CExhibitor>>()
+    val exhibitors: MutableLiveData<List<CExhibitor>>
+        get() = m_exhibitors
+
     private val m_users = MutableLiveData<List<CUser>>()
     val users: MutableLiveData<List<CUser>>
         get() = m_users
 
+    lateinit var m_exhibitor : CExhibitor
 
 
     private var database: DatabaseReference
@@ -83,7 +90,7 @@ class EventViewModel: ViewModel() {
 
     init{
         if(isUserLoggedIn()){
-            val currentUserId: String = m_currentFirebaseUser!!.uid.toString()
+            val currentUserId: String = m_currentFirebaseUser!!.uid
             FirebaseDatabase.getInstance().reference.child("model/user/$currentUserId").ref.addListenerForSingleValueEvent(object:
                 ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -101,6 +108,7 @@ class EventViewModel: ViewModel() {
             })
         }
         database = FirebaseDatabase.getInstance().reference
+        //getExhibitorsFromDatabase()
 
     }
 
@@ -171,15 +179,12 @@ class EventViewModel: ViewModel() {
     fun onSendCommentClick(eventId: String, date: String, content: String, imageUri: Uri?): Boolean {
 
         if(content == "" && imageUri == null){
-            // TODO: should send some kind of toast or something saying that comment can not be empty
             return false
         }
 
-        var author = m_currentUser!!.uid
+        val author = m_currentUser!!.uid
         val commentUid = UUID.randomUUID().toString()
         //val comment = CComment(commentUid, author, content, date, imageUri.toString())
-
-        Log.d("probica2", imageUri.toString())
 
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/comments/$filename")
@@ -187,7 +192,7 @@ class EventViewModel: ViewModel() {
         var comment : CComment
 
         if (imageUri == null) {
-            comment = CComment(commentUid, author, content, date, "")
+            comment = CComment(commentUid, author, content, date, "-1")
             saveCommentToDatabase(eventId, comment)
 
         }else {
@@ -219,6 +224,55 @@ class EventViewModel: ViewModel() {
         val key = ref.child("Data/event/$id/comment").push().key
         comment.id = key!!
         ref.child("Data/event/$id/comment/$key").setValue(comment)
+
+        getCommentsFromDatabase(m_currentEvent.value!!.id)
+    }
+
+    var m_exhibitorsList : MutableList<CExhibitor> = mutableListOf()
+
+
+    // nije glupo ako radi :)
+    fun getExhibitorsFromDatabase(id: String) {
+        val exhibitorsId: MutableList<String> = mutableListOf()
+
+        FirebaseDatabase.getInstance().reference.child("Data/event/$id/presenters").ref.addListenerForSingleValueEvent(object:
+            ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("EventViewModel", "Exhibitor can not be loaded via ID.")
+            }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for(exhibitorSnapshot in dataSnapshot.children){
+
+                    if( exhibitorSnapshot.value.toString() != "-1" ){
+                        exhibitorsId.add(exhibitorSnapshot.value.toString())
+                    }
+                }
+            }
+        })
+
+
+        FirebaseDatabase.getInstance().reference.child("Data/exhibitor").ref.addListenerForSingleValueEvent(object:
+            ValueEventListener {
+
+            override fun onCancelled(p0: DatabaseError) {
+                return
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val exhibitorList: MutableList<CExhibitor> = mutableListOf()
+
+                for(eventSnapshot in p0.children){
+                    val exhibitor: CExhibitor = eventSnapshot.getValue(CExhibitor::class.java)!!
+                    if ( exhibitor.id in exhibitorsId) {
+                        exhibitorList.add(exhibitor)
+                    }
+                }
+
+                m_exhibitors.value = exhibitorList
+            }
+        })
+
     }
 
     fun getCommentsFromDatabase(id: String){
@@ -272,7 +326,7 @@ class EventViewModel: ViewModel() {
     fun toggleSubscribeToEvent(): Int{
         // Check if current user is subscribed to this event
 
-        var ret = EVENT_SUB_ERROR
+        val ret: Int
 
         // If yes, delete id from list, and update database
         if(isUserSubscribed()){
@@ -305,11 +359,44 @@ class EventViewModel: ViewModel() {
     }
 
     fun getHourBeforeEventStart(): Long {
-        var time = m_currentEvent.value!!.getDateTimeCalendar()
+        val time = m_currentEvent.value!!.getDateTimeCalendar()
 
         time.add(Calendar.HOUR_OF_DAY, -1)
 
         return time.timeInMillis
+    }
+
+    fun removeComment(eventId: String, commentIndex: Int): Boolean {
+        //Log.d("asd", m_events.value!![index].name)
+        if ( m_currentUser == null || (m_currentUser!!.uid !=  m_comments.value!![commentIndex].author && m_currentUser!!.level != 0 ) ) {
+
+            return false
+        }
+
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
+        val commentId = m_comments.value!![commentIndex].id
+
+
+        if ( m_comments.value!![commentIndex].imageUrl != "-1" ) {
+            val storageReference = FirebaseStorage.getInstance()
+                .getReferenceFromUrl(m_comments.value!![commentIndex].imageUrl)
+
+            storageReference.delete().addOnSuccessListener {
+                // File deleted successfully
+                Log.e("firebasestorage", "onSuccess: deleted file")
+            }.addOnFailureListener {
+                // Uh-oh, an error occurred!
+                Log.e("firebasestorage", "onFailure: did not delete file")
+            }
+        }
+
+
+
+        ref.child("Data/event/$eventId/comment/$commentId").setValue(null)
+
+        getCommentsFromDatabase(m_currentEvent.value!!.id)
+
+        return true
     }
 
 }

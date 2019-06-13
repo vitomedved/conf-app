@@ -54,6 +54,9 @@ class FavouriteEventFragment : Fragment() {
                 true -> {
                     if (isLoggedIn) {
                         retView.fragment_favourite_event_progress_bar.visibility = View.VISIBLE
+                    } else {
+                        retView.fragment_favourite_event_shy_wolf.visibility = View.VISIBLE
+                        retView.fragment_favourite_event_log_in_text.visibility = View.VISIBLE
                     }
                 }
 
@@ -70,6 +73,10 @@ class FavouriteEventFragment : Fragment() {
         super.onResume()
         viewModel = ViewModelProviders.of(this).get(FavouriteEventViewModel::class.java)
         viewModel.initViewModel()
+
+        if(!adapter.isDataEmpty()){
+            retView.fragment_favourite_event_progress_bar.visibility = View.INVISIBLE
+        }
     }
 
     private fun checkConnectivity(): Boolean {

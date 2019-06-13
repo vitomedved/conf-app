@@ -1,5 +1,6 @@
 package com.example.confapp.exhibitors
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -26,11 +27,10 @@ import kotlinx.android.synthetic.main.fragment_exhibitors.view.*
 @Suppress("DEPRECATION")
 class ExhibitorsFragment : Fragment() {
 
-    private lateinit var firebaseRef: Firebase
-    private val exhibitors: MutableList<CExhibitor> = mutableListOf()
+    private val adapter = ExhibitorsRecyclerAdapter()
 
     private lateinit var retView: View
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var model: ExhibitorsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -45,39 +45,20 @@ class ExhibitorsFragment : Fragment() {
             return retView
         }
 
+        model = ViewModelProviders.of(this).get(ExhibitorsViewModel::class.java)
+
+
         retView = inflater.inflate(R.layout.fragment_exhibitors, container, false)
 
-        recyclerView = retView.findViewById(R.id.recyclerView_exhibitors)
-        recyclerView.layoutManager = LinearLayoutManager(this.context, LinearLayout.VERTICAL, false)
 
+        retView.recyclerView_exhibitors.layoutManager = LinearLayoutManager(activity)
         retView.fragment_exhibitors_loading_animation.visibility = View.VISIBLE
 
-        Firebase.setAndroidContext(this.context)
 
-        firebaseRef = Firebase("https://conf-app-14914.firebaseio.com")
-
-        firebaseRef.child("Data/exhibitor").addValueEventListener(object :ValueEventListener {
-
-            override fun onCancelled(p0: FirebaseError?) {
-                //Log.d("FIREBASE", "Events from database are not loaded.")
-                return
-            }
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                exhibitors.clear()
-
-                for(eventSnapshot in dataSnapshot.children){
-                    val exhibitor: CExhibitor = eventSnapshot.getValue(CExhibitor::class.java)
-                    exhibitors.add(exhibitor)
-                }
-
-                //Log.d("FIREBASE", "Events loaded from database, adding adapter. Total events: " + exhibitors.size)
-
-                retView.fragment_exhibitors_loading_animation.visibility = View.INVISIBLE
-                val adapter = ExhibitorsRecyclerAdapter(exhibitors)
-                recyclerView.adapter = adapter
-            }
-
+        model.exhibitors.observe(this, android.arch.lifecycle.Observer {newExhibitors ->
+            adapter.exhibitorsList = (newExhibitors as MutableList<CExhibitor>)
+            retView.recyclerView_exhibitors.adapter = adapter
+            retView.fragment_exhibitors_loading_animation.visibility = View.INVISIBLE
         })
 
         return retView

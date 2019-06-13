@@ -27,22 +27,26 @@ import com.example.confapp.model.CComment
 import com.example.confapp.model.CUser
 import java.text.SimpleDateFormat
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.provider.MediaStore
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.view.ViewCompat
 import android.util.Log
+import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import com.example.confapp.event.comment.ImageEnlargerActivity
-import kotlinx.android.synthetic.main.list_item_comment.*
+import com.example.confapp.exhibitors.ExhibitorsRecyclerAdapter
+import com.example.confapp.model.CExhibitor
 
 
+@Suppress("DEPRECATION")
 class EventScrollingActivity : AppCompatActivity() {
 
     private lateinit var button_favorite: FloatingActionButton
 
     private var evtId = ""
+
+    private lateinit var viewModel: EventViewModel
+
 
     override fun onBackPressed() {
         var launchedFromNotification = false
@@ -75,6 +79,7 @@ class EventScrollingActivity : AppCompatActivity() {
             .setNeutralButton("Cancel"){dialog, which ->
             }
 
+
         val dialog: AlertDialog = builder.create()
         dialog.show()
 
@@ -83,6 +88,9 @@ class EventScrollingActivity : AppCompatActivity() {
 
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewExhibitors: RecyclerView
+
+
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +104,7 @@ class EventScrollingActivity : AppCompatActivity() {
 
         button_favorite = findViewById(R.id.button_favorite)
 
-        val viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(EventViewModel::class.java)
 
 
         val serializableEvt = intent.getSerializableExtra(ScheduleViewModel.KEY_CURRENT_EVENT)
@@ -118,13 +126,15 @@ class EventScrollingActivity : AppCompatActivity() {
         val adapter = CommentsRecyclerAdapter()
         recyclerView.adapter = adapter
 
+
+        recyclerViewExhibitors = findViewById(R.id.recyclerView_eventExhibitors)
+        recyclerViewExhibitors.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, false)
+        val adapterExhibitors = ExhibitorsRecyclerAdapter()
+        recyclerViewExhibitors.adapter = adapterExhibitors
+        //viewModel.getExhibitorsFromDatabaseByEventId(evtId)
+        viewModel.getExhibitorsFromDatabase(evtId)
+
         viewModel.getUsersFromDatabase()
-
-        viewModel.comments.observe(this, Observer {
-            newCommentsList ->
-            adapter.setData(newCommentsList as MutableList<CComment>)
-
-        })
 
         val currentDate  = Calendar.getInstance().time
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -178,6 +188,10 @@ class EventScrollingActivity : AppCompatActivity() {
             adapter.setData(newComments as MutableList<CComment>)
         })
 
+        viewModel.exhibitors.observe(this, Observer { newExhibitors ->
+            adapterExhibitors.setData(newExhibitors as MutableList<CExhibitor>)
+        })
+
         viewModel.getCommentsFromDatabase(evtId)
 
 
@@ -196,30 +210,41 @@ class EventScrollingActivity : AppCompatActivity() {
         if(viewModel.isUserLoggedIn()){
             button_favorite.setOnClickListener { view ->
                 // Set current user to favorites
+                if(!checkConnectivity()){
+                    Toast.makeText(this, "Connect to the internet ", Toast.LENGTH_LONG).show()
+                }else{
+                    // Check if event is subscribed or not
+                    val result = viewModel.toggleSubscribeToEvent()
 
-                // Check if event is subscribed or not
-                val result = viewModel.toggleSubscribeToEvent()
-
-                if(result == EventViewModel.EVENT_SUBSCRIBED){
-                    val time: Long = viewModel.getHourBeforeEventStart()
-                    NotificationUtils().setNotification(Calendar.getInstance().timeInMillis + 5000, viewModel.currentEvent.value!!, this)
+                    if(result == EventViewModel.EVENT_SUBSCRIBED){
+                        viewModel.getHourBeforeEventStart()
+                        NotificationUtils().setNotification(Calendar.getInstance().timeInMillis + 5000, viewModel.currentEvent.value!!, this)
+                        }
                 }
             }
 
             button_sendComment.setOnClickListener {
                 editText_comment.text.toString()
 
-                if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString(), selectedPhotoUri)) {
-                    Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
-                    viewModel.getCommentsFromDatabase(evtId)
-                    editText_comment.text.clear()
-                    editText_comment.clearFocus()
-                    imageView_uploadedImage.setImageBitmap(null)
-                    imageView_uploadedImage.layoutParams.height = -2
+                if(!checkConnectivity()){
+                    Toast.makeText(this, "Connect to the internet", Toast.LENGTH_LONG).show()
+                }else{
+
+                    if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString(), selectedPhotoUri)) {
+                        Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
+                        viewModel.getCommentsFromDatabase(evtId)
+                        editText_comment.text.clear()
+                        editText_comment.clearFocus()
+                        imageView_uploadedImage.setImageBitmap(null)
+                        imageView_uploadedImage.layoutParams.height = -2
+                    }else{
+                        Toast.makeText(this, "Comment cannot be blank", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 
             button_uploadImage.setOnClickListener {
+
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "image/comments/*"
                 startActivityForResult(intent, 0)
@@ -242,6 +267,25 @@ class EventScrollingActivity : AppCompatActivity() {
                 makeAlert()
             }
         }
+
+
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        super.onContextItemSelected(item)
+
+        Toast.makeText(this, "Clicked ${item!!.groupId}", Toast.LENGTH_SHORT).show()
+        if(!checkConnectivity()){
+            Toast.makeText(this, "Connect to the internet", Toast.LENGTH_LONG).show()
+        }else{
+            if(viewModel.removeComment(evtId, item.groupId)){
+                Toast.makeText(this, "Comment successfully removed", Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(this, "Unable to delete comment", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        return true
     }
 
     var selectedPhotoUri: Uri? = null
@@ -254,15 +298,26 @@ class EventScrollingActivity : AppCompatActivity() {
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
             Log.d("probica", selectedPhotoUri.toString())
 
-
-            // TODO NASTAVI OVDJE - PRIKAZ UPLOADANE
-            // TODO AKO SE VITI NE SVIĐA ONA LAJNA MAKNI
             imageView_uploadedImage.layoutParams.height = 200
             imageView_uploadedImage.setImageBitmap(bitmap)
 
         }
     }
 
+    // Returns false if device is not connected to internet, true if device is connected to internet
+    private fun checkConnectivity(): Boolean {
+        var ret = false
+
+        val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+
+        if(isConnected)
+        {
+            ret = true
+        }
+        return ret
+    }
+
 
 }
-

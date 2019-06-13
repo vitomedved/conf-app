@@ -28,6 +28,8 @@ class FavouriteEventAdapter : RecyclerView.Adapter<FavouriteEventAdapter.ViewHol
 
     override fun getItemCount(): Int = m_events.size
 
+    fun isDataEmpty() = m_events.isEmpty()
+
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val event: CEvent = m_events[p1]
 
