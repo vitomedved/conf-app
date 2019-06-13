@@ -193,7 +193,7 @@ class EventViewModel: ViewModel() {
         var comment : CComment
 
         if (imageUri == null) {
-            comment = CComment(commentUid, author, content, date, "")
+            comment = CComment(commentUid, author, content, date, "-1")
             saveCommentToDatabase(eventId, comment)
 
         }else {
@@ -379,15 +379,20 @@ class EventViewModel: ViewModel() {
         val commentId = m_comments.value!![commentIndex].id
 
 
-        val storageReference = FirebaseStorage.getInstance()
-            .getReferenceFromUrl(m_comments.value!![commentIndex].imageUrl)
-        storageReference.delete().addOnSuccessListener {
-            // File deleted successfully
-            Log.e("firebasestorage", "onSuccess: deleted file")
-        }.addOnFailureListener {
-            // Uh-oh, an error occurred!
-            Log.e("firebasestorage", "onFailure: did not delete file")
+        if ( m_comments.value!![commentIndex].imageUrl != "-1" ) {
+            val storageReference = FirebaseStorage.getInstance()
+                .getReferenceFromUrl(m_comments.value!![commentIndex].imageUrl)
+
+            storageReference.delete().addOnSuccessListener {
+                // File deleted successfully
+                Log.e("firebasestorage", "onSuccess: deleted file")
+            }.addOnFailureListener {
+                // Uh-oh, an error occurred!
+                Log.e("firebasestorage", "onFailure: did not delete file")
+            }
         }
+
+
 
         ref.child("Data/event/$eventId/comment/$commentId").setValue(null)
 

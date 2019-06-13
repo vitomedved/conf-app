@@ -89,7 +89,7 @@ class CommentsRecyclerAdapter :  RecyclerView.Adapter<CommentsRecyclerAdapter.Vi
         p0.commentDate.text = comment.date
         p0.commentAuthor.text = myUser.name
         p0.commentContent.text = comment.content
-        if ( comment.imageUrl != "") {
+        if ( comment.imageUrl != "-1" ) {
             Picasso.get().load(comment.imageUrl).into(p0.commentImage)
             p0.commentImage.visibility = View.VISIBLE
 

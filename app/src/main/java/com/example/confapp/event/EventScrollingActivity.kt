@@ -277,8 +277,6 @@ class EventScrollingActivity : AppCompatActivity() {
         if(!checkConnectivity()){
             Toast.makeText(this, "Connect to the internet", Toast.LENGTH_LONG).show()
         }else{
-
-
             if(viewModel.removeComment(evtId, item.groupId)){
                 Toast.makeText(this, "Comment successfully removed", Toast.LENGTH_LONG).show()
             }else{
