@@ -54,6 +54,9 @@ class FavouriteEventFragment : Fragment() {
                 true -> {
                     if (isLoggedIn) {
                         retView.fragment_favourite_event_progress_bar.visibility = View.VISIBLE
+                    } else {
+                        retView.fragment_favourite_event_shy_wolf.visibility = View.VISIBLE
+                        retView.fragment_favourite_event_log_in_text.visibility = View.VISIBLE
                     }
                 }
 
