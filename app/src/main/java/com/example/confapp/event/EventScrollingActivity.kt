@@ -209,26 +209,36 @@ class EventScrollingActivity : AppCompatActivity() {
         if(viewModel.isUserLoggedIn()){
             button_favorite.setOnClickListener { view ->
                 // Set current user to favorites
+                if(!checkConnectivity()){
+                    Toast.makeText(this, "Connect to the internet ", Toast.LENGTH_LONG).show()
+                }else{
+                    // Check if event is subscribed or not
+                    val result = viewModel.toggleSubscribeToEvent()
 
-                // Check if event is subscribed or not
-                val result = viewModel.toggleSubscribeToEvent()
-
-                if(result == EventViewModel.EVENT_SUBSCRIBED){
-                    val time: Long = viewModel.getHourBeforeEventStart()
-                    NotificationUtils().setNotification(Calendar.getInstance().timeInMillis + 5000, viewModel.currentEvent.value!!, this)
+                    if(result == EventViewModel.EVENT_SUBSCRIBED){
+                        val time: Long = viewModel.getHourBeforeEventStart()
+                        NotificationUtils().setNotification(Calendar.getInstance().timeInMillis + 5000, viewModel.currentEvent.value!!, this)
+                        }
                 }
             }
 
             button_sendComment.setOnClickListener {
                 editText_comment.text.toString()
 
-                if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString(), selectedPhotoUri)) {
-                    Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
-                    viewModel.getCommentsFromDatabase(evtId)
-                    editText_comment.text.clear()
-                    editText_comment.clearFocus()
-                    imageView_uploadedImage.setImageBitmap(null)
-                    imageView_uploadedImage.layoutParams.height = -2
+                if(!checkConnectivity()){
+                    Toast.makeText(this, "Connect to the internet ", Toast.LENGTH_LONG).show()
+                }else{
+
+                    if (viewModel.onSendCommentClick(evtId, stringDateTime, editText_comment.text.toString(), selectedPhotoUri)) {
+                        Toast.makeText(this, "Comment added to database", Toast.LENGTH_SHORT).show()
+                        viewModel.getCommentsFromDatabase(evtId)
+                        editText_comment.text.clear()
+                        editText_comment.clearFocus()
+                        imageView_uploadedImage.setImageBitmap(null)
+                        imageView_uploadedImage.layoutParams.height = -2
+                    }else{
+                        Toast.makeText(this, "Unable to add comment", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 
@@ -265,14 +275,14 @@ class EventScrollingActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Clicked ${item!!.groupId}", Toast.LENGTH_SHORT).show()
         if(!checkConnectivity()){
-            Toast.makeText(this, "Connect to the internet to remove event", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Connect to the internet", Toast.LENGTH_LONG).show()
         }else{
 
 
             if(viewModel.removeComment(evtId, item.groupId)){
                 Toast.makeText(this, "Comment successfully removed", Toast.LENGTH_LONG).show()
             }else{
-                Toast.makeText(this, "Unable to delete comment - there is no possible way for this to happen...", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Unable to delete comment", Toast.LENGTH_LONG).show()
             }
         }
 
