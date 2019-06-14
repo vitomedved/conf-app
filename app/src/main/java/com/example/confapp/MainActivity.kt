@@ -257,13 +257,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 events.forEach{
 
                     if(id == it.key.toString()){
+                        flag = true
                         val intent = Intent(this@MainActivity, EventScrollingActivity::class.java).putExtra("eventId",id.toString())
                         startActivity(intent)
                     }
 
                 }
-                Toast.makeText(this@MainActivity, "Event not found! :(", Toast.LENGTH_LONG).show()
-
+                if(!flag){
+                    Toast.makeText(this@MainActivity, "Event not found! :(", Toast.LENGTH_LONG).show()
+                }
             }
         })
 
