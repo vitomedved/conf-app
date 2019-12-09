@@ -81,12 +81,12 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confDates">20 - 25 July 2019</string>
-    <string name="confDescription">Peterodnevna konferencija kreirana upravo prema Vama, developerima! Uz cjelodnevne
-        događaje poput edukativnih i inspiracijskih govora, panel rasprava, predavanja i radionica koje vode stručnjaci
-        iz industrije organizirani su i „networking eventi“ (čitaj: zabave do ranojutarnjih sati). \nNaravno, sav taj
-        sadržaj zahtjeva besplatnu kavu i pivu koje teku u potocima. Za one koji vole ići po konferencijama primarno
-        zbog hrane, a tek onda radi novih znanja pripremili smo vrhunski catering pored kojeg nitko ne može ostati
-        ravnodušan! \nVidimo se u Rijeci!
+    <string name="confDescription">A five-day conference designed just for you, the developers! With all-day
+        events such as educational and inspirational speeches, panel discussions, lectures and workshops led by experts
+        industry-wide networking events have also been organized. Of course, all that
+        content requires free coffee flowing in streams. For those who like to go to conferences primarily
+        for the sake of food, and only then, for the sake of new knowledge, have we prepared top-notch catering that no one can stay with
+        uninterested! See you in Rijeka!
     </string>
     <string name="title_activity_maps">Map</string>
     <string name="write_a_comment">Write a comment...</string>
