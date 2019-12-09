@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.widget.CardView
 
 
 class ExhibitorsRecyclerAdapter: RecyclerView.Adapter<ExhibitorsRecyclerAdapter.ViewHolder>() {
@@ -24,6 +25,7 @@ class ExhibitorsRecyclerAdapter: RecyclerView.Adapter<ExhibitorsRecyclerAdapter.
         val exhibitorCompany = itemView.findViewById(R.id.textView_exhibitorCompany) as TextView
         val exhibitorLogo = itemView.findViewById(R.id.imageView_exhibitorLogo) as ImageView
         val exhibitorWeb = itemView.findViewById(R.id.imageView_urlExhibitor) as ImageView
+        val thisCodeIsSoBad = itemView.findViewById(R.id.list_item_exhibitor_layout) as CardView
     }
 
 
@@ -42,17 +44,14 @@ class ExhibitorsRecyclerAdapter: RecyclerView.Adapter<ExhibitorsRecyclerAdapter.
         p0.exhibitorCompany.text = exhibitor.company
         Picasso.get().load(exhibitor.logo_url).into(p0.exhibitorLogo)
 
-        p0.exhibitorWeb.setOnClickListener {
-
+        p0.thisCodeIsSoBad.setOnClickListener {
             val uris = Uri.parse(exhibitor.web)
             val intents = Intent(Intent.ACTION_VIEW, uris)
             val b = Bundle()
             b.putBoolean("new_window", true)
             intents.putExtras(b)
             p0.itemView.context.startActivity(intents)
-
         }
-
     }
 
     fun setData(exhibitors: MutableList<CExhibitor>){

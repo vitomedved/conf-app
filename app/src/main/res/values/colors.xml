@@ -12,4 +12,6 @@
     <color name="lightBlue">#678FFE</color>
     <color name="lightestBlue">#DBE5FF</color>
     <color name="lightBlueWithAlpha">#80678FFE</color>
+    <color name="grey">#EFEFEF</color>
+
 </resources>
