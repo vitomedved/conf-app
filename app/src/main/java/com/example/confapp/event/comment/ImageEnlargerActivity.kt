@@ -31,7 +31,7 @@ class ImageEnlargerActivity : AppCompatActivity() {
         var height : Int = dm.heightPixels
 
         width = (width * 0.8).toInt()
-        height = (height * 0.6).toInt()
+        height = (height * 0.4).toInt()
 
         val url = intent.getStringExtra("image")
 
@@ -43,6 +43,7 @@ class ImageEnlargerActivity : AppCompatActivity() {
         //getWindow().setLayout( ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         window.setLayout(width, height)
         //window.decorView.background = ColorDrawable(Color.TRANSPARENT)
+        getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
 
     }
 }

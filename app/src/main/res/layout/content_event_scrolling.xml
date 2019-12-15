@@ -7,14 +7,12 @@
         tools:showIn="@layout/activity_event_scrolling"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".event.EventScrollingActivity" android:padding="@dimen/textPadding_medium"
-        android:paddingStart="@dimen/padding_mediumToLarge"
+        tools:context=".event.EventScrollingActivity"
         >
     <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/textPadding_medium"
             android:focusableInTouchMode="true"
             android:clickable="true"
             android:focusable="true"
@@ -31,15 +29,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/event_scrolling_activity_progress_bar_content" android:layout_centerInParent="true"/>-->
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_aboutTitle"
-                android:textSize="@dimen/textSize_mediumToLarge"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:textColor="@color/darkestBlue"
-                android:textStyle="bold"
-                android:layout_alignParentTop="true"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:text="@string/about"
+                  android:textSize="20sp"
+                  android:textColor="@color/darkBlue"
+                  android:textStyle="bold"
+                  android:id="@+id/about_label"
+                  android:paddingStart="10dp"
+                  android:paddingTop="10dp"
+        />
+
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,30 +47,47 @@
                 android:lineSpacingExtra="@dimen/smallest_spacing"
                 android:layout_marginBottom="@dimen/text_margin"
                 android:textSize="@dimen/textSize_medium"
+                android:padding="10dp"
                 android:textColor="@color/darkBlue"
-                android:layout_below="@+id/textView_aboutTitle"/>
+                android:layout_below="@+id/about_label"/>
 
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_below="@id/textView_aboutEvent"
-                android:id="@+id/view_lineBetweenAboutAndExhibitors"
-                android:background="@color/darkestBlue"
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:text="@string/lecturers"
+                  android:textSize="20sp"
+                  android:textColor="@color/darkBlue"
+                  android:textStyle="bold"
+                  android:id="@+id/lecturer_label"
+                  android:layout_below="@+id/textView_aboutEvent"
+                  android:paddingStart="10dp"
+                  android:paddingTop="10dp"
+                  android:paddingBottom="10dp"
         />
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_eventExhibitors"
-                android:layout_below="@+id/view_lineBetweenAboutAndExhibitors"
+                android:layout_below="@+id/lecturer_label"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+        />
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:text="@string/comments"
+                  android:textSize="20sp"
+                  android:textColor="@color/darkBlue"
+                  android:textStyle="bold"
+                  android:id="@+id/comments_label"
+                  android:layout_below="@+id/recyclerView_eventExhibitors"
+                  android:paddingStart="10dp"
+                  android:paddingTop="20dp"
         />
 
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/comments_container"
-                      android:layout_below="@id/recyclerView_eventExhibitors"
+                      android:layout_below="@id/comments_label"
                       android:orientation="vertical">
 
             <LinearLayout android:layout_width="match_parent"
@@ -79,16 +96,10 @@
                           android:id="@+id/linearLayout_uploadedImageContainer"
                           android:layout_gravity="start">
 
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/darkestBlue"
-                />
 
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_gravity="start"
-                           android:paddingTop="6dp"
                            android:paddingBottom="6dp"
                            android:id="@+id/imageView_uploadedImage"
                            android:contentDescription="@string/contentDescriptionUploadedImage"/>
@@ -98,34 +109,38 @@
                           android:layout_height="match_parent"
                           android:orientation="horizontal"
                           android:id="@+id/writeACommentContainer"
-                          android:layout_margin="6dp"
+                          android:paddingStart="6dp"
+                          android:paddingEnd="6dp"
+
                           android:layout_gravity="bottom"
                           android:weightSum="1">
                 <EditText android:layout_width="0dp"
                           android:layout_height="wrap_content"
-                          android:layout_weight="0.74"
+                          android:layout_weight="0.77"
                           android:hint="@string/write_a_comment"
                           android:id="@+id/editText_comment"
                           android:maxLines="5"
                           android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
                           android:maxLength="150"
+                          android:imeOptions="actionDone"
                 />
                 <Button android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.14"
+                        android:layout_weight="0.13"
                         android:gravity="bottom"
                         android:layout_gravity="bottom"
                         android:id="@+id/button_uploadImage"
                         android:background="@android:drawable/ic_menu_camera"
+
                 />
 
                 <Button android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.12"
+                        android:layout_weight="0.1"
                         android:gravity="bottom"
                         android:layout_gravity="bottom"
                         android:id="@+id/button_sendComment"
-                        android:background="@drawable/ic_menu_send"
+                        android:background="@drawable/ic_arrow_right_grayed"
                         android:backgroundTint="@color/lightBlue"/>
 
             </LinearLayout>
@@ -136,7 +151,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
             />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/darkestBlue"
+                    android:layout_marginBottom="6dp"
+            />
+
         </LinearLayout>
+
+
+
 
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

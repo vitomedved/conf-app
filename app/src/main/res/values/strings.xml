@@ -99,4 +99,14 @@
     </string>
     <string name="remove_comment">Remove comment</string>
 
+    <string name="user_role">User role</string>
+    <string name="user_name">Name</string>
+    <string name="registration_date">Registration date</string>
+    <string name="user_email">Email</string>
+    <string name="user_avatar">User avatar</string>
+
+    <string name="about">About</string>
+    <string name="comments">Comments</string>
+    <string name="lecturers">Lecturers</string>
+
 </resources>

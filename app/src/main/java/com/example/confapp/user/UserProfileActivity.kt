@@ -2,6 +2,8 @@ package com.example.confapp.user
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -41,7 +43,7 @@ class UserProfileActivity : AppCompatActivity(){
 
         setContentView(com.example.confapp.R.layout.popupwindowuser)
 
-        avatar = findViewById(com.example.confapp.R.id.imageView_avatar_userpopup)
+        //avatar = findViewById(com.example.confapp.R.id.imageView_avatar_userpopup)
         avatar2 = findViewById(com.example.confapp.R.id.imageViewC_avatar_userpopup)
         name = findViewById(com.example.confapp.R.id.user_name)
         type = findViewById(com.example.confapp.R.id.user_type)
@@ -109,6 +111,8 @@ class UserProfileActivity : AppCompatActivity(){
         height = (height * 0.6).toInt() //malo vidjet kako se renderira // TODO promjeniti
 
         getWindow().setLayout(width, height)
+
+        getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
 
 
 

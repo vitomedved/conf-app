@@ -4,43 +4,34 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:context=".login.RegistrationActivity" android:background="@color/lightestBlue">
+            android:layout_height="match_parent"
+            tools:context=".login.RegistrationActivity" android:background="@color/zxing_transparent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_height="match_parent"
-                    android:background="@color/lightestBlue">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_border">
 
 
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="222dp"
-                android:layout_alignParentTop="true"
-                android:background="@color/darkestBlue"
-                android:src="@color/darkestBlue"
-                android:id="@+id/imageView_avatar_userpopup"
-        />
         <!--tools:srcCompat="@tools:sample/avatars"-->
 
 
         <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="400dp"
-                android:layout_height="223dp"
+                android:layout_height="180dp"
                 android:src="@drawable/icon"
-                android:id="@id/imageViewC_avatar_userpopup"
+                android:id="@+id/imageViewC_avatar_userpopup"
                 app:civ_border_width="2dp"
-                android:paddingBottom="20dp"
+                android:paddingBottom="10dp"
                 app:civ_border_color="@color/betweenDarkBlue" android:layout_marginTop="37dp" android:layout_alignParentTop="true"/>
 
 
         <TextView
-                android:text="ime prezime"
-                android:paddingStart="10dp"
+                android:text="@string/user_name"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_name"
@@ -52,11 +43,11 @@
                 android:textAlignment="center"/>
 
         <TextView
-                android:text="tip korisnika"
+                android:text="@string/user_role"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_type"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColor="@color/betweenDarkBlue"
                 android:layout_below="@+id/user_name"
                 android:layout_centerInParent="true"
@@ -65,11 +56,11 @@
 
 
         <TextView
-                android:text="datum"
+                android:text="@string/registration_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/date_joined_user"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColor="@color/betweenDarkBlue"
                 android:layout_below="@+id/user_type"
                 android:layout_centerInParent="true"
@@ -77,11 +68,11 @@
                 android:textAlignment="center"/>
 
         <TextView
-                android:text="email"
+                android:text="@string/user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_email"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColor="@color/betweenDarkBlue"
                 android:layout_below="@+id/date_joined_user"
                 android:layout_centerInParent="true"
