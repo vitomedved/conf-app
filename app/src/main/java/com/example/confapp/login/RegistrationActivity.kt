@@ -145,7 +145,7 @@ class RegistrationActivity : AppCompatActivity() {
         )
         ref.setValue(user)
             .addOnSuccessListener {
-                Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, "Zapisano u bazu", Toast.LENGTH_LONG).show()
 
                 //Handler().postDelayed({progress.dismiss()}, 5000)
                 val intent = Intent(this, MainActivity::class.java)
