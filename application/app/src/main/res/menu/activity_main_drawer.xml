@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/nav_about"
+                android:icon="@android:drawable/ic_menu_info_details"
+                android:title="@string/text_about"
+                android:checked="true" />
+        <item
+                android:id="@+id/nav_schedule"
+                android:icon="@android:drawable/ic_menu_month"
+                android:title="@string/text_schedule"/>
+        <item
+                android:id="@+id/nav_exhibitors"
+                android:icon="@drawable/ic_tag_presentation"
+                android:title="Exhibitors"/>
+        <item   android:id="@+id/nav_favourite_event"
+                android:icon="@drawable/ic_star_gray"
+                android:title="Favourite events"/>
+        <item android:id="@+id/nav_map"
+              android:icon="@android:drawable/ic_menu_mapmode"
+              android:title="Map"/>
+        <item
+                android:id="@+id/nav_activityFeed"
+                android:icon="@drawable/ic_locate_us"
+                android:title="Our location"/>
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="Share"/>
+            <item
+                    android:id="@+id/nav_send"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Contact us"/>
+        </menu>
+    </item>
+
+</menu>
