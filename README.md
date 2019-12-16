@@ -25,3 +25,5 @@ Non-registered users a.k.a. guests are able to look at the conference schedule, 
 [Raul-Antonio Šanko](https://github.com/tonto98)
 
 [Matea Ignatoski](https://github.com/MateaIg)
+
+[IEEE ConfApp](link na apk) | [conf-app](https://github.com/vitomedved/conf-app/) | [LICENSE] (https://github.com/vitomedved/conf-app/blob/master/LICENSE)| Croatia | [Contributors] (https://github.com/vitomedved/conf-app/graphs/contributors)
