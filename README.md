@@ -9,6 +9,13 @@ can create an account which allows them to subscribe to favourite events, add us
 Non-registered users a.k.a. guests are able to look at the conference schedule, read comments, watch images, etc.
 
 
+## Permissions
+
+- Internet
+- Location
+- Camera
+
+
 ## Team
 
 [Vito Medved](https://github.com/vitomedved)
