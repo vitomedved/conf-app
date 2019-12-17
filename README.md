@@ -12,8 +12,11 @@ Non-registered users a.k.a. guests are able to look at the conference schedule, 
 ## Screenshots
 ![3images](https://github.com/vitomedved/conf-app/blob/master/screenshots/ss.jpg)
 
+## Promo video
+[PROMO VIDEO](https://www.youtube.com/watch?v=FvcSN-4xfFw)
+
 ## Preview Video
-[![PROMO](https://img.youtube.com/vi/ep2q3A8IpP4/0.jpg)](https://www.youtube.com/watch?v=ep2q3A8IpP4)
+[PREVIEW VIDEO](https://www.youtube.com/watch?v=ep2q3A8IpP4)
 
 ## Permissions
 
